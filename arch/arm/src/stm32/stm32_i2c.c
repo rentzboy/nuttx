@@ -134,6 +134,9 @@
 /* On the STM32F103ZE, there is an internal conflict between I2C1 and FSMC.
  * In that case, it is necessary to disable FSMC before each I2C1 access
  * and re-enable FSMC when the I2C access completes.
+ * FSMC is a parallel line interface used to connect microcontrollers
+ * to external memories (like NAND/NOR Flash etc) and transfer data at high speed,
+ * it is used in applications that require to process a large amount of data.
  */
 
 #undef I2C1_FSMC_CONFLICT
