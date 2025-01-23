@@ -1,5 +1,5 @@
 /****************************************************************************
- * arch/arm/src/armv7-m/barriers.h
+ * arch/sim/src/sim/sim_rpmsg_port_uart.c
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -20,25 +20,30 @@
  *
  ****************************************************************************/
 
-#ifndef __ARCH_ARM_SRC_ARMV7_M_BARRIERS_H
-#define __ARCH_ARM_SRC_ARMV7_M_BARRIERS_H
-
 /****************************************************************************
  * Included Files
  ****************************************************************************/
 
+#include <nuttx/rpmsg/rpmsg_port.h>
+
+#include "sim_internal.h"
+
 /****************************************************************************
- * Pre-processor Definitions
+ * Public Functions
  ****************************************************************************/
 
-/* ARMv7-M memory barriers */
+int sim_rpmsg_port_uart_init(const char *localcpu, const char *remotecpu,
+                             const char *uartpath)
+{
+  struct rpmsg_port_config_s config =
+    {
+      .remotecpu = remotecpu,
+      .txnum = 10,
+      .rxnum = 10,
+      .txlen = 2048,
+      .rxlen = 2048
+    };
 
-#define arm_dsb()  __asm__ __volatile__ ("dsb " : : : "memory")
-#define arm_isb()  __asm__ __volatile__ ("isb " : : : "memory")
-#define arm_dmb()  __asm__ __volatile__ ("dmb " : : : "memory")
+  return rpmsg_port_uart_initialize(&config, uartpath, localcpu);
+}
 
-#define ARM_DSB()  arm_dsb()
-#define ARM_ISB()  arm_isb()
-#define ARM_DMB()  arm_dmb()
-
-#endif /* __ARCH_ARM_SRC_ARMV7_M_BARRIERS_H */

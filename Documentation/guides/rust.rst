@@ -25,8 +25,8 @@ Prerequisites
 
 Supported Platforms
 ===================
-- AArch64 (WIP)
-- ARMv7-A (WIP)
+- AArch64
+- ARMv7-A
 - ARMv6-M
 - ARMv7-M
 - ARMv8-M
@@ -47,12 +47,14 @@ Please refer to the official Rust installation guide for more details: https://w
 2. Prepare NuttX build environment
 
 Please ensure that you have a working NuttX build environment, and with the following PR merged or cherry-picked:
+
 - https://github.com/apache/nuttx-apps/pull/2487
 - https://github.com/apache/nuttx/pull/15469
 
 3. Enable essential kernel configurations
 
-Pleae enable the following configurations in your NuttX configuration:
+Please enable the following configurations in your NuttX configuration:
+
 - CONFIG_SYSTEM_TIME64
 - CONFIG_FS_LARGEFILE
 - CONFIG_TLS_NELEM = 16

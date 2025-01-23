@@ -1,5 +1,7 @@
 /****************************************************************************
- * arch/xtensa/src/esp32s3/esp32s3_cpuindex.S
+ * arch/arm/include/armv7-m/barriers.h
+ *
+ * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -18,35 +20,25 @@
  *
  ****************************************************************************/
 
-	.file	"esp32s3_cpuindex.S"
+#ifndef __ARCH_ARM_INCLUDE_ARMV7_M_BARRIERS_H
+#define __ARCH_ARM_INCLUDE_ARMV7_M_BARRIERS_H
 
 /****************************************************************************
  * Included Files
  ****************************************************************************/
 
-#include <arch/xtensa/xtensa_abi.h>
-#include "chip_macros.h"
-
 /****************************************************************************
- * Public Functions
+ * Pre-processor Definitions
  ****************************************************************************/
 
-/****************************************************************************
- * Name: up_cpu_index
- *
- * Description:
- *   Return the real core number regardless CONFIG_SMP setting
- *
- ****************************************************************************/
+/* ARMv7-M memory barriers */
 
-	.text
-	.align	4
-	.global	up_cpu_index
-	.type	up_cpu_index, @function
+#define arm_dsb()  __asm__ __volatile__ ("dsb " : : : "memory")
+#define arm_isb()  __asm__ __volatile__ ("isb " : : : "memory")
+#define arm_dmb()  __asm__ __volatile__ ("dmb " : : : "memory")
 
-up_cpu_index:
-	ENTRY(16)
-	getcoreid	a2
-	RET(16)
+#define UP_DSB()  arm_dsb()
+#define UP_ISB()  arm_isb()
+#define UP_DMB()  arm_dmb()
 
-	.size	up_cpu_index, . - up_cpu_index
+#endif /* __ARCH_ARM_INCLUDE_ARMV7_M_BARRIERS_H */

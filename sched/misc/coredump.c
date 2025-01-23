@@ -55,6 +55,12 @@
 
 #define PROGRAM_ALIGNMENT 64
 
+/* Architecture can overwrite the default XCPTCONTEXT alignment */
+
+#ifndef XCPTCONTEXT_ALIGN
+#  define XCPTCONTEXT_ALIGN 16
+#endif
+
 /****************************************************************************
  * Private Types
  ****************************************************************************/
@@ -74,7 +80,8 @@ struct elf_dumpinfo_s
  * Private Data
  ****************************************************************************/
 
-static uint8_t g_running_regs[XCPTCONTEXT_SIZE] aligned_data(16);
+static uint8_t g_running_regs[XCPTCONTEXT_SIZE]
+               aligned_data(XCPTCONTEXT_ALIGN);
 
 #ifdef CONFIG_BOARD_COREDUMP_COMPRESSION
 static struct lib_lzfoutstream_s  g_lzfstream;
@@ -328,7 +335,7 @@ static void elf_emit_tcb_note(FAR struct elf_dumpinfo_s *cinfo,
 
   if (regs != NULL)
     {
-      for (i = 0; i < nitems(status.pr_regs); i++)
+      for (i = 0; i < MIN(nitems(status.pr_regs), g_tcbinfo.regs_num); i++)
         {
           if (g_tcbinfo.reg_off.p[i] != UINT16_MAX)
             {

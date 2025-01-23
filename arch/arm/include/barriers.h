@@ -1,5 +1,5 @@
 /****************************************************************************
- * arch/xtensa/src/esp32/esp32_cpuindex.S
+ * arch/arm/include/barriers.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -18,35 +18,35 @@
  *
  ****************************************************************************/
 
-	.file	"xtensa_cpumacros.S"
+#ifndef __ARCH_ARM_INCLUDE_BARRIERS_H
+#define __ARCH_ARM_INCLUDE_BARRIERS_H
 
 /****************************************************************************
  * Included Files
  ****************************************************************************/
 
-#include <arch/xtensa/xtensa_abi.h>
-#include "chip_macros.h"
+#if defined(CONFIG_ARCH_ARMV7A)
+#  include <arch/armv7-a/barriers.h>
+#elif defined(CONFIG_ARCH_ARMV7R)
+#  include <arch/armv7-r/barriers.h>
+#elif defined(CONFIG_ARCH_ARMV8R)
+#  include <arch/armv8-r/barriers.h>
+#elif defined(CONFIG_ARCH_ARMV7M)
+#  include <arch/armv7-m/barriers.h>
+#elif defined(CONFIG_ARCH_ARMV8M)
+#  include <arch/armv8-m/barriers.h>
+#elif defined(CONFIG_ARCH_ARMV6M)
+#  include <arch/armv6-m/barriers.h>
+#else
+#  include <arch/arm/barriers.h>
+#endif
 
-/****************************************************************************
- * Public Functions
- ****************************************************************************/
+#define UP_MB() \
+  do            \
+    {           \
+      UP_DSB(); \
+      UP_ISB(); \
+    }           \
+  while (0)
 
-/****************************************************************************
- * Name: up_cpu_index
- *
- * Description:
- *   Return the real core number regardless CONFIG_SMP setting
- *
- ****************************************************************************/
-
-	.text
-	.align	4
-	.global	up_cpu_index
-	.type	up_cpu_index, @function
-
-up_cpu_index:
-	ENTRY(16)
-	getcoreid	a2
-	RET(16)
-
-	.size	up_cpu_index, . - up_cpu_index
+#endif /* __ARCH_ARM_INCLUDE_BARRIERS_H */

@@ -1,7 +1,5 @@
 /****************************************************************************
- * arch/arm/src/armv8-m/barriers.h
- *
- * SPDX-License-Identifier: Apache-2.0
+ * arch/ceva/include/xc5/barriers.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -20,25 +18,25 @@
  *
  ****************************************************************************/
 
-#ifndef __ARCH_ARM_SRC_ARMV8_M_BARRIERS_H
-#define __ARCH_ARM_SRC_ARMV8_M_BARRIERS_H
+#ifndef __ARCH_CEVA_INCLUDE_XC5_BARRIERS_H
+#define __ARCH_CEVA_INCLUDE_XC5_BARRIERS_H
 
 /****************************************************************************
- * Included Files
+ * Inline functions
  ****************************************************************************/
 
-/****************************************************************************
- * Pre-processor Definitions
- ****************************************************************************/
+#ifndef __ASSEMBLY__
 
-/* ARMv8-M memory barriers */
+/* Memory barrier doesn't need on tl4 */
 
-#define arm_isb()  __asm__ __volatile__ ("isb " : : : "memory")
-#define arm_dmb()  __asm__ __volatile__ ("dmb " : : : "memory")
-#define arm_dsb(n) __asm__ __volatile__ ("dsb " #n : : : "memory")
+static inline void up_dsb(void)
+{
+}
 
-#define ARM_ISB()  arm_isb()
-#define ARM_DMB()  arm_dmb()
-#define ARM_DSB()  arm_dsb(15)
+static inline void up_dmb(void)
+{
+}
 
-#endif /* __ARCH_ARM_SRC_ARMV8_M_BARRIERS_H */
+#endif /* __ASSEMBLY__ */
+
+#endif /* __ARCH_CEVA_INCLUDE_XC5_BARRIERS_H */
