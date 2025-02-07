@@ -306,8 +306,7 @@ static void stm32_i2c_setclock(struct stm32_i2c_priv_s *priv,
 static inline void stm32_i2c_sendstart(struct stm32_i2c_priv_s *priv);
 static inline void stm32_i2c_clrstart(struct stm32_i2c_priv_s *priv);
 static inline void stm32_i2c_sendstop(struct stm32_i2c_priv_s *priv);
-static inline
-uint32_t stm32_i2c_getstatus(struct stm32_i2c_priv_s *priv);
+static inline uint32_t stm32_i2c_getstatus(struct stm32_i2c_priv_s *priv);
 
 #ifdef I2C1_FSMC_CONFLICT
 static inline
