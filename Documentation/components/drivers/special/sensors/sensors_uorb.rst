@@ -484,8 +484,11 @@ Implemented Drivers
 - goldfish_sensor
 - hyt271
 - l3gd20
+- :doc:`lis2mdl`
 - lsm9ds1
 - ltr308
 - mpu9250
 - ms56xx
+- :doc:`sht4x`
+- :doc:`lsm6dso32`
 - wtgahrs2

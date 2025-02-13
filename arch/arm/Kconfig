@@ -982,6 +982,7 @@ config ARCH_ARMV7R
 	default n
 	select ARCH_HAVE_CPUINFO
 	select ARCH_HAVE_PERF_EVENTS
+	select ARM_THUMB if BUILD_PROTECTED
 
 config ARCH_CORTEXR4
 	bool
@@ -1436,6 +1437,12 @@ config DEBUG_SECUREFAULT
 		Enables verbose debug output when a usage fault is occurs.  This verbose
 		output is sometimes helpful when debugging difficult usage fault problems,
 		but may be more than you typically want to see.
+
+config ARM_SEMIHOSTING_POWEROFF
+	bool "Semihosting POWEROFF support"
+	default n
+	---help---
+		Enable use of semihosting function to poweroff target.
 
 config ARM_SEMIHOSTING_SYSLOG
 	bool "Semihosting SYSLOG support"
