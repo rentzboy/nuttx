@@ -4,7 +4,7 @@ name: CMake on multiple platforms
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "xxxxx" ] #Para que no se ejecute automáticamente. Cambiar a xxx para ejecutarlo
   pull_request:
     branches: [ "master" ]
 
