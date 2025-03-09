@@ -412,10 +412,17 @@
 #define GPIO_SDMMC1_D2   (GPIO_SDMMC1_D2_0|GPIO_SPEED_100MHz)  /* PC10 */
 #define GPIO_SDMMC1_D3   (GPIO_SDMMC1_D3_0|GPIO_SPEED_100MHz)  /* PC11 */
 
-/* I2C3 - Used by eeprom memory */
+/* I2C3 - Used by eeprom memory and touch screen */
 
 #define GPIO_I2C3_SCL (GPIO_I2C3_SCL_2|GPIO_SPEED_100MHz) /* PH7 */
 #define GPIO_I2C3_SDA (GPIO_I2C3_SDA_2|GPIO_SPEED_100MHz) /* PH8 */
+
+/* I2C - There is a FT5336 TouchPanel on I2C3 using these pins: */
+
+#define ADJ_SLEW_RATE(p) (((p) & ~GPIO_SPEED_MASK) | (GPIO_SPEED_100MHz))
+#define GPIO_TP_INT  (GPIO_INPUT|GPIO_FLOAT|GPIO_EXTI|GPIO_PORTH|GPIO_PIN9) /* PH9 */
+
+#define FT5X06_I2C_ADDRESS          (0x38)
 
 /* PWM - Buzzer */
 #define GPIO_TIM4_CH2OUT  (GPIO_TIM4_CH2OUT_1|GPIO_SPEED_100MHz)   /* PB7 */
@@ -490,7 +497,16 @@
 #  endif
 #endif
 
-#define BOARD_SDRAM1_SIZE               (8*1024*1024)
+/* BOARD_SDRAM1_SIZE - With ltdc enabled, we reserve the last 2M
+ * of SDRAM for use with the LTDC framebuffer. If using double buffering,
+ * this value will need to be doubled.
+ */
+
+#ifdef CONFIG_STM32H7_LTDC
+#  define BOARD_SDRAM1_SIZE        (6*1024*1024)
+#else
+#  define BOARD_SDRAM1_SIZE        (8*1024*1024)
+#endif
 
 /* BOARD_FMC_SDCR1 - Initial value for SDRAM control registers for SDRAM
  *      bank 1. Note bank 2 isn't used!
@@ -517,20 +533,21 @@
  * FMC_SDTR_TRC  - Row to collumn delay
  */
 
-#define BOARD_FMC_SDTR1  (FMC_SDTR_TMRD(2)| /* tMRD     = 2CLK */ \
-                          FMC_SDTR_TXSR(9)| /* tXSR min = ns */ \
-                          FMC_SDTR_TRCD(8)| /* tRCD min = ns */ \
-                          FMC_SDTR_TRAS(6)| /* tRAS min = ns */ \
-                          FMC_SDTR_TWR(4)|  /* tWR      = ns */ \
-                          FMC_SDTR_TRP(2)|  /* tRP  min = ns */ \
-                          FMC_SDTR_TRC(8))  /* tRC  min = ns */
+ #define BOARD_FMC_SDTR1  (FMC_SDTR_TMRD(2)| /* tMRD     = 2CLK */ \
+                           FMC_SDTR_TXSR(6)| /* tXSR min = ns */ \
+                           FMC_SDTR_TRAS(4)| /* tRAS min = ns */ \
+                           FMC_SDTR_TRC(6)|  /* tRC  min = ns */ \
+                           FMC_SDTR_TWR(2)|  /* tWR      = ns */ \
+                           FMC_SDTR_TRP(2)|  /* tRP  min = ns */ \
+                           FMC_SDTR_TRCD(2)) /* tRCD min = ns */
 
 #define BOARD_FMC_SDRAM_REFR_CYCLES  4096
 #define BOARD_FMC_SDRAM_REFR_PERIOD  64
 #define BOARD_FMC_SDRAM_AUTOREFRESH  8
-#define BOARD_FMC_SDRAM_MODE         (FMC_SDCMR_MRD_BURST_LENGTH_1| \
+#define BOARD_FMC_SDRAM_MODE         (FMC_SDCMR_MRD_BURST_LENGTH_4| \
                                       FMC_SDCMR_MRD_BURST_TYPE_SEQUENTIAL| \
                                       FMC_SDCMR_MRD_CAS_LATENCY_3| \
+                                      FMC_SDCMR_MRD_OPERATING_MODE_STANDARD |\
                                       FMC_SDCMR_MRD_WRITEBURST_MODE_SINGLE)
 
 #define BOARD_FMC_GPIO_CONFIGS \
@@ -619,28 +636,28 @@
 
 #define BOARD_LTDC_OUTPUT_BPP           16
 #define BOARD_LTDC_HFP                  160
-#define BOARD_LTDC_HBP                  160 /* AccumulatedHBP */
-#define BOARD_LTDC_VFP                  1
-#define BOARD_LTDC_VBP                  23  /* AccumulatedVBP */
+#define BOARD_LTDC_HBP                  160
+#define BOARD_LTDC_VFP                  12
+#define BOARD_LTDC_VBP                  23
 
-#define BOARD_LTDC_HSYNC                1   /* HorizontalSync */
-#define BOARD_LTDC_VSYNC                1   /* VerticalSync */
+#define BOARD_LTDC_HSYNC                1
+#define BOARD_LTDC_VSYNC                1
 
 /* Pixel Clock Polarity */
 
-#define BOARD_LTDC_GCR_PCPOL            0 /* !LTDC_GCR_PCPOL */
+#define BOARD_LTDC_GCR_PCPOL            0
 
 /* Data Enable Polarity */
 
-#define BOARD_LTDC_GCR_DEPOL            0 /* !LTDC_GCR_DEPOL */
+#define BOARD_LTDC_GCR_DEPOL            0
 
 /* Vertical Sync Polarity */
 
-#define BOARD_LTDC_GCR_VSPOL            0 /* !LTDC_GCR_VSPOL */
+#define BOARD_LTDC_GCR_VSPOL            0
 
 /* Horizontal Sync Polarity */
 
-#define BOARD_LTDC_GCR_HSPOL            0 /* !LTDC_GCR_HSPOL */
+#define BOARD_LTDC_GCR_HSPOL            0
 
 /****************************************************************************
  * Public Data

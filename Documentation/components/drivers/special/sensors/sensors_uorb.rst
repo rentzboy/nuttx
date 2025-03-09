@@ -109,10 +109,6 @@ the rest is filled by the upper half.
 
 ``nbuffer`` specifies the length of the ring buffer in the upper half driver; 
 
-``uncalibrated`` indicates whether the data reported by the lower half driver is
-uncalibrated. If true, it means uncalibrated data is reported, and the registered
-device node will have a suffix ``_uncal``.
-
 ``ops`` represents the set of sensor operations implemented by the lower half driver.
 
 ``push_event`` and ``notify_event`` are not used simultaneously and are filled
@@ -139,7 +135,6 @@ used for sensor_rpmsg.
   {
     int type;
     unsigned long nbuffer;
-    bool uncalibrated;
     FAR const struct sensor_ops_s *ops;
   
     union
@@ -489,8 +484,11 @@ Implemented Drivers
 - goldfish_sensor
 - hyt271
 - l3gd20
+- :doc:`lis2mdl`
 - lsm9ds1
 - ltr308
 - mpu9250
 - ms56xx
+- :doc:`sht4x`
+- :doc:`lsm6dso32`
 - wtgahrs2

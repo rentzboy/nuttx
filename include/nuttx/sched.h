@@ -110,6 +110,7 @@
 #define TCB_FLAG_JOIN_COMPLETED    (1 << 13)                     /* Bit 13: Pthread join completed */
 #define TCB_FLAG_FREE_TCB          (1 << 14)                     /* Bit 14: Free tcb after exit */
 #define TCB_FLAG_SIGDELIVER        (1 << 15)                     /* Bit 15: Deliver pending signals */
+#define TCB_FLAG_PREEMPT_SCHED     (1 << 16)                     /* Bit 16: tcb is PREEMPT_SCHED */
 
 /* Values for struct task_group tg_flags */
 
@@ -499,7 +500,6 @@ struct task_group_s
 #ifndef CONFIG_DISABLE_PTHREAD
   /* Pthreads ***************************************************************/
 
-  rmutex_t   tg_joinlock;           /* Synchronize access to tg_joinqueue   */
   sq_queue_t tg_joinqueue;          /* List of join status of tcb           */
 #endif
 
@@ -547,7 +547,8 @@ struct task_group_s
 
   struct mm_map_s tg_mm_map;        /* Task group virtual memory mappings   */
 
-  spinlock_t tg_lock;               /* lock */
+  spinlock_t tg_lock;               /* SpinLock for group */
+  rmutex_t   tg_mutex;              /* Mutex for group */
 };
 
 /* struct tcb_s *************************************************************/
