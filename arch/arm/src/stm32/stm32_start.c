@@ -42,7 +42,6 @@
 #include "stm32_gpio.h"
 #include "stm32_userspace.h"
 #include "stm32_start.h"
-#include "itm_syslog.h"
 
 /****************************************************************************
  * Pre-processor Definitions
