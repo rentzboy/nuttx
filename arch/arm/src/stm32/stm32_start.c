@@ -41,6 +41,7 @@
 #include "stm32_gpio.h"
 #include "stm32_userspace.h"
 #include "stm32_start.h"
+#include "itm_syslog.h"
 
 /****************************************************************************
  * Pre-processor Definitions
@@ -170,7 +171,6 @@ void __start(void)
 
 #ifdef CONFIG_ARMV7M_ITMSYSLOG
   /* Perform ARMv7-M ITM SYSLOG initialization */
-
   itm_syslog_initialize();
 #endif
 
