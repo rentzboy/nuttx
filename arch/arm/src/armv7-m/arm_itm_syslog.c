@@ -164,10 +164,12 @@ void itm_syslog_initialize(void)
   regval |= NVIC_DEMCR_TRCENA;
   putreg32(regval, NVIC_DEMCR);
 
-  putreg32(0xc5acce55, ITM_LAR);
-  putreg32(0,          ITM_TER);
-  putreg32(0,          ITM_TCR);
-  putreg32(2,          TPI_SPPR); /* Pin protocol: 2=> Manchester (USART) */
+  //REFERENCE MANUAL RM0316 apartado 33.14
+  putreg32(0xc5acce55, ITM_LAR); // ITM Lock Access Register
+  putreg32(0,          ITM_TER); // ITM Trace Enable Register
+  putreg32(0,          ITM_TCR);  // ITM Trace Control Register
+  putreg32(2,          TPI_SPPR); // TPI Support Pin Protocol Register
+  /* Pin protocol: 2=> Manchester (USART) */
 
   /* Default 880kbps */
 
