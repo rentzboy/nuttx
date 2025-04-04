@@ -50,18 +50,34 @@ int i2c2_initialization(int bus) {
     regval |= (I2C_CR1_TXIE | I2C_CR1_ADDRIE | I2C_CR1_PE); //TX, RX Interrup Enable, Peripheral Enable
     putreg32(regval, STM32_RCC_AHBENR);
 
+}
+
+int i2c_setup(struct i2c_cfg, struct i2c_master_s *dev) {
+/*  Master initialization
+    Addressing mode (7-bit or 10-bit): ADD10 in I2C_CR2 register
+    Slave address to be sent: SADD[9:0] in I2C_CR2 register
+    Transfer direction: RD_WRN in I2C_CR2 register => no entiendo por qué aqui .....
+    The number of bytes to be transferred: NBYTES[7:0] in I2C_CR2 register
+    If the number of bytes is equal to or greater than 255 bytes, NBYTES[7:0] = 0xFF
+    You must then set the START bit in I2C_CR2 register.
+    
+    Enable Interrupts and/or DMA in I2C_CR1 register
+    */
+
 };
 
+int i2c_transfer(uint8_t *data, int8_t register) {
 
+}
 
 
 int i2c_read(int8_t addr, int8_t reg, uint8_t *data, int8_t len) {
     //Always from master (µC) to slave (sensor)
 
 
-};
+}
 
 int i2c_write() {
     //
 
-};
+}
