@@ -507,7 +507,7 @@ int stm32_configgpio(uint32_t cfgset)
         }
 
       regval  = getreg32(base + regoffset);
-      regval &= ~GPIO_AFR_MASK(pos);
+      regval &= ~GPIO_AFR_MASK(pos); //clear pin
       regval |= (alt_setting << GPIO_AFR_SHIFT(pos));
       putreg32(regval, base + regoffset);
     }
@@ -515,7 +515,7 @@ int stm32_configgpio(uint32_t cfgset)
   /* Now apply the configuration to the mode register */
 
   regval  = getreg32(base + STM32_GPIO_MODER_OFFSET);
-  regval &= ~GPIO_MODER_MASK(pin);
+  regval &= ~GPIO_MODER_MASK(pin); //clear pin
   regval |= ((uint32_t)pinmode << GPIO_MODER_SHIFT(pin));
   putreg32(regval, base + STM32_GPIO_MODER_OFFSET);
 

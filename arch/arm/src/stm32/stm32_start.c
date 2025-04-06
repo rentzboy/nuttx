@@ -34,6 +34,7 @@
 
 #include "arch/board/board.h"
 #include "arm_internal.h"
+#include "itm_syslog.h"
 #include "nvic.h"
 #include "mpu.h"
 
@@ -170,7 +171,6 @@ void __start(void)
 
 #ifdef CONFIG_ARMV7M_ITMSYSLOG
   /* Perform ARMv7-M ITM SYSLOG initialization */
-
   itm_syslog_initialize();
 #endif
 
