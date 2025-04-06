@@ -42,7 +42,7 @@ struct file_ops {
 };
 
 //No hay que pasarle bmi_dev_s pues desde la función open() ya se llama al open registrado para este sensor.
-int bmi160_open (char devPath, int mode) 0
+int bmi160_open (char devPath, int mode)
 {
     //basic configurations: get from pdf using read_8bits, read_16bits, put_8bits, put_16ibts
 }
