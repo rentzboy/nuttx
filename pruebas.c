@@ -26,11 +26,7 @@
 
 
 //SENSOR Forward declarations *************************
-struct bmi_dev_s {
-    struct ic2_dev_master_s *i2c_master;
-    uint8_t addr; //I2C address
-    int freq;     //I2C frequence
-};
+
 struct file_ops {
     //Hay que mantener este orden para que funcione
     bmi160_open,
@@ -40,18 +36,6 @@ struct file_ops {
     NULL,   //seek
     bmi160_ioctl
 };
-
-//No hay que pasarle bmi_dev_s pues desde la función open() ya se llama al open registrado para este sensor.
-int bmi160_open (char devPath, int mode)
-{
-    //basic configurations: get from pdf using read_8bits, read_16bits, put_8bits, put_16ibts
-}
-
-int bmi160_read(int fd, char* buffer, int bufferLenght)
-{
-    
-}
-
 
 
 //I2C Forward declarations **************************
@@ -78,16 +62,28 @@ struct i2c_config_s {
 //END Forward declarations
 
 
-static int i2cdrvr_open(FAR struct file *filepath)
-{
+static int i2cdrvr_open(FAR struct file *filepath) {
     struct inode *node = filepath->f_inode;
     struct i2c_driver_s *priv = node->i_private;
 }
 
-
 /* Character driver methods */
-static int bmi160_open_prueba(FAR struct file *filepath /* /dev/accel0 */)
-{
+struct bmi_dev_s {
+    struct ic2_dev_master_s *i2c_master;
+    uint8_t addr; //I2C address
+    int freq;     //I2C frequence
+};
+
+//No hay que pasarle bmi_dev_s pues desde la función open() ya se llama al open registrado para este sensor.
+int bmi160_open (char devPath, int mode) {
+    //basic configurations: get from pdf using read_8bits, read_16bits, put_8bits, put_16ibts
+}
+
+int bmi160_read(int fd, char* buffer, int bufferLenght) {
+    //
+}
+
+static int bmi160_open_prueba(FAR struct file *filepath /* /dev/accel0 */) {
     //Permite linkar nuestro device con un inode
     //Se trabaja con punteros, la memoria se asigna en el momento de registrar el driver
 
@@ -102,8 +98,7 @@ static int bmi160_open_prueba(FAR struct file *filepath /* /dev/accel0 */)
     return OK;
 }
 
-static int bmi160_close_prueba(FAR struct file *filepath)
-{
+static int bmi160_close_prueba(FAR struct file *filepath) {
     //Se asigna el path a nuestro nodo
     FAR struct inode *node = filepath->f_inode;
     //TODO: Esta linea no la tengo claro......
@@ -119,8 +114,7 @@ static int bmi160_close_prueba(FAR struct file *filepath)
     return OK;
 }
 
-static ssize_t bmi160_read_prueba(FAR struct file *filepath, FAR char *buffer, size_t len)
-{
+static ssize_t bmi160_read_prueba(FAR struct file *filepath, FAR char *buffer, size_t len) {
     //Se asigna el path a nuestro nodo
     FAR struct inode *node = filepath->f_inode;
     //TODO: Esta linea no la tengo claro......

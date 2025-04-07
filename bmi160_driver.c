@@ -30,6 +30,16 @@ struct inode {
     char *i_priv; // dev/xxx/yxz
 };
 
+int register_driver(char *devName, struct file_operations *f_ops, int mode, void *priv) {
+    struct inode *i = malloc(sizeof(inode));
+    if(i==NULL)
+        return 1;
+    i->i_name = devName; //dev/i2c1
+    i->i_priv = priv;    //xxx_drvr_s
+    i->u = f_ops;        //&xxx
+    i->flags = mode;     //0608
+}
+
 //I2C
 struct i2c_drvr_s
 {
@@ -47,11 +57,9 @@ struct file_ops_s g_i2c_drvr_ops {
     i2c_drvr_ioctl;
 };
 
-
 //I2C-master
 struct i2c_master_s {
     struct i2c_ops_s *ops;
-
 };
 
 struct i2c_ops_s {
@@ -59,39 +67,11 @@ struct i2c_ops_s {
     (*setup) (struct i2c_master_s *dev);
 };
 
-int register_driver(char *devName, struct file_operations *f_ops, int mode, void *priv) {
-    struct inode *i = malloc(sizeof(inode));
-    if(i==NULL)
-        return 1;
-    i->i_name = devName; //dev/i2c1
-    i->i_priv = priv;    //xxx_drvr_s
-    i->u = f_ops;        //&xxx
-    i->flags = mode;     //0608
-}
 int i2c_register(struct i2c_master_s *i2c, int bus){
-    
     const char *devName = "/dev/i2c1"; //generar el devPath
     //register_driver(char *devName, struct file_operations *f_ops, int mode, char *priv)
     register_driver(devName, &g_i2c_drvr_ops, 066, i2c);
 }
-
-ic2_read(){
-
-}
-
-i2c_write(){}
-
-i2c_readWrite(){
-
-}
-int transfer(){
-
-}
-
-int setup(){
-
-}
-
 
 //BMI160
 struct bmi160_dev_s {
@@ -120,11 +100,11 @@ int bmi160_open(char* devPath, int flags){
 }
 
 int bmi160_read(int fd, char* buffer, int lenght){
-
+    //
 }
 
 int bmi160_write(int fd, char* buffer, int lenght){
-
+    //
 }
 
 
