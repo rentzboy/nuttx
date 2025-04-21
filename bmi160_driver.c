@@ -28,12 +28,11 @@ struct inode {
     union i_ops_u *u;
     
     char *i_priv; // dev/xxx/yxz
+    char i_name[1]; //device_struct
 };
 
 int register_driver(char *devName, struct file_operations *f_ops, int mode, void *priv) {
-    struct inode *i = malloc(sizeof(inode));
-    if(i==NULL)
-        return 1;
+    struct inode *i = malloc(sizeof(struct inode));
     i->i_name = devName; //dev/i2c1
     i->u = f_ops;        //&g_i2c_drvr_ops
     i->flags = mode;     //0666 for char devices
@@ -70,9 +69,17 @@ struct i2c_ops_s {
 };
 
 int i2c_register(struct i2c_master_s *i2c, int bus){
-    const char *devName = "/dev/i2c" & "bus"; //generar el devPath
+    const char *devName = "/dev/i2c/xyz"; //generar el devPath
+
+        //Hay que crear el inode -el file se creará con fopen()-
+        struct inode *i_node = kmalloc(sizeof(struct inode)); //como-cuando se añade al inode tree ?? 
+        //i_node->i_name = "i2c";
+        i_node->i_priv = devName;
+        //i_node->u = &g_file_ops_s;
+        i_node->u->ops = i2c->ops;
+
     //register_driver(char *devName, struct file_operations *f_ops, int mode, char *priv)
-    register_driver(devName, &g_i2c_drvr_ops, 0666, i2c);
+    register_driver(devName, &g_i2c_drvr_ops, 0666, i_node);
     //open, close, read, write => i2c_drvr_open, i2c_drvr_close, i2c_drvr_read, i2c_drvr_write
     //transfer, setup => i2c_transfer, i2c_setup
 }
