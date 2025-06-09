@@ -24,7 +24,6 @@
     6-register function: i2c_register()    
     */
 
-
 //SENSOR Forward declarations *************************
 
 struct file_ops {
@@ -36,7 +35,6 @@ struct file_ops {
     NULL,   //seek
     bmi160_ioctl
 };
-
 
 //I2C Forward declarations **************************
 struct i2c_msg_s {
