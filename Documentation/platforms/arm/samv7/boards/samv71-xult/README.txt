@@ -967,6 +967,9 @@ serial device class:
     CONFIG_CDCACM_NRDREQS=8                   : Number of read requests
     CONFIG_CDCACM_BULKIN_REQLEN=96            : Size of write request buffer (for full speed)
     CONFIG_CDCACM_BULKIN_REQLEN=768           : Size of write request buffer (for high speed)
+    CONFIG_CDCACM_RXBUFSIZE=257               : Serial read buffer size
+    CONFIG_CDCACM_TXBUFSIZE=193               : Serial transmit buffer size (for full speed)
+    CONFIG_CDCACM_TXBUFSIZE=769               : Serial transmit buffer size (for high speed)
     CONFIG_CDCACM_VENDORID=0x0525             : Vendor ID
     CONFIG_CDCACM_PRODUCTID=0xa4a7            : Product ID
     CONFIG_CDCACM_VENDORSTR="NuttX"           : Vendor string
@@ -980,7 +983,7 @@ CDC/ACM serial device:
 
     CONFIG_SYSTEM_CDCACM=y                     : Enable connect/disconnect support
     CONFIG_SYSTEM_CDCACM_DEVMINOR=0            : Use device /dev/ttyACM0
-    CONFIG_CDCACM_NRDREQS=???                  : Multiple read requests may be needed
+    CONFIG_CDCACM_RXBUFSIZE=???                : A large RX may be needed
 
 If you include this CDC/ACM application, then you can connect the CDC/ACM
 serial device to the host by entering the command 'sercon' and you detach
@@ -1737,7 +1740,7 @@ Configuration sub-directories
          nuttx.hex         - The pass2 Intel HEX file (selected in defconfig)
          System.map        - Symbols in the kernel-space ELF file
 
-       The J-Link programmer will except files in .hex, .mot, .srec, and .bin
+       The J-Link programmer will accept files in .hex, .mot, .srec, and .bin
        formats.
 
     2. Combining .hex files.  If you plan to use the .hex files with your
@@ -1816,10 +1819,10 @@ Configuration sub-directories
          CONFIG_FS_ROMFS=y
          CONFIG_LIBC_ARCH_ELF=y
          CONFIG_MODULE=y
-         CONFIG_LIBC_MODLIB=y
-         CONFIG_MODLIB_ALIGN_LOG2=2
-         CONFIG_MODLIB_BUFFERINCR=32
-         CONFIG_MODLIB_BUFFERSIZE=128
+         CONFIG_LIBC_ELF=y
+         CONFIG_LIBC_ELF_ALIGN_LOG2=2
+         CONFIG_LIBC_ELF_BUFFERINCR=32
+         CONFIG_LIBC_ELF_BUFFERSIZE=128
 
        Add the following for testing shared libraries in the FLAT
        build:
@@ -2013,7 +2016,7 @@ Configuration sub-directories
          CONFIG_SAMV7_XDMAC=y             : XDMAC support
 
     6. The appx/examples/nxlines is enabled as a built-in application.
-       This is a test that displays some simple graphis and can be
+       This is a test that displays some simple graphics and can be
        executed from the NSH command line like:
 
          nsh> nxlines
@@ -2093,7 +2096,7 @@ Configuration sub-directories
        Application Configuration:
          CONFIG_NSH_BUILTIN_APPS=y  : Enable starting apps from NSH command line
 
-    4. The network initialization thread and the NSH network montior are
+    4. The network initialization thread and the NSH network monitor are
        enabled in this configuration. As a result, networking initialization
        is performed asynchronously with NSH bring-up.  For more information,
        see the paragraphs above entitled "Network Initialization Thread" and
@@ -2281,7 +2284,7 @@ Configuration sub-directories
          NOTES:
          o An environment variable like $PATH may be used for any argument.
          o Arguments are "sticky".  For example, once the I2C address is
-           specified, that address will be re-used until it is changed.
+           specified, that address will be reused until it is changed.
 
          WARNING:
          o The I2C dev command may have bad side effects on your I2C devices.
