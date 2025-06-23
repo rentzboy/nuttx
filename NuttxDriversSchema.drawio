@@ -178,7 +178,7 @@
         <mxCell id="A2ZbU5LwQxJ9MIYdX8El-6" value="stm32_clockconfig()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
           <mxGeometry x="300" y="195" width="120" height="35" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-8" value="&lt;p&gt;&amp;gt; &lt;b&gt;[1] stm32_clockconfig()&lt;/b&gt;&amp;nbsp;[stm32_rcc.c]:&amp;nbsp;Initialize the PLLs and peripheral clocking needed by the board&amp;nbsp;based on the values in board.h + enable peripheral clocking according to the NuttX configuration file.&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[2]&lt;/b&gt;&amp;nbsp;&lt;b&gt;stm32_lowsetup()&lt;/b&gt; [stm32_lowsetup.c]&amp;nbsp;Enable the console USART and configure GPIO pins needed for rx/tx.&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[3]&lt;/b&gt;&amp;nbsp;&lt;b&gt;stm32_gpioinit()&lt;/b&gt; [stm32_gpio.c]&amp;nbsp;Perform any GPIO remapping that is needed for some boards.&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[4]&lt;/b&gt;&amp;nbsp;&lt;b&gt;itm_syslog_initialize()&lt;/b&gt; [] Perform ARMv7-M ITM SYSLOG initialization&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[5]&amp;nbsp;stm32_boardinitialize()&lt;/b&gt; [] Initialize onboard resources&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=14;" vertex="1" parent="1">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-8" value="&lt;p&gt;&amp;gt; &lt;b&gt;[1] stm32_clockconfig()&lt;/b&gt;&amp;nbsp;[stm32_rcc.c]:&amp;nbsp;Initialize the PLLs and peripheral clocking needed by the board&amp;nbsp;based on the values in board.h + enable peripheral clocking according to the NuttX configuration file.&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[2]&lt;/b&gt;&amp;nbsp;&lt;b&gt;stm32_lowsetup()&lt;/b&gt; [stm32_lowsetup.c]&amp;nbsp;Enable the console USART and configure GPIO pins needed for rx/tx.&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[3]&lt;/b&gt;&amp;nbsp;&lt;b&gt;stm32_gpioinit()&lt;/b&gt; [stm32_gpio.c]&amp;nbsp;Perform any GPIO remapping that is needed for some boards.&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[4]&lt;/b&gt;&amp;nbsp;&lt;b&gt;itm_syslog_initialize()&lt;/b&gt; [] Perform ARMv7-M ITM SYSLOG initialization&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[5]&amp;nbsp;stm32_boardinitialize()&lt;/b&gt; [] Board specific logic is Initialized&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=14;" vertex="1" parent="1">
           <mxGeometry x="60" y="380" width="820" height="270" as="geometry" />
         </mxCell>
         <mxCell id="A2ZbU5LwQxJ9MIYdX8El-11" value="stm32_lowsetup()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
@@ -190,11 +190,38 @@
         <mxCell id="A2ZbU5LwQxJ9MIYdX8El-16" value="itm_syslog_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
           <mxGeometry x="610" y="195" width="120" height="35" as="geometry" />
         </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-18" target="A2ZbU5LwQxJ9MIYdX8El-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-18" target="A2ZbU5LwQxJ9MIYdX8El-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-18" target="A2ZbU5LwQxJ9MIYdX8El-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-28" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-18" target="A2ZbU5LwQxJ9MIYdX8El-27">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-31" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-18" target="A2ZbU5LwQxJ9MIYdX8El-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="A2ZbU5LwQxJ9MIYdX8El-18" value="stm32_boardinitialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
           <mxGeometry x="750" y="195" width="130" height="35" as="geometry" />
         </mxCell>
         <mxCell id="A2ZbU5LwQxJ9MIYdX8El-20" value="nx_start()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
           <mxGeometry x="180" y="195" width="70" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-22" value="stm32_spidev_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="250" width="145" height="32.5" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-25" value="stm32_usbinitialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="890" y="250" width="120" height="32.5" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-27" value="stm32_netinitialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1181" y="250" width="120" height="32.5" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-30" value="board_autoled_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="250" width="145" height="32.5" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
