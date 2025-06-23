@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:139.0) Gecko/20100101 Firefox/139.0" version="27.1.5" pages="5">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:139.0) Gecko/20100101 Firefox/139.0" version="27.1.5" pages="6">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="BMI160">
     <mxGraphModel dx="2184" dy="1679" grid="0" gridSize="13" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -139,6 +139,62 @@
         </mxCell>
         <mxCell id="30C8NDsfgj4diPt_NSyI-2" value="&lt;div style=&quot;color: rgb(101, 123, 131); background-color: rgb(253, 246, 227); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-weight: normal; font-size: 15px; line-height: 20px; white-space: pre;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(147, 161, 161); font-style: italic;&quot;&gt;/* I2C interface (i2_master.h)*/&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(88, 110, 117); font-weight: bold;&quot;&gt; static &lt;/span&gt;&lt;span style=&quot;color: rgb(88, 110, 117); font-weight: bold;&quot;&gt;struct&lt;/span&gt;&lt;span style=&quot;color: rgb(101, 123, 131);&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: rgb(101, 123, 131);&quot;&gt;&lt;/span&gt;&lt;span style=&quot;color: rgb(203, 75, 22);&quot;&gt;i2c_ops_s &lt;/span&gt;&lt;span style=&quot;color: rgb(101, 123, 131);&quot;&gt;&lt;/span&gt;&lt;span style=&quot;color: rgb(101, 123, 131);&quot;&gt;stm32_i2c_ops &lt;/span&gt;&lt;span style=&quot;color: rgb(133, 153, 0);&quot;&gt;=&lt;/span&gt;&lt;span style=&quot;color: rgb(101, 123, 131);&quot;&gt;{  &lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(101, 123, 131);&quot;&gt;.transfer &lt;/span&gt;&lt;span style=&quot;color: rgb(133, 153, 0);&quot;&gt;=&lt;/span&gt;&lt;span style=&quot;color: rgb(101, 123, 131);&quot;&gt; stm32_i2c_transfer,&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(133, 153, 0);&quot;&gt;    #ifdef&lt;/span&gt;&lt;span style=&quot;color: rgb(181, 137, 0);&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: rgb(38, 139, 210);&quot;&gt;CONFIG_I2C_RESET                 &lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(101, 123, 131);&quot;&gt;.reset &amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: rgb(133, 153, 0);&quot;&gt;=&lt;/span&gt;&lt;span style=&quot;color: rgb(101, 123, 131);&quot;&gt; stm32_i2c_reset      &lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(133, 153, 0);&quot;&gt;#endif&lt;/span&gt;&lt;span style=&quot;color: rgb(101, 123, 131);&quot;&gt;};                           &lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;" parent="1" vertex="1">
           <mxGeometry x="590" y="-730" width="370" height="140" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="_NK67Tlh-VQzG9f9iONZ" name="Página-6">
+    <mxGraphModel dx="975" dy="482" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-5" value="__start()" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="100" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-6" value="stm32_clockconfig()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="195" width="120" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-8" value="&lt;p&gt;&amp;gt; &lt;b&gt;[1] stm32_clockconfig()&lt;/b&gt;&amp;nbsp;[stm32_rcc.c]:&amp;nbsp;Initialize the PLLs and peripheral clocking needed by the board&amp;nbsp;based on the values in board.h + enable peripheral clocking according to the NuttX configuration file.&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[2]&lt;/b&gt;&amp;nbsp;&lt;b&gt;stm32_lowsetup()&lt;/b&gt; [stm32_lowsetup.c]&amp;nbsp;Enable the console USART and configure GPIO pins needed for rx/tx.&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[3]&lt;/b&gt;&amp;nbsp;&lt;b&gt;stm32_gpioinit()&lt;/b&gt; [stm32_gpio.c]&amp;nbsp;Perform any GPIO remapping that is needed for some boards.&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[4]&lt;/b&gt;&amp;nbsp;&lt;b&gt;itm_syslog_initialize()&lt;/b&gt; [] Perform ARMv7-M ITM SYSLOG initialization&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[5]&amp;nbsp;stm32_boardinitialize()&lt;/b&gt; [] Initialize onboard resources&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="60" y="380" width="820" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-11" value="stm32_lowsetup()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="195" width="100" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-13" value="stm32_gpioinit()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="450" y="195" width="100" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-16" value="itm_syslog_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="610" y="195" width="120" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-18" value="stm32_boardinitialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="750" y="195" width="130" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-20" value="nx_start()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="195" width="70" height="35" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
