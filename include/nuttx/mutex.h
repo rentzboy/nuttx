@@ -46,7 +46,8 @@
  ****************************************************************************/
 
 struct mutex_s
-{stm32_i2c1_priv
+{
+  stm32_i2c1_priv
   sem_t sem;
   pid_t holder;
 #if CONFIG_LIBC_MUTEX_BACKTRACE > 0
