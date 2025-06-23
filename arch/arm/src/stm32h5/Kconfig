@@ -14,6 +14,7 @@ choice
 
 config ARCH_CHIP_STM32H563ZI
 	bool "STM32H563ZI"
+	select ARCH_CORTEXM33
 	select STM32H5_STM32H5XXXX
 	select STM32H5_STM32H56XXX
 	select STM32H5_STM32H563XX
@@ -54,6 +55,7 @@ config STM32H5_STM32H56XXX
 	select STM32H5_HAVE_SPI4
 	select STM32H5_HAVE_SPI5
 	select STM32H5_HAVE_SPI6
+	select STM32H5_HAVE_I2C4
 	select STM32H5_HAVE_USBFS
 	select STM32H5_HAVE_HSI48
 	select STM32H5_HAVE_ICACHE_REMAP
@@ -135,7 +137,7 @@ config STM32H5_FLASH_CONFIG_E
 config STM32H5_FLASH_CONFIG_G
 	bool
 	default n
-	depends on STM32H5_STM32H6XXX
+	depends on STM32H5_STM32H56XXX
 
 config STM32H5_FLASH_CONFIG_I
 	bool
@@ -200,13 +202,19 @@ config STM32H5_SRAM2_INIT
 		case, the board should handle the initialization itself at the appropriate
 		time.
 
+config STM32H5_PROGMEM
+	bool "Flash progmem support"
+	default n
+	---help---
+		Add progmem support, start block and end block options are provided to
+		obtain a uniform flash memory mapping.
+
 comment "STM32H5 Peripherals"
 
 menu "STM32H5 Peripheral Selection"
 
 # These "hidden" settings determine if a peripheral option is available
 # for the selected MCU
-
 
 config STM32H5_HAVE_ETHERNET
 	bool
@@ -229,6 +237,10 @@ config STM32H5_HAVE_HSI48
 	default n
 
 config STM32H5_HAVE_ICACHE
+	bool
+	default n
+
+config STM32H5_HAVE_I2C4
 	bool
 	default n
 
@@ -299,11 +311,11 @@ config STM32H5_HAVE_USBFS
 # These "hidden" settings are the OR of individual peripheral selections
 # indicating that the general capability is required.
 
-config STM32H5_USART
+config STM32H5_ADC
 	bool
 	default n
 
-config STM32H5_ADC
+config STM32H5_DMA
 	bool
 	default n
 
@@ -319,6 +331,10 @@ config STM32H5_TIM
 	bool
 	default n
 
+config STM32H5_USART
+	bool
+	default n
+
 # These are the peripheral selections proper
 
 config STM32H5_ADC1
@@ -330,6 +346,18 @@ config STM32H5_ADC2
 	bool "ADC2"
 	default n
 	select STM32H5_ADC
+
+config STM32H5_DMA1
+	bool "DMA1"
+	default n
+	select STM32H5_DMA
+	select ARCH_DMA
+
+config STM32H5_DMA2
+	bool "DMA2"
+	default n
+	select STM32H5_DMA
+	select ARCH_DMA
 
 config STM32H5_ETHMAC
 	bool "Ethernet MAC"
@@ -348,19 +376,7 @@ config STM32H5_QSPI1
 	bool "QSPI1"
 	default n
 
-config STM32H5_USART2
-	bool "USART2"
-	default n
-	depends on STM32H5_HAVE_USART2
-	select ARCH_HAVE_SERIAL_TERMIOS
-	select STM32H5_USART
-
-config STM32H5_USART3
-	bool "USART3"
-	default n
-	depends on STM32H5_HAVE_USART3
-	select ARCH_HAVE_SERIAL_TERMIOS
-	select STM32H5_USART
+menu "U[S]ART/LPUART Selection"
 
 config STM32H5_UART4
 	bool "UART4"
@@ -376,13 +392,6 @@ config STM32H5_UART5
 	select ARCH_HAVE_SERIAL_TERMIOS
 	select STM32H5_USART
 
-config STM32H5_USART6
-	bool "USART6"
-	default n
-	depends on STM32H5_HAVE_USART6
-	select ARCH_HAVE_SERIAL_TERMIOS
-	select STM32H5_USART
-
 config STM32H5_UART7
 	bool "UART7"
 	default n
@@ -394,20 +403,6 @@ config STM32H5_UART8
 	bool "UART8"
 	default n
 	depends on STM32H5_HAVE_UART8
-	select ARCH_HAVE_SERIAL_TERMIOS
-	select STM32H5_USART
-
-config STM32H5_USART10
-	bool "USART10"
-	default n
-	depends on STM32H5_HAVE_USART10
-	select ARCH_HAVE_SERIAL_TERMIOS
-	select STM32H5_USART
-
-config STM32H5_USART11
-	bool "USART11"
-	default n
-	depends on STM32H5_HAVE_USART11
 	select ARCH_HAVE_SERIAL_TERMIOS
 	select STM32H5_USART
 
@@ -432,12 +427,51 @@ config STM32H5_USART1
 	select ARCH_HAVE_SERIAL_TERMIOS
 	select STM32H5_USART
 
+config STM32H5_USART2
+	bool "USART2"
+	default n
+	depends on STM32H5_HAVE_USART2
+	select ARCH_HAVE_SERIAL_TERMIOS
+	select STM32H5_USART
+
+config STM32H5_USART3
+	bool "USART3"
+	default n
+	depends on STM32H5_HAVE_USART3
+	select ARCH_HAVE_SERIAL_TERMIOS
+	select STM32H5_USART
+
+config STM32H5_USART6
+	bool "USART6"
+	default n
+	depends on STM32H5_HAVE_USART6
+	select ARCH_HAVE_SERIAL_TERMIOS
+	select STM32H5_USART
+
+config STM32H5_USART10
+	bool "USART10"
+	default n
+	depends on STM32H5_HAVE_USART10
+	select ARCH_HAVE_SERIAL_TERMIOS
+	select STM32H5_USART
+
+config STM32H5_USART11
+	bool "USART11"
+	default n
+	depends on STM32H5_HAVE_USART11
+	select ARCH_HAVE_SERIAL_TERMIOS
+	select STM32H5_USART
+
 config STM32H5_LPUART1
 	bool "LPUART1"
 	default n
 	depends on STM32H5_HAVE_LPUART1
 	select ARCH_HAVE_SERIAL_TERMIOS
 	select STM32H5_USART
+
+endmenu # U[S]ART/LPUART Selection
+
+menu "I2C Selection"
 
 config STM32H5_I2C
 	bool
@@ -461,7 +495,12 @@ config STM32H5_I2C3
 config STM32H5_I2C4
 	bool "I2C4"
 	default n
+	depends on STM32H5_HAVE_I2C4
 	select STM32H5_I2C
+
+endmenu # I2C Selection
+
+menu "SPI Selection"
 
 config STM32H5_SPI1
 	bool "SPI1"
@@ -501,6 +540,8 @@ config STM32H5_SPI6
 	depends on STM32H5_HAVE_SPI6
 	select SPI
 	select STM32H5_SPI
+
+endmenu # SPI Selection
 
 menu "STM32H5 Timer Selection"
 
@@ -582,7 +623,7 @@ config STM32H5_USBFS
 	depends on STM32H5_HAVE_USBFS
 	select USBDEV
 
-endmenu
+endmenu # STM32H5 Peripheral Selection
 
 config STM32H5_FLASH_PREFETCH
 	bool "Enable FLASH Pre-fetch"
@@ -4256,6 +4297,18 @@ config UART5_RS485_DIR_POLARITY
 
 endif # UART5_SERIALDRIVER
 
+choice
+	prompt "USART6 Driver Configuration"
+	default STM32H5_USART6_SERIALDRIVER
+	depends on STM32H5_USART6
+
+config STM32H5_USART6_SERIALDRIVER
+	bool "Standard serial driver"
+	select USART6_SERIALDRIVER
+	select STM32H5_SERIALDRIVER
+
+endchoice # USART6 Driver Configuration
+
 if USART6_SERIALDRIVER
 
 config USART6_RS485
@@ -4496,6 +4549,49 @@ endif
 endif # STM32H5_SERIALDRIVER
 
 endmenu # U[S]ART Configuration
+
+menu "ADC Configuration"
+	depends on STM32H5_ADC
+
+config STM32H5_ADC1_DMA
+	bool "ADC1 DMA (not supported yet)"
+	depends on STM32H5_ADC1 && EXPERIMENTAL
+	default n
+	---help---
+		If DMA is selected, then the ADC may be configured to support
+		DMA transfer, which is necessary if multiple channels are read
+		or if very high trigger frequencies are used.
+
+config STM32H5_ADC1_DMA_BATCH
+	int "ADC1 DMA number of conversions"
+	depends on STM32H5_ADC1 && STM32H5_ADC1_DMA
+	default 1
+	---help---
+		This option allows you to select the number of regular group conversions
+		that will trigger a DMA callback transerring data to the upper-half driver.
+		By default, this value is 1, which means that data is transferred after
+		each group conversion.
+
+config STM32H5_ADC2_DMA
+	bool "ADC2 DMA (not supported yet)"
+	depends on STM32H5_ADC2 && EXPERIMENTAL
+	default n
+	---help---
+		If DMA is selected, then the ADC may be configured to support
+		DMA transfer, which is necessary if multiple channels are read
+		or if very high trigger frequencies are used.
+
+config STM32H5_ADC2_DMA_BATCH
+	int "ADC2 DMA number of conversions"
+	depends on STM32H5_ADC2 && STM32H5_ADC2_DMA
+	default 1
+	---help---
+		This option allows you to select the number of regular group conversions
+		that will trigger a DMA callback transerring data to the upper-half driver.
+		By default, this value is 1, which means that data is transferred after
+		each group conversion.
+
+endmenu
 
 menu "Ethernet MAC Configuration"
 	depends on STM32H5_ETHMAC
@@ -4774,7 +4870,7 @@ choice
 config STM32H5_FDCAN1_CLASSIC
 	bool "Classic CAN"
 	---help---
-		Enable Clasic CAN mode
+		Enable Classic CAN mode
 
 config STM32H5_FDCAN1_FD
 	bool "CAN FD"
@@ -4901,7 +4997,7 @@ choice
 config STM32H5_FDCAN2_CLASSIC
 	bool "Classic CAN"
 	---help---
-		Enable Clasic CAN mode
+		Enable Classic CAN mode
 
 config STM32H5_FDCAN2_FD
 	bool "CAN FD"

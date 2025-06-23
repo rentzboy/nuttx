@@ -2,6 +2,8 @@
 ESP32S3-DevKit
 ==============
 
+.. tags:: chip:esp32, chip:esp32s3
+
 The `ESP32S3 DevKit <https://docs.espressif.com/projects/esp-idf/en/latest/esp32s3/hw-reference/esp32s3/user-guide-devkitc-1.html>`_ is a development board for the ESP32-S3 SoC from Espressif, based on a ESP32-S3-WROOM-1 module.
 
 .. list-table::
@@ -81,6 +83,27 @@ All of the configurations presented below can be tested by running the following
 Where <config_name> is the name of board configuration you want to use, i.e.: nsh, buttons, wifi...
 Then use a serial console terminal like ``picocom`` configured to 115200 8N1.
 
+adc
+---
+
+The ``adc`` configuration enables the ADC driver and the ADC example application.
+ADC Unit 1 is registered to ``/dev/adc0`` with channels 0, 1, 2 and 3 enabled by default.
+Currently, the ADC operates in oneshot mode.
+
+More ADC channels can be enabled or disabled in ``ADC Configuration`` menu.
+
+This example shows channels 0 and 1 connected to 3.3 V and channels 2 and 3 to GND (all readings
+show in units of mV)::
+
+    nsh> adc -n 1
+    adc_main: g_adcstate.count: 1
+    adc_main: Hardware initialized. Opening the ADC device: /dev/adc0
+    Sample:
+    1: channel: 0 value: 3061
+    2: channel: 1 value: 3061
+    3: channel: 2 value: 106
+    4: channel: 3 value: 99
+
 audio
 -----
 
@@ -158,9 +181,9 @@ the following output is expected::
     cap_main: Hardware initialized. Opening the capture device: /dev/capture0
     cap_main: Number of samples: 0
     pwm duty cycle: 50 %
-    pwm frequence: 50 Hz
+    pwm frequency: 50 Hz
     pwm duty cycle: 50 %
-    pwm frequence: 50 Hz
+    pwm frequency: 50 Hz
 
 coremark
 --------
@@ -234,6 +257,41 @@ interrupt fires::
 The pin is configured to trigger an interrupt on the rising edge, so after
 issuing the above command, connect it to 3.3V.
 
+To use dedicated gpio for controlling multiple gpio pin at the same time
+or having better response time, you need to enable
+`CONFIG_ESPRESSIF_DEDICATED_GPIO` option. Dedicated GPIO is suitable
+for faster response times required applications like simulate serial/parallel
+interfaces in a bit-banging way.
+After this option enabled GPIO4 and GPIO5 pins are ready to used as dedicated GPIO pins
+as input/output mode. These pins are for example, you can use any pin up to 8 pins for
+input and 8 pins for output for dedicated gpio.
+To write and read data from dedicated gpio, you need to use
+`write` and `read` calls.
+
+The following snippet demonstrates how to read/write to dedicated GPIO pins:
+
+.. code-block:: C
+
+    int fd; = open("/dev/dedic_gpio0", O_RDWR);
+    int rd_val = 0;
+    int wr_mask = 0xffff;
+    int wr_val = 3;
+
+    while(1)
+      {
+        write(fd, &wr_val, wr_mask);
+        if (wr_val == 0)
+          {
+            wr_val = 3;
+          }
+        else
+          {
+            wr_val = 0;
+          }
+        read(fd, &rd_val, sizeof(uint32_t));
+        printf("rd_val: %d", rd_val);
+      }
+
 i2c
 ---
 
@@ -259,6 +317,42 @@ using slave driver:
        ret = write(i2c_slave_fd, buffer, 5);
        close(i2c_slave_fd);
     }
+
+i2schar
+-------
+
+This configuration enables the I2S character device and the i2schar example
+app, which provides an easy-to-use way of testing the I2S peripherals (I2S0
+and I2S1), enabling both the TX and the RX for those peripherals.
+
+**I2S0 pinout**
+
+============= ========== =========================================
+ESP32-S3 Pin  Signal Pin Description
+============= ========== =========================================
+0             MCLK       Master Clock
+4             BCLK       Bit Clock (SCLK)
+5             WS         Word Select (LRCLK)
+18            DOUT       Data Out
+19            DIN        Data IN
+============= ========== =========================================
+
+**I2S1 pinout**
+
+============= ========== =========================================
+ESP32-S3 Pin  Signal Pin Description
+============= ========== =========================================
+22            BCLK       Bit Clock (SCLK)
+23            WS         Word Select (LRCLK)
+25            DOUT       Data Out
+26            DIN        Data IN
+============= ========== =========================================
+
+After successfully built and flashed, run on the boards's terminal::
+
+    i2schar -p /dev/i2schar[0-1]
+
+The corresponding output should show related debug information.
 
 knsh
 ----
@@ -379,7 +473,7 @@ To test it, just run the ``oneshot`` example::
 qencoder
 ---
 
-This configuration demostrates the use of Quadrature Encoder connected to pins
+This configuration demonstrates the use of Quadrature Encoder connected to pins
 GPIO10 and GPIO11. You can start measurement of pulses using the following
 command (by default, it will open ``\dev\qe0`` device and print 20 samples
 using 1 second delay)::
@@ -597,6 +691,19 @@ You can set an alarm, check its progress and receive a notification after it exp
     Opening /dev/rtc0
     Alarm 0 is active with 10 seconds to expiration
     nsh> alarm_daemon: alarm 0 received
+
+sdm
+---
+
+This configuration enables the support for the Sigma-Delta Modulation (SDM) driver
+which can be used for LED dimming, simple dac with help of an low pass filter either
+active or passive and so on. ESP32-S3 supports 1 group of SDM up to 8 channels with
+any GPIO up to user. This configuration enables 1 channel of SDM on GPIO5. You can test
+DAC feature with following command with connecting simple LED on GPIO5
+
+    nsh> dac -d 100 -s 10 test
+
+After this command you will see LED will light up in different brightness.
 
 sdmmc
 -----
@@ -931,8 +1038,8 @@ To test it, just run the following::
 fastboot
 --------
 
-The basic Fastboot configuration is based on esp32s3-devkit:usb_device.
-More details about usage of fastboot, please refer to `fastbootd — NuttX latest documentation <https://nuttx.apache.org/docs/latest/applications/system/fastboot/index.html>`_.
+| The Fastboot configuration is based on esp32s3-devkit:usb_device and esp32s3-devkit:wifi, and support both **USB** and **TCP** network transport.
+| More details about usage of fastboot, please refer to `fastbootd — NuttX latest documentation <https://nuttx.apache.org/docs/latest/applications/system/fastboot/index.html>`_.
 
 You can run the configuration and compilation procedure::
 
@@ -945,14 +1052,36 @@ To test it, just run the following (**Default is host side**):
 
     sudo apt install fastboot
 
-2. List devices running fastboot::
+2. Specify a device / List devices:
+
+  List devices only supported for USB transport::
 
     fastboot devices
 
-  Example::
+    # Examples
 
     $ fastboot devices
     1234    fastboot
+
+  To specific a device, use "-s" option::
+
+    # Usage
+    #
+    #   -s tcp:HOST[:PORT]         Specify a TCP network device.
+    #   -s SERIAL                  Specify a USB device.
+
+    fastboot -s SERIAL COMMAND
+    fastboot -s tcp:HOST[:PORT] COMMAND
+
+    # Examples
+
+    $ fastboot -s 1234 oem shell ifconfig
+    wlan0   Link encap:Ethernet HWaddr a0:85:e3:f4:43:30 at RUNNING mtu 1500
+            inet addr:192.168.211.111 DRaddr:192.168.211.107 Mask:255.255.255.0
+
+    PS C:\workspace> fastboot.exe -s tcp:192.168.211.111 oem shell ifconfig
+    wlan0   Link encap:Ethernet HWaddr a0:85:e3:f4:43:30 at RUNNING mtu 1500
+            inet addr:192.168.211.111 DRaddr:192.168.211.107 Mask:255.255.255.0
 
 3. Display given variable::
 
@@ -1010,3 +1139,45 @@ To test it, just run the following (**Default is host side**):
     0050: 44 ff c9 3b 55 51 93 b3 fb 1e 88 9e e9 2d 69 36 D..;UQ.......-i6
     0060: 10 d0 70 27 92 91 32 25 f5 cc 1f 59 ea 39 31 24 ..p'..2%...Y.91$
     0070: 3f 2e b0 fe ef 87 df 9b d4 7d 79 2e de 64 f6 ed ?........}y..d..
+
+fastboot_usb
+------------
+
+| The basic Fastboot configuration is based on esp32s3-devkit:usb_device and support **USB** transport only.
+| More details about usage of fastboot, please refer to `fastbootd — NuttX latest documentation <https://nuttx.apache.org/docs/latest/applications/system/fastboot/index.html>`_.
+
+You can run the configuration and compilation procedure::
+
+  $ ./tools/configure.sh -l lckfb-szpi-esp32s3:fastboot_usb
+  $ make flash ESPTOOL_PORT=/dev/ttyACMx -j
+
+fastboot_tcp
+------------
+
+| The basic Fastboot configuration is based on esp32s3-devkit:wifi and support **TCP** transport only.
+| More details about usage of fastboot, please refer to `fastbootd — NuttX latest documentation <https://nuttx.apache.org/docs/latest/applications/system/fastboot/index.html>`_.
+
+You can run the configuration and compilation procedure::
+
+    $ ./tools/configure.sh -l esp32s3-devkit:fastboot_tcp
+    $ make flash ESPTOOL_PORT=/dev/ttyACMx -j
+
+To test it, just run the following::
+
+    # Device side
+
+    nsh> wapi psk wlan0 mypasswd 3
+    nsh> wapi essid wlan0 myssid 1
+    nsh> renew wlan0
+
+    # Host side
+
+    PS C:\workspace> fastboot.exe -s tcp:HOST[:PORT] oem shell ls
+    /:
+     data/
+     dev/
+     etc/
+     proc/
+     var/
+    OKAY [  0.063s]
+    Finished. Total time: 0.064s
