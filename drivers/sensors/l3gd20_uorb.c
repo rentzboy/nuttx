@@ -44,7 +44,6 @@
 #include <nuttx/sensors/sensor.h>
 #include <nuttx/sensors/l3gd20.h>
 
-#define CONFIG_SENSORS_L3GD20 1 //TODO: para activar el código, no olvidar de eliminar 
 #if defined(CONFIG_SPI) && defined(CONFIG_SENSORS_L3GD20)
 
 /****************************************************************************
