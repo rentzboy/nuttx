@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:139.0) Gecko/20100101 Firefox/139.0" version="27.1.5" pages="7">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:139.0) Gecko/20100101 Firefox/139.0" version="27.1.5" pages="6">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="BMI160">
     <mxGraphModel dx="2184" dy="1679" grid="0" gridSize="13" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -144,7 +144,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="_NK67Tlh-VQzG9f9iONZ" name="Initialization Sequence">
-    <mxGraphModel grid="0" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
+    <mxGraphModel dx="2818" dy="510" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -265,11 +265,11 @@
         <mxCell id="trdHpG3UMdXleLT_ZaUc-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-53" target="trdHpG3UMdXleLT_ZaUc-1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="trdHpG3UMdXleLT_ZaUc-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-53" target="trdHpG3UMdXleLT_ZaUc-3">
+        <mxCell id="trdHpG3UMdXleLT_ZaUc-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fillColor=#f8cecc;strokeColor=#b85450;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-53" target="trdHpG3UMdXleLT_ZaUc-3">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="-1185" y="516" />
-              <mxPoint x="-860" y="516" />
+              <mxPoint x="-1185" y="505" />
+              <mxPoint x="-860" y="505" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -303,14 +303,6 @@
         <mxCell id="trdHpG3UMdXleLT_ZaUc-7" value="stm32_i2cbus_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
           <mxGeometry x="-818" y="334.5" width="155" height="32" as="geometry" />
         </mxCell>
-      </root>
-    </mxGraphModel>
-  </diagram>
-  <diagram id="ZzTXuT6jn2NwoB10YrEp" name="Página-7">
-    <mxGraphModel dx="1409" dy="612" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
       </root>
     </mxGraphModel>
   </diagram>
