@@ -140,5 +140,18 @@ int stm32_bringup(void)
     }
 #endif
 
+#ifdef CONFIG_I2C_DRIVER
+  /* Register I2C drivers on behalf of the I2C tool */
+  #ifdef CONFIG_STM32_I2C1
+    stm32_i2c_register(1);
+  #endif
+  #ifdef CONFIG_STM32_I2C2
+    stm32_i2c_register(2);
+  #endif
+  #ifdef CONFIG_STM32_I2C3
+    stm32_i2c_register(3);
+  #endif
+#endif
+
   return ret;
 }
