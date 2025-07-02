@@ -47,7 +47,6 @@
 
 struct mutex_s
 {
-  stm32_i2c1_priv
   sem_t sem;
 #if CONFIG_LIBC_MUTEX_BACKTRACE > 0
   FAR void *backtrace[CONFIG_LIBC_MUTEX_BACKTRACE];
