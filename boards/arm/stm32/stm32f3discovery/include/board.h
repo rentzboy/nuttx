@@ -240,29 +240,16 @@
  *    SCK (PA5)
  */
 
-#define GPIO_SPI1_MISO_L3GD20   GPIO_SPI1_MISO_1
-#define GPIO_SPI1_MOSI_L3GD20   GPIO_SPI1_MOSI_1
-#define GPIO_SPI1_SCK           GPIO_SPI1_SCK_1
-
-/* LSM303DLHC
- *
- *  I2C1: Hardwired to ST LSM303DLHC accelerometer MEMS device
- *    SCL (PB6)
- *    SDA (PB7)
- *    INT1 (PE4)
- *    INT2 (PE5)
- */
-
-#define GPIO_I2C1_SCL_LSM303DLHC    GPIO_I2C1_SCL_2
-#define GPIO_I2C1_SDA_LSM303DLHC    GPIO_I2C1_SDA_2
-#define GPIO_I2C1_INT1_LSM303DLHC   STM32_IRQ_I2C1ER
-#define GPIO_I2C1_INT2_LSM303DLHC   STM32_IRQ_I2C1EV
+#define GPIO_SPI1_MISO GPIO_SPI1_MISO_1
+#define GPIO_SPI1_MOSI GPIO_SPI1_MOSI_1
+#define GPIO_SPI1_SCK  GPIO_SPI1_SCK_1
 
 /* I2C
  *
- * I2C1: Hardwired to ST LSM303DLHC  MEMS device
- *   SCL (PB6)
- *   SDA (PB7)
+ * I2C1: Accessible via expansion headers
+ *   SCL (PA15)
+ *   SDA (PA14)
+ *   SMBA (PB5)
  *
  * I2C2: Accessible via expansion headers
  *   SCL (PA9)
@@ -271,10 +258,8 @@
  */
 
 #ifdef CONFIG_STM32_I2C1
-#define GPIO_I2C1_SCL       GPIO_I2C1_SCL_LSM303DLHC
-#define GPIO_I2C1_SDA       GPIO_I2C1_SDA_LSM303DLHC
-#define GPIO_I2C1_INT_ER    GPIO_I2C1_INT1_LSM303DLHC
-#define GPIO_I2C1_INT_EV    GPIO_I2C1_INT2_LSM303DLHC
+#define GPIO_I2C1_SCL  GPIO_I2C1_SCL_1
+#define GPIO_I2C1_SDA  GPIO_I2C1_SDA_1
 #endif
 
 #ifdef CONFIG_STM32_I2C2
