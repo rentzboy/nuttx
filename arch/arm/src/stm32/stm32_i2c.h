@@ -130,5 +130,5 @@ int stm32_i2cbus_uninitialize(struct i2c_master_s *dev);
  * i2c instance has not been initialized.
  */
 struct i2c_master_s* stm32_i2c_get_instance(int port);
-
+/////PRUEBAS GIT REVERT
 #endif /* __ARCH_ARM_SRC_STM32_STM32_I2C_H */
