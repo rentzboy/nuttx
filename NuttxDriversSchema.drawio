@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:139.0) Gecko/20100101 Firefox/139.0" version="27.1.5" pages="7">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0" version="27.2.0" pages="6">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="BMI160">
-    <mxGraphModel dx="2184" dy="1679" grid="0" gridSize="13" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1997" dy="1781" grid="0" gridSize="13" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0" adaptiveColors="simple">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -29,7 +29,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="ceq7ut0R8-0ltyFcsIzv" name="I2Cdriver">
-    <mxGraphModel dx="1628" dy="1781" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1170" dy="1781" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0" adaptiveColors="simple">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -60,7 +60,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="BzAR8ItBl61TNbMuLKc-" name="I2Cmaster">
-    <mxGraphModel grid="0" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="5305" dy="6457" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0" adaptiveColors="simple">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -92,7 +92,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="A9oIVDMthQsQp1bT95zv" name="fs">
-    <mxGraphModel grid="0" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="6132" dy="7626" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0" adaptiveColors="simple">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -121,7 +121,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="UR_Vu6l7ylUV9EF5J6kH" name="STM32_I2C">
-    <mxGraphModel dx="1357" dy="1679" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1170" dy="1781" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0" adaptiveColors="simple">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -144,128 +144,128 @@
     </mxGraphModel>
   </diagram>
   <diagram id="_NK67Tlh-VQzG9f9iONZ" name="Initialization Sequence">
-    <mxGraphModel dx="3063" dy="612" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
+    <mxGraphModel dx="2828" dy="510" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0" adaptiveColors="simple">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-6">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-6" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-6">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-6" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-11">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-11" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-13">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-13" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-13">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-13" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-16">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-16" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-18">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-18" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-20">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-20" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-5" value="__start()" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-5" value="__start()" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="-1246" y="35" width="120" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-6" value="stm32_clockconfig()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-6" value="stm32_clockconfig()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-1152" y="141" width="120" height="35" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-8" value="&lt;p&gt;&lt;a href=&quot;https://cwiki.apache.org/confluence/display/NUTTX/NuttX+Initialization+Sequence&quot;&gt;https://cwiki.apache.org/confluence/display/NUTTX/NuttX+Initialization+Sequence&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;b&gt;PRIMER NIVEL&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[1] stm32_clockconfig()&lt;/b&gt;&amp;nbsp;[stm32_rcc.c]:&amp;nbsp;Initialize the PLLs and peripheral clocking needed by the board&amp;nbsp;based on the values in board.h + enable peripheral clocking according to the NuttX configuration file.&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[2]&lt;/b&gt;&amp;nbsp;&lt;b&gt;stm32_lowsetup()&lt;/b&gt; [stm32_lowsetup.c]&amp;nbsp;Enable the console USART and configure GPIO pins needed for rx/tx.&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[3]&lt;/b&gt;&amp;nbsp;&lt;b&gt;stm32_gpioinit()&lt;/b&gt; [stm32_gpio.c]&amp;nbsp;Perform any GPIO remapping that is needed for some boards.&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[4]&lt;/b&gt;&amp;nbsp;&lt;b&gt;itm_syslog_initialize()&lt;/b&gt; [] Perform ARMv7-M ITM SYSLOG initialization&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[5]&amp;nbsp;stm32_boardinitialize()&lt;/b&gt; [stm32_start.c] Board specific logic is Initialized&lt;/p&gt;&lt;p&gt;&lt;b&gt;SEGUNDO NIVEL&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&amp;gt;&amp;nbsp;&lt;b&gt;up_initialize()&lt;/b&gt; [arm_initialize.c] Handle CPU specific details of running the OS: ISR, clocks, register drivers.&amp;nbsp;All ARM-based MCUs share a common &lt;code&gt;up_initialize()&lt;/code&gt; implementation provided at &lt;code&gt;nuttx/arch/arm/src/common/up_initialize.c&lt;/code&gt;.&lt;br&gt; The operations perform by this common ARM initialization will, however,&lt;br&gt;call into facilities provided by the particular ARM chip&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;drivers_initialize()&lt;/b&gt; [drivers_initialize.c] Listado de if defined-endif para inicializar devices en función del .config&lt;/p&gt;&lt;p&gt;&amp;gt;&amp;nbsp;&lt;b&gt;nx_bringup()&lt;/b&gt; [nx_start.c]&amp;nbsp;&amp;nbsp;It starts all of the required threads and tasks needed to bring up the system. Hay un bringup a nivel CPU y otro a nivel board.&lt;/p&gt;&lt;p&gt;&amp;gt;&amp;nbsp;&lt;b&gt;nx_start_application()&lt;/b&gt; [nx_bringup.c] Launches the application either by creating a task for it or executing a program from a filesystem after mounting it.&lt;/p&gt;&lt;p&gt;&lt;b&gt;&amp;gt;&amp;nbsp;board_late_initialize()&lt;/b&gt; [stm32_boot.c]&amp;nbsp;is a last-minute, board-specific initialization,&amp;nbsp;an ideal place to do board-specific initialization steps that &lt;br&gt;depend on having a fully initialized OS such as memory allocations, initialization of complex device drivers, mounting of file systems, etc.&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;board_app_initialize()&lt;/b&gt; [boardctl.c] Principalmente para inicializar boardctl()&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;stm32_bringup()&lt;/b&gt; [stm32_bringup.c] Hay 2 archivos con el mismo nombre en diferentes rutas: (1) Perform &lt;u&gt;architecture-specific&lt;/u&gt; initialization (2)&amp;nbsp;Perform &lt;u&gt;board-specific&lt;/u&gt; initialization.&amp;nbsp;Listado de if defined-endif para inicializar devices en función del .config&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;stm32_i2c_register()&lt;/b&gt; [stm32_bringup.c] Inicializa el lower half driver en&amp;nbsp;stm32_i2cbus_initialize() y luego registra el upper half driver con&amp;nbsp;i2c_register() pasándole la instancia devuelta por&amp;nbsp;stm32_i2cbus_initialize(). &lt;span style=&quot;color: rgb(255, 20, 66);&quot;&gt;De esta manera se relacionan el lower y el upper half driver.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&amp;gt;&amp;nbsp;&lt;b&gt;stm32_i2cbus_initialize()&lt;/b&gt; [stm32_i2c_v2.c] Setup the I2C hardware, ready for operation with defaults&lt;/p&gt;&lt;p&gt;&amp;gt;&amp;nbsp;&lt;b&gt;i2c_register() &lt;/b&gt;[i2c_driver.c] Registra el driver en el FS&lt;/p&gt;&lt;p&gt;&amp;gt;&amp;nbsp;&lt;span style=&quot;color: rgb(255, 26, 85);&quot;&gt;Los 2 archivos donde creo que habría que inicializar nuestros drivers sonnuttx/drivers/drivers_initialize.c (menos frecuente, para driver más ligados al OS) y nuttx/boards/arm/stm32/stm32f4discovery/src/stm32_bringup.c (para los drivers de los peripherals). Por ejemplo, ver el registro del driver I2C para la STM32F103 en nuttx/boards/arm/stm32/stm32f103-minimum/src/stm32_bringup.c&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=14;" vertex="1" parent="1">
-          <mxGeometry x="-1626" y="520" width="960" height="778" as="geometry" />
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-8" value="&lt;p&gt;&lt;a href=&quot;https://cwiki.apache.org/confluence/display/NUTTX/NuttX+Initialization+Sequence&quot;&gt;https://cwiki.apache.org/confluence/display/NUTTX/NuttX+Initialization+Sequence&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;b&gt;PRIMER NIVEL&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[1] stm32_clockconfig()&lt;/b&gt;&amp;nbsp;[stm32_rcc.c]:&amp;nbsp;Initialize the PLLs and peripheral clocking needed by the board&amp;nbsp;based on the values in board.h + enable peripheral clocking according to the NuttX configuration file.&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[2]&lt;/b&gt;&amp;nbsp;&lt;b&gt;stm32_lowsetup()&lt;/b&gt; [stm32_lowsetup.c]&amp;nbsp;Enable the console USART and configure GPIO pins needed for rx/tx.&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[3]&lt;/b&gt;&amp;nbsp;&lt;b&gt;stm32_gpioinit()&lt;/b&gt; [stm32_gpio.c]&amp;nbsp;Perform any GPIO remapping that is needed for some boards.&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[4]&lt;/b&gt;&amp;nbsp;&lt;b&gt;itm_syslog_initialize()&lt;/b&gt; [] Perform ARMv7-M ITM SYSLOG initialization&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[5]&amp;nbsp;stm32_boardinitialize()&lt;/b&gt; [stm32_boot.c] Board specific logic is Initialized: LEDs, USB, SPI&lt;/p&gt;&lt;p&gt;&lt;b&gt;SEGUNDO NIVEL&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&amp;gt;&amp;nbsp;&lt;b&gt;up_initialize()&lt;/b&gt; [arm_initialize.c] Handle CPU specific details of running the OS: ISR, clocks, register drivers.&amp;nbsp;All ARM-based MCUs share a common &lt;code&gt;up_initialize()&lt;/code&gt; implementation provided at &lt;code&gt;nuttx/arch/arm/src/common/up_initialize.c&lt;/code&gt;.&lt;br&gt; The operations perform by this common ARM initialization will, however,&lt;br&gt;call into facilities provided by the particular ARM chip&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;drivers_initialize()&lt;/b&gt; [drivers_initialize.c] Listado de if defined-endif para inicializar devices en función del .config&lt;/p&gt;&lt;p&gt;&amp;gt;&amp;nbsp;&lt;b&gt;nx_bringup()&lt;/b&gt; [nx_start.c]&amp;nbsp;&amp;nbsp;It starts all of the required threads and tasks needed to bring up the system. Hay un bringup a nivel CPU y otro a nivel board.&lt;/p&gt;&lt;p&gt;&amp;gt;&amp;nbsp;&lt;b&gt;nx_start_application()&lt;/b&gt; [nx_bringup.c] Launches the application either by creating a task for it or executing a program from a filesystem after mounting it.&lt;/p&gt;&lt;p&gt;&lt;b&gt;&amp;gt;&amp;nbsp;board_late_initialize()&lt;/b&gt; [stm32_boot.c]&amp;nbsp;is a last-minute, board-specific initialization,&amp;nbsp;an ideal place to do board-specific initialization steps that &lt;br&gt;depend on having a fully initialized OS such as memory allocations, initialization of complex device drivers, mounting of file systems, etc.&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;board_app_initialize()&lt;/b&gt; [boardctl.c] Principalmente para inicializar boardctl()&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;stm32_bringup()&lt;/b&gt; [stm32_bringup.c] Hay 2 archivos con el mismo nombre en diferentes rutas: (1) Perform &lt;u&gt;architecture-specific&lt;/u&gt; initialization (2)&amp;nbsp;Perform &lt;u&gt;board-specific&lt;/u&gt; initialization.&amp;nbsp;Listado de if defined-endif para inicializar devices en función del .config&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;stm32_i2c_register()&lt;/b&gt; [stm32_bringup.c] Inicializa el lower half driver en&amp;nbsp;stm32_i2cbus_initialize() y luego registra el upper half driver con&amp;nbsp;i2c_register() pasándole la instancia devuelta por&amp;nbsp;stm32_i2cbus_initialize(). &lt;span style=&quot;color: rgb(255, 20, 66);&quot;&gt;De esta manera se relacionan el lower y el upper half driver.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&amp;gt;&amp;nbsp;&lt;b&gt;stm32_i2cbus_initialize()&lt;/b&gt; [stm32_i2c_v2.c] Setup the I2C hardware, ready for operation with defaults. This function returns (struct i2c_master_s *) inst, where int = stm32_i2c_inst_s *. El upper half driver (i2c_masters_s) no necesita tener constancia de todos los campos del lower half (stm32_i2c_inst_s). Al devolver un cast, únicamente pasamos el espacio de memoria que ocupa el cast, el resto de la memoria (=campos de la struct) no se devuelve.&lt;br&gt;&lt;b&gt;ATENCIÓN &lt;/b&gt;a la descripción de la struct i2c_master_s en nuttx/include/nuttx/i2c/i2c_master.h. This structure only defines the initial fields of the structure visible to the I2C client. &lt;u&gt;The specific implementation may add additional, device specific fields after the vtable.&lt;/u&gt;&lt;/p&gt;&lt;p&gt;&amp;gt;&amp;nbsp;&lt;b&gt;i2c_register() &lt;/b&gt;[i2c_driver.c] Registra el driver en el FS&lt;br&gt;&lt;b&gt;ATENCIÓN &lt;/b&gt;a la descripción de la función en nuttx/drivers/i2c/i2c_driver.c The I2C character driver is a simple&amp;nbsp;&amp;nbsp;character driver that supports I2C transfers. The intent of this driver is to support I2C testing.&amp;nbsp; It is not suitable for use in any real driver application.&lt;/p&gt;&lt;p&gt;&amp;gt;&amp;nbsp;&lt;span style=&quot;color: rgb(255, 26, 85);&quot;&gt;Los 2 archivos donde creo que habría que inicializar nuestros drivers sonnuttx/drivers/drivers_initialize.c (menos frecuente, para driver más ligados al OS) y nuttx/boards/arm/stm32/stm32f4discovery/src/stm32_bringup.c (para los drivers de los peripherals). Por ejemplo, ver el registro del driver I2C para la STM32F103 en nuttx/boards/arm/stm32/stm32f103-minimum/src/stm32_bringup.c&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=14;" parent="1" vertex="1">
+          <mxGeometry x="-1626" y="520" width="960" height="1058" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-13" value="stm32_gpioinit()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-13" value="stm32_gpioinit()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-1002" y="141" width="100" height="35" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-16" value="itm_syslog_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
-          <mxGeometry x="-878" y="141" width="120" height="35" as="geometry" />
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-16" value="itm_syslog_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
+          <mxGeometry x="-878" y="140" width="126" height="35" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-18" target="A2ZbU5LwQxJ9MIYdX8El-22">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-18" target="A2ZbU5LwQxJ9MIYdX8El-22" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-18" target="A2ZbU5LwQxJ9MIYdX8El-22">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-18" target="A2ZbU5LwQxJ9MIYdX8El-22" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-18" target="A2ZbU5LwQxJ9MIYdX8El-25">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-18" target="A2ZbU5LwQxJ9MIYdX8El-25" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-28" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-18" target="A2ZbU5LwQxJ9MIYdX8El-27">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-28" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-18" target="A2ZbU5LwQxJ9MIYdX8El-27" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-31" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-18" target="A2ZbU5LwQxJ9MIYdX8El-30">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-31" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-18" target="A2ZbU5LwQxJ9MIYdX8El-30" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-18" value="stm32_boardinitialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-18" value="stm32_boardinitialize()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-734" y="140" width="130" height="35" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-34" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-20" target="A2ZbU5LwQxJ9MIYdX8El-33">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-34" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-20" target="A2ZbU5LwQxJ9MIYdX8El-33" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-41" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-20" target="A2ZbU5LwQxJ9MIYdX8El-40">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-41" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-20" target="A2ZbU5LwQxJ9MIYdX8El-40" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-20" value="nx_start()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-20" value="nx_start()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-1409" y="141" width="70" height="35" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-22" value="stm32_spidev_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-22" value="stm32_spidev_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-741" y="224" width="145" height="32.5" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-25" value="stm32_usbinitialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-25" value="stm32_usbinitialize()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-279" y="224" width="120" height="32.5" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-27" value="stm32_netinitialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-27" value="stm32_netinitialize()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-582" y="224" width="120" height="32.5" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-30" value="board_autoled_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-30" value="board_autoled_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-442" y="224" width="145" height="32.5" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-36" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-33" target="A2ZbU5LwQxJ9MIYdX8El-35">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-36" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-33" target="A2ZbU5LwQxJ9MIYdX8El-35" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-33" value="nx_bringup()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-33" value="nx_bringup()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-1360" y="226.5" width="120" height="31" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-39" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-35" target="A2ZbU5LwQxJ9MIYdX8El-38">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-39" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-35" target="A2ZbU5LwQxJ9MIYdX8El-38" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-35" value="nx_start_application()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-35" value="nx_start_application()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-1367.5" y="296.5" width="135" height="32.5" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-54" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-38" target="A2ZbU5LwQxJ9MIYdX8El-53">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-54" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-38" target="A2ZbU5LwQxJ9MIYdX8El-53" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="BHRrZJB8uGFvSaPABeZh-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-38" target="BHRrZJB8uGFvSaPABeZh-4">
+        <mxCell id="BHRrZJB8uGFvSaPABeZh-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-38" target="BHRrZJB8uGFvSaPABeZh-4" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-38" value="board_late_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-38" value="board_late_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-1368.75" y="366.5" width="137.5" height="33.75" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-40" value="drivers_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-40" value="drivers_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-1494" y="227.5" width="107" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-46" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-11">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-46" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-5" target="A2ZbU5LwQxJ9MIYdX8El-11" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="-1889" y="44" as="sourcePoint" />
             <mxPoint x="-1930" y="219" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-11" value="stm32_lowsetup()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-11" value="stm32_lowsetup()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-1308" y="141" width="110" height="35" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-50" value="up_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-50" value="up_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-1609" y="226.5" width="95" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="trdHpG3UMdXleLT_ZaUc-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-53" target="trdHpG3UMdXleLT_ZaUc-1">
+        <mxCell id="trdHpG3UMdXleLT_ZaUc-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-53" target="trdHpG3UMdXleLT_ZaUc-1" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="trdHpG3UMdXleLT_ZaUc-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fillColor=#f8cecc;strokeColor=#b85450;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-53" target="trdHpG3UMdXleLT_ZaUc-3">
+        <mxCell id="trdHpG3UMdXleLT_ZaUc-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-53" target="trdHpG3UMdXleLT_ZaUc-3" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="-1185" y="505" />
@@ -273,50 +273,42 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-53" value="stm32_bringup()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-53" value="stm32_bringup()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-1246" y="450" width="121" height="31.88" as="geometry" />
         </mxCell>
-        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-20" target="A2ZbU5LwQxJ9MIYdX8El-50">
+        <mxCell id="A2ZbU5LwQxJ9MIYdX8El-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-20" target="A2ZbU5LwQxJ9MIYdX8El-50" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="BHRrZJB8uGFvSaPABeZh-4" value="&amp;nbsp; board_app_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="BHRrZJB8uGFvSaPABeZh-4" value="&amp;nbsp; board_app_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-1480" y="449.44" width="136" height="33" as="geometry" />
         </mxCell>
-        <mxCell id="trdHpG3UMdXleLT_ZaUc-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="trdHpG3UMdXleLT_ZaUc-1" target="trdHpG3UMdXleLT_ZaUc-3">
+        <mxCell id="trdHpG3UMdXleLT_ZaUc-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="trdHpG3UMdXleLT_ZaUc-1" target="trdHpG3UMdXleLT_ZaUc-3" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="trdHpG3UMdXleLT_ZaUc-1" value="stm32_i2ctool()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="trdHpG3UMdXleLT_ZaUc-1" value="stm32_i2ctool()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-1083" y="449.88" width="120" height="32.56" as="geometry" />
         </mxCell>
-        <mxCell id="trdHpG3UMdXleLT_ZaUc-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="trdHpG3UMdXleLT_ZaUc-3" target="trdHpG3UMdXleLT_ZaUc-5">
+        <mxCell id="trdHpG3UMdXleLT_ZaUc-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="trdHpG3UMdXleLT_ZaUc-3" target="trdHpG3UMdXleLT_ZaUc-5" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="trdHpG3UMdXleLT_ZaUc-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="trdHpG3UMdXleLT_ZaUc-3" target="trdHpG3UMdXleLT_ZaUc-7">
+        <mxCell id="trdHpG3UMdXleLT_ZaUc-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="trdHpG3UMdXleLT_ZaUc-3" target="trdHpG3UMdXleLT_ZaUc-7" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="trdHpG3UMdXleLT_ZaUc-3" value="stm32_i2c_register()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="trdHpG3UMdXleLT_ZaUc-3" value="stm32_i2c_register()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-920" y="450.44" width="120" height="32" as="geometry" />
         </mxCell>
-        <mxCell id="trdHpG3UMdXleLT_ZaUc-5" value="i2c_register()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="trdHpG3UMdXleLT_ZaUc-5" value="i2c_register()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-746" y="450.44" width="120" height="32" as="geometry" />
         </mxCell>
-        <mxCell id="PEt94PM7kvXi7ldcTKgU-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="trdHpG3UMdXleLT_ZaUc-7" target="PEt94PM7kvXi7ldcTKgU-2">
+        <mxCell id="PEt94PM7kvXi7ldcTKgU-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="trdHpG3UMdXleLT_ZaUc-7" target="PEt94PM7kvXi7ldcTKgU-2" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="trdHpG3UMdXleLT_ZaUc-7" value="stm32_i2cbus_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="trdHpG3UMdXleLT_ZaUc-7" value="stm32_i2cbus_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-818" y="334.5" width="155" height="32" as="geometry" />
         </mxCell>
-        <mxCell id="PEt94PM7kvXi7ldcTKgU-2" value="stm32_i2c_init()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="PEt94PM7kvXi7ldcTKgU-2" value="stm32_i2c_init()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-596" y="332.38" width="120" height="36.25" as="geometry" />
         </mxCell>
-      </root>
-    </mxGraphModel>
-  </diagram>
-  <diagram id="Z2KGht_gPJdPdg9wZqIB" name="Página-7">
-    <mxGraphModel dx="2348" dy="1020" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
       </root>
     </mxGraphModel>
   </diagram>
