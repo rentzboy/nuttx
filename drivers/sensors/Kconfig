@@ -872,6 +872,61 @@ config LIS2DH_DRIVER_SELFTEST
 
 endif # SENSORS_LIS2DH
 
+
+
+
+
+
+config SENSORS_LSM303DLHC
+	bool "STMicro LSM303DLHC 3D accelerometer and 3D magnetometer support"
+	default n
+	depends on I2C || SPI
+	---help---
+		Enable driver support for the STMicro 3D accelerometer and magnetometer measurement sensor
+
+if SENSORS_LSM303DLHC
+
+config SENSORS_LSM303DLHC_UORB
+	bool "LSM303DLHC UORB Interface"
+	default n
+	---help---
+		Enables Work with the UORB or Character Device interface.
+		If not set, the Character Device is used by default.
+
+config SENSORS_LSM303DLHC_I2C
+	bool "LSM303DLHC I2C Interface"
+	depends on I2C
+	---help---
+		Enables support for the I2C interface
+		
+if SENSORS_LSM303DLHC_I2C
+choice
+	prompt "SENSORS_LSM303DLHC_I2C Frequency"
+	default LSM303DLHC_I2C_FREQUENCY
+endchoice # LSM303DLHC Interface
+
+	config LSM303DLHC_I2C_FREQUENCY
+	int "LSM303DLHC I2C frequency"
+	default 400000
+	range 100000 400000
+endif #SENSORS_LSM303DLHC_I2C
+
+config SENSORS_LSM303DLHC_SPI
+	bool "LSM303DLHC SPI Interface"
+	depends on SPI
+	---help---
+		Enables support for the SPI interface
+
+endif #SENSORS_LSM303DLHC
+
+
+
+
+
+
+
+
+
 config LIS3DSH
 	bool "STMicro LIS3DSH 3-Axis accelerometer support"
 	default n
