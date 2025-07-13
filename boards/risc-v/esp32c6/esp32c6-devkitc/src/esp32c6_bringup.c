@@ -101,7 +101,7 @@
 #  include "esp_board_wlan.h"
 #endif
 
-#ifdef CONFIG_SPI_SLAVE_DRIVER
+#ifdef CONFIG_SPI_SLAVE
 #  include "esp_board_spislavedev.h"
 #endif
 
@@ -123,6 +123,10 @@
 
 #ifdef CONFIG_ESP_SDM
 #  include "espressif/esp_sdm.h"
+#endif
+
+#ifdef CONFIG_ESPRESSIF_SHA_ACCELERATOR
+#  include "espressif/esp_sha.h"
 #endif
 
 #ifdef CONFIG_NCV7410
@@ -189,6 +193,16 @@ int esp_bringup(void)
   if (ret < 0)
     {
       syslog(LOG_ERR, "ERROR: Failed to init EFUSE: %d\n", ret);
+    }
+#endif
+
+#if defined(CONFIG_ESPRESSIF_SHA_ACCELERATOR) && \
+    !defined(CONFIG_CRYPTO_CRYPTODEV_HARDWARE)
+  ret = esp_sha_init();
+  if (ret < 0)
+    {
+      syslog(LOG_ERR,
+             "ERROR: Failed to initialize SHA: %d\n", ret);
     }
 #endif
 
@@ -264,7 +278,7 @@ int esp_bringup(void)
     }
 #endif
 
-#if defined(CONFIG_ESPRESSIF_SPI) && defined(CONFIG_SPI_DRIVER)
+#ifdef CONFIG_ESPRESSIF_SPI
 #  ifdef CONFIG_ESPRESSIF_SPI2
   ret = board_spidev_initialize(ESPRESSIF_SPI2);
   if (ret < 0)
@@ -280,7 +294,7 @@ int esp_bringup(void)
       syslog(LOG_ERR, "ERROR: Failed to init spidev 3: %d\n", ret);
     }
 #  endif /* CONFIG_ESPRESSIF_SPI_BITBANG */
-#endif /* CONFIG_ESPRESSIF_SPI && CONFIG_SPI_DRIVER*/
+#endif /* CONFIG_ESPRESSIF_SPI */
 
 #ifdef CONFIG_ESPRESSIF_SPIFLASH
   ret = board_spiflash_init();
@@ -300,7 +314,7 @@ int esp_bringup(void)
     }
 #endif
 
-#if defined(CONFIG_I2C_DRIVER)
+#if defined(CONFIG_I2C)
   /* Configure I2C peripheral interfaces */
 
   ret = board_i2c_init();
@@ -398,7 +412,7 @@ int esp_bringup(void)
     }
 #endif
 
-#if defined(CONFIG_SPI_SLAVE_DRIVER) && defined(CONFIG_ESPRESSIF_SPI2)
+#if defined(CONFIG_SPI_SLAVE) && defined(CONFIG_ESPRESSIF_SPI2)
   ret = board_spislavedev_initialize(ESPRESSIF_SPI2);
   if (ret < 0)
     {

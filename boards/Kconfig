@@ -94,6 +94,7 @@ config ARCH_BOARD_AVRDX_BREADXAVR
 	select ARCH_HAVE_LEDS
 	select ARCH_HAVE_BUTTONS
 	select ARCH_HAVE_IRQBUTTONS
+	select AVR_HAVE_BOARD_FLMAP
 	---help---
 		This is a board used to make something use an AVRnDx core
 		so it can be developed and tested.
@@ -4327,7 +4328,7 @@ endif
 if ARCH_BOARD_STM32H745I_DISCO
 source "boards/arm/stm32h7/stm32h745i-disco/Kconfig"
 endif
-if ARCH_BOARD_STM32H750B_DB
+if ARCH_BOARD_STM32H750B_DK
 source "boards/arm/stm32h7/stm32h750b-dk/Kconfig"
 endif
 if ARCH_BOARD_LINUM_STM32H753BI

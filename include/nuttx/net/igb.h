@@ -1,5 +1,7 @@
 /****************************************************************************
- * arch/xtensa/src/esp32s2/esp32s2_ledc.h
+ * include/nuttx/net/igb.h
+ *
+ * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -18,35 +20,40 @@
  *
  ****************************************************************************/
 
-#ifndef __ARCH_XTENSA_SRC_ESP32S2_ESP32S2_LEDC_H
-#define __ARCH_XTENSA_SRC_ESP32S2_ESP32S2_LEDC_H
+#ifndef __INCLUDE_NUTTX_NET_IGB_H
+#define __INCLUDE_NUTTX_NET_IGB_H
 
 /****************************************************************************
  * Included Files
  ****************************************************************************/
 
 #include <nuttx/config.h>
-#include <nuttx/timers/pwm.h>
+
+#ifdef __cplusplus
+#define EXTERN extern "C"
+extern "C"
+{
+#else
+#define EXTERN extern
+#endif
 
 /****************************************************************************
- * Public functions
+ * Public Function Prototypes
  ****************************************************************************/
 
 /****************************************************************************
- * Name: esp32s2_ledc_init
+ * Name: pci_igb_init
  *
  * Description:
- *   Initialize one LEDC timer for use with the upper_level PWM driver.
- *
- * Input Parameters:
- *   timer - A number identifying the timer use.
- *
- * Returned Value:
- *   On success, a pointer to the ESP32S2-C3 LEDC lower half PWM driver is
- *   returned. NULL is returned on any failure.
+ *   Register a pci driver
  *
  ****************************************************************************/
 
-struct pwm_lowerhalf_s *esp32s2_ledc_init(int timer);
+int pci_igb_init(void);
 
-#endif /* __ARCH_RISCV_SRC_ESP32S2_ESP32S2_LEDC_H */
+#undef EXTERN
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* __INCLUDE_NUTTX_NET_IGB_H */
