@@ -1,5 +1,9 @@
 /****************************************************************************
- * arch/xtensa/src/esp32s3/esp32s3_ledc.h
+ * include/nuttx/sensors/l86xxx.h
+ *
+ * NOTE: EXPERIMENTAL DRIVER
+ *
+ * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -18,35 +22,61 @@
  *
  ****************************************************************************/
 
-#ifndef __ARCH_XTENSA_SRC_ESP32S3_ESP32S3_LEDC_H
-#define __ARCH_XTENSA_SRC_ESP32S3_ESP32S3_LEDC_H
+#ifndef __INCLUDE_NUTTX_SENSORS_L86XXX_H
+#define __INCLUDE_NUTTX_SENSORS_L86XXX_H
 
 /****************************************************************************
  * Included Files
  ****************************************************************************/
 
 #include <nuttx/config.h>
-#include <nuttx/timers/pwm.h>
+#include <nuttx/sensors/ioctl.h>
 
 /****************************************************************************
- * Public functions
+ * Pre-Processor Declarations
  ****************************************************************************/
 
 /****************************************************************************
- * Name: esp32s3_ledc_init
+ * Public Data Types
+ ****************************************************************************/
+
+typedef enum
+{
+  CMD_HOT_START = 101,
+  CMD_WARM_START = 102,
+  CMD_COLD_START = 103,
+  CMD_FULL_COLD_START = 104,
+  CMD_STANDBY_MODE = 161,
+  SET_POS_FIX = 220,
+  SET_NMEA_BAUDRATE = 251,
+  FR_MODE = 886,
+} L86XXX_PMTK_COMMAND;
+
+typedef enum
+{
+  NORMAL = 0,
+  FITNESS = 1,
+  AVIATION = 2,
+  BALLOON = 3,
+  STANDBY = 4,
+} L86XXX_OPERATIONAL_MODE;
+
+/****************************************************************************
+ * Public Functions Prototypes
+ ****************************************************************************/
+
+/****************************************************************************
+ * Name: l86xxx_register
  *
  * Description:
- *   Initialize one LEDC timer for use with the upper_level PWM driver.
+ *   Register the L86-XXX GNSS device driver.
  *
- * Input Parameters:
- *   timer - A number identifying the timer use.
- *
- * Returned Value:
- *   On success, a pointer to the ESP32S3-C3 LEDC lower half PWM driver is
- *   returned. NULL is returned on any failure.
- *
+ * Arguments:
+ *    uartpath  -  The path to the UART character driver connected to the
+ *                 GNSS module
+ *    devno     -  The device number to use for the topic (i.e. /dev/mag0)
  ****************************************************************************/
 
-struct pwm_lowerhalf_s *esp32s3_ledc_init(int timer);
+int l86xxx_register(FAR const char *uartpath, int devno);
 
-#endif /* __ARCH_RISCV_SRC_ESP32S3_ESP32S3_LEDC_H */
+#endif /* __INCLUDE_NUTTX_SENSORS_L86XXX_H */
