@@ -458,7 +458,7 @@ struct stm32_i2c_inst_s
 
 struct stm32_i2c_instances_s
 {
-  struct stm32_i2c_inst_s i2c;
+  struct i2c_master_s* i2c;
   uint8_t port;
 };
 
@@ -1169,7 +1169,7 @@ static void stm32_i2c_tracedump(struct stm32_i2c_priv_s *priv)
       trace = &priv->trace[i];
       syslog(LOG_DEBUG,
              "%2d. STATUS: %08x COUNT: %3d EVENT: %2d PARM: %08x TIME: %d\n",
-             i + 1, trace->status, trace->count,  trace->event, trace->parm,
+             (int)i + 1, (unsigned int) trace->status, (int)trace->count, (int) trace->event, (unsigned int) trace->parm,
              (int)(trace->time - priv->start_time));
     }
 }
@@ -2795,7 +2795,7 @@ struct i2c_master_s *stm32_i2cbus_initialize(int port)
 
   nxmutex_unlock(&priv->lock);
   //Save instance in global variable
-  stm32_i2c_set_instance(inst);
+  stm32_i2c_set_instance((struct i2c_master_s *)inst);
   return (struct i2c_master_s *)inst;
 }
 
@@ -2851,27 +2851,35 @@ int stm32_i2cbus_uninitialize(struct i2c_master_s *dev)
  */
 static void stm32_i2c_set_instance(struct i2c_master_s *i2c)
 {
-  if (i2c->priv == (struct stm32_i2c_priv_s *)&stm32_i2c1_priv)
+#ifdef CONFIG_STM32_I2C1
+  if (i2c == (struct i2c_master_s*) &stm32_i2c1_priv)
   {
     g_stm32_i2c_instances[0].i2c = i2c;
     g_stm32_i2c_instances[0].port = I2C1;
   }
-  else if (i2c->priv == (struct stm32_i2c_priv_s *)&stm32_i2c2_priv)
+#endif
+#ifdef CONFIG_STM32_I2C2
+  else if (i2c == (struct i2c_master_s*) &stm32_i2c2_priv)
   {
     g_stm32_i2c_instances[1].i2c = i2c;
     g_stm32_i2c_instances[1].port = I2C2;
   }
-  else if (i2c->priv == (struct stm32_i2c_priv_s *)&stm32_i2c3_priv)
+#endif
+#ifdef CONFIG_STM32_I2C3
+  else if (i2c == (struct i2c_master_s*) stm32_i2c3_priv)
   {
     g_stm32_i2c_instances[2].i2c = i2c;
     g_stm32_i2c_instances[2].port = I2C3;
 
   }
-  else if (i2c->priv == (struct stm32_i2c_priv_s *)&stm32_i2c4_priv)
+#endif
+#ifdef CONFIG_STM32_I2C4
+  else if (i2c == (struct i2c_master_s*) &stm32_i2c4_priv)
   {
     g_stm32_i2c_instances[3].i2c = i2c;
     g_stm32_i2c_instances[3].port = I2C4;
   }
+#endif
   else
   {
     syslog(LOG_ERR, "stm32_i2c_set_instance: unknown instance\n");
@@ -2899,7 +2907,8 @@ struct i2c_master_s* stm32_i2c_get_instance(int port)
       return g_stm32_i2c_instances[2].i2c;
     case I2C4:
       return g_stm32_i2c_instances[3].i2c;
+    default:
+      return NULL;
   }
 }
-
 #endif

@@ -211,15 +211,23 @@ int stm32_bringup(void)
   #endif
 #endif
 
-
+//Second: configurar el sensor driver
 #ifdef CONFIG_SENSORS_LSM303DLHC_I2C
   #ifdef CONFIG_STM32_I2C1
-    stm32_lsm303dlhc_initialize(1);
+    ret = stm32_lsm303dlhc_initialize(1);
   #endif
   #ifdef CONFIG_STM32_I2C2
-    stm32_lsm303dlhc_initialize(2);
+    ret = stm32_lsm303dlhc_initialize(2);
   #endif
   #ifdef CONFIG_STM32_I2C3
-    stm32_lsm303dlhc_initialize(3);
+    ret = stm32_lsm303dlhc_initialize(3);
   #endif
+  if (ret != OK)
+  {
+    syslog(LOG_ERR,
+            "ERROR: Failed to register the LSM303DLHC sensor: %d\n",
+            ret);
+    return ret;
+  }
 #endif
+}

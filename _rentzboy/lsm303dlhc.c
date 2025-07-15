@@ -24,7 +24,7 @@ struct lsm303dlhc_s
 {
     uint8_t ACC_address;
     uint8_t MAG_address;
-    uint16_t frequency
+    uint16_t frequency;
     struct i2c_master_s *i2c; //{}
 };
 
