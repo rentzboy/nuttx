@@ -227,7 +227,7 @@ int stm32_bringup(void)
     syslog(LOG_ERR,
             "ERROR: Failed to register the LSM303DLHC sensor: %d\n",
             ret);
-    return ret;
   }
+  return ret;
 #endif
 }
