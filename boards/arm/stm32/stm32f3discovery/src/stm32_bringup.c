@@ -121,9 +121,11 @@
  */
 static void stm32_i2c_register(int bus)
 {
+    #warning "Entando en stm32_i2c_register"
   struct i2c_master_s *i2c;
   int ret;
 
+  #warning "Entando en stm32_i2cbus_initialize"
   i2c = stm32_i2cbus_initialize(bus);
   if (i2c == NULL)
     {
@@ -162,6 +164,7 @@ static void stm32_i2c_register(int bus)
 
 int stm32_bringup(void)
 {
+      #warning "Entando en stm32_bringup"
   int ret = OK;
 
 #ifdef HAVE_USBMONITOR
@@ -201,6 +204,7 @@ int stm32_bringup(void)
 #ifdef CONFIG_I2C_DRIVER
   /* Register I2C drivers on behalf of the I2C tool */
   #ifdef CONFIG_STM32_I2C1
+  #warning "Entando en CONFIG_STM32_I2C1"
     stm32_i2c_register(1);
   #endif
   #ifdef CONFIG_STM32_I2C2
