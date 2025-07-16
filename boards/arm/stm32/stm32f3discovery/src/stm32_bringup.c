@@ -33,38 +33,16 @@
 
 #include <nuttx/board.h>
 
-#include "stm32.h"
-#include "stm32f3discovery.h"
-
-//Pending revisar si puede ser útil
-#ifdef CONFIG_INPUT_BUTTONS
-#  include <nuttx/input/buttons.h>
-#endif
-
-//Pending revisar si puede ser útil
-#ifdef CONFIG_USERLED
-#  include <nuttx/leds/userled.h>
-#endif
-
-#ifdef CONFIG_I2C_DRIVER
-//Forward declaration for i2c_register()
-#  include <nuttx/i2c/i2c_master.h>
-//Forward declaration for stm32_i2cbus_initialize()
-#  include <stm32_i2c.h>
-#endif
-
-#ifdef CONFIG_SENSORS_LSM303DLHC_I2C
-#  include "stm32_lsm303dlhc.h"
-#endif
-
 #ifdef CONFIG_USBMONITOR
 #  include <nuttx/usb/usbmonitor.h>
 #endif
 
+#include "stm32.h"
+#include "stm32f3discovery.h"
+
 #ifdef CONFIG_SENSORS_QENCODER
 #include "board_qencoder.h"
 #endif
-
 
 /****************************************************************************
  * Pre-processor Definitions
@@ -105,41 +83,6 @@
 
 #if !defined(CONFIG_USBDEV_TRACE) && !defined(CONFIG_USBHOST_TRACE)
 #  undef HAVE_USBMONITOR
-#endif
-
-#ifdef CONFIG_I2C_DRIVER
-/**
- * @name stm32_i2c_register
- * @note This function definition would be better placed in stm32_i2c.c
- * but since there are many stm32_i2c.c files, it is "easy" to keep it here.
- * @brief Register an I2C bus
- *
- * This function is called from the board-specific logic to register
- * the I2C bus
- *
- * @param bus   The I2C bus number (1-4) to be registered.
- */
-static void stm32_i2c_register(int bus)
-{
-  struct i2c_master_s *i2c;
-  int ret;
-
-  i2c = stm32_i2cbus_initialize(bus);
-  if (i2c == NULL)
-    {
-      syslog(LOG_ERR, "ERROR: Failed to get I2C%d interface\n", bus);
-    }
-  else
-    {
-      ret = i2c_register(i2c, bus);
-      if (ret < 0)
-        {
-          syslog(LOG_ERR, "ERROR: Failed to register I2C%d driver: %d\n",
-                 bus, ret);
-          stm32_i2cbus_uninitialize(i2c);
-        }
-    }
-}
 #endif
 
 /****************************************************************************
@@ -197,7 +140,6 @@ int stm32_bringup(void)
     }
 #endif
 
-//First: configurar el I2C driver
 #ifdef CONFIG_I2C_DRIVER
   /* Register I2C drivers on behalf of the I2C tool */
   #ifdef CONFIG_STM32_I2C1
@@ -211,15 +153,5 @@ int stm32_bringup(void)
   #endif
 #endif
 
-
-#ifdef CONFIG_SENSORS_LSM303DLHC_I2C
-  #ifdef CONFIG_STM32_I2C1
-    stm32_lsm303dlhc_initialize(1);
-  #endif
-  #ifdef CONFIG_STM32_I2C2
-    stm32_lsm303dlhc_initialize(2);
-  #endif
-  #ifdef CONFIG_STM32_I2C3
-    stm32_lsm303dlhc_initialize(3);
-  #endif
-#endif
+  return ret;
+}
