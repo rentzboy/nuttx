@@ -25,11 +25,10 @@
  ****************************************************************************/
 
 #include <nuttx/config.h>
-#include <nuttx/arch.h>
 #include <nuttx/i2c/i2c_master.h>
 #include <stdio.h>
 #include <debug.h>
-#include "stm32_i2c.h"
+#include "lsm303dlhc.h"
 
 /****************************************************************************
  * Pre-processor Definitions
@@ -59,8 +58,6 @@
  * Public Functions
  ****************************************************************************/
 
-
-
 /**
  * stm32_lsm303dlhc_initialize - Initialize the LSM303DLHC sensor using the I2C
  * interface of the specified bus
@@ -88,7 +85,7 @@
     }
   else
     {
-      ret = register_lsm303dlhc(i2c);
+      ret = register_lsm303dlhc(i2c, bus);
       if (ret < 0)
         {
           syslog(LOG_ERR, "ERROR: Failed to register the LSM303DLHC sensor with the I2C%d interface\n",

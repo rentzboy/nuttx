@@ -25,15 +25,9 @@
  ****************************************************************************/
 
 #include <nuttx/config.h>
-
-#include <stdbool.h>
-#include <stdio.h>
 #include <syslog.h>
-#include <errno.h>
-
 #include <nuttx/board.h>
-
-#include "stm32.h"
+#include <stm32.h>
 #include "stm32f3discovery.h"
 
 //Pending revisar si puede ser útil
@@ -74,6 +68,12 @@
 
 #define HAVE_USBDEV     1
 #define HAVE_USBMONITOR 1
+
+enum
+{
+  ERROR = -1,
+  OK = 0
+};
 
 /* Can't support USB device features if the STM32 USB peripheral is not
  * enabled.
@@ -121,11 +121,9 @@
  */
 static void stm32_i2c_register(int bus)
 {
-    #warning "Entando en stm32_i2c_register"
   struct i2c_master_s *i2c;
   int ret;
 
-  #warning "Entando en stm32_i2cbus_initialize"
   i2c = stm32_i2cbus_initialize(bus);
   if (i2c == NULL)
     {
@@ -164,7 +162,6 @@ static void stm32_i2c_register(int bus)
 
 int stm32_bringup(void)
 {
-      #warning "Entando en stm32_bringup"
   int ret = OK;
 
 #ifdef HAVE_USBMONITOR
@@ -204,7 +201,6 @@ int stm32_bringup(void)
 #ifdef CONFIG_I2C_DRIVER
   /* Register I2C drivers on behalf of the I2C tool */
   #ifdef CONFIG_STM32_I2C1
-  #warning "Entando en CONFIG_STM32_I2C1"
     stm32_i2c_register(1);
   #endif
   #ifdef CONFIG_STM32_I2C2

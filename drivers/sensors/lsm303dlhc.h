@@ -1,5 +1,5 @@
 /****************************************************************************
- * boards/arm/stm32/common/include/stm32_lsm303dlhc.h
+ * nuttx/drivers/sensors/lsm303dlhc.h
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -20,27 +20,22 @@
  *
  ****************************************************************************/
 
-#ifndef __BOARDS_ARM_STM32_COMMON_INCLUDE_STM32_LSM303DLHC_H
-#define __BOARDS_ARM_STM32_COMMON_INCLUDE_STM32_LSM303DLHC_H
+#ifndef __NUTTX_RENTZBOY_LSM303DLHC_H
+#define __NUTTX_RENTZBOY_LSM303DLHC_H
 
 /****************************************************************************
  * Included Files
  ****************************************************************************/
+
+#include <nuttx/config.h>
+#include <nuttx/i2c/i2c_master.h>
 
 /****************************************************************************
  * Pre-processor Definitions
  ****************************************************************************/
 
 /****************************************************************************
- * Type Definitions
- ****************************************************************************/
-
-/****************************************************************************
- * Public Types
- ****************************************************************************/
-
-/****************************************************************************
- * Public Data
+ * Public Function Prototypes
  ****************************************************************************/
 
 #ifdef __cplusplus
@@ -52,30 +47,26 @@ extern "C"
 #endif
 
 /****************************************************************************
- * Inline Functions
+ * Name: register_lsm303dlhc
+ *
+ * Description:
+ *   Register the LSM303DLHC device driver.
+ *
+ * Input Parameters:
+ *   i2c - An instance of the I2C interface to use to communicate with
+ *         LSM303DLHC.
+ *   bus - The I2C bus number.
+ *
+ * Returned Value:
+ *   Zero (OK) on success; a negated errno value on failure.
+ *
  ****************************************************************************/
 
-/****************************************************************************
- * Public Function Prototypes
- ****************************************************************************/
-
-/**
- * stm32_lsm303dlhc_initialize - Initialize the LSM303DLHC sensor using the I2C
- * interface of the specified bus
- *
- * @param bus The bus number of the I2C interface to use
- *
- * @return 0 on success, -1 on failure
- *
- * This function allocates memory for the LSM303DLHC device structure, initializes
- * the device addresses and frequency, and registers the device driver with the
- * system using the provided I2C interface.
- */
- int stm32_lsm303dlhc_initialize(int bus);
+int8_t register_lsm303dlhc(struct i2c_master_s *i2c, uint8_t bus);
 
 #undef EXTERN
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __BOARDS_ARM_STM32_COMMON_INCLUDE_STM32_BMP180_H */
+#endif /* __NUTTX_RENTZBOY_LSM303DLHC_H */
