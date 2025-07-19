@@ -53,16 +53,17 @@ extern "C"
  *   Register the LSM303DLHC device driver.
  *
  * Input Parameters:
+ *   devpath - The full path to the driver to register. E.g., "/dev/accel0"
  *   i2c - An instance of the I2C interface to use to communicate with
  *         LSM303DLHC.
- *   bus - The I2C bus number.
  *
  * Returned Value:
  *   Zero (OK) on success; a negated errno value on failure.
  *
  ****************************************************************************/
 
-int8_t register_lsm303dlhc(struct i2c_master_s *i2c, uint8_t bus);
+int lsm303dlhc_register(FAR const char *devpath,
+                        FAR struct i2c_master_s *i2c);
 
 #undef EXTERN
 #ifdef __cplusplus

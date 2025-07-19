@@ -29,6 +29,8 @@
 #include <nuttx/board.h>
 #include <stm32.h>
 #include "stm32f3discovery.h"
+#include <nuttx/include/sys/types.h>
+
 
 //Pending revisar si puede ser útil
 #ifdef CONFIG_INPUT_BUTTONS
@@ -41,9 +43,6 @@
 #endif
 
 #ifdef CONFIG_I2C_DRIVER
-//Forward declaration for i2c_register()
-#  include <nuttx/i2c/i2c_master.h>
-//Forward declaration for stm32_i2cbus_initialize()
 #  include <stm32_i2c.h>
 #endif
 
@@ -68,12 +67,6 @@
 
 #define HAVE_USBDEV     1
 #define HAVE_USBMONITOR 1
-
-enum
-{
-  ERROR = -1,
-  OK = 0
-};
 
 /* Can't support USB device features if the STM32 USB peripheral is not
  * enabled.
@@ -211,7 +204,7 @@ int stm32_bringup(void)
   #endif
 #endif
 
-//Second: configurar el sensor driver
+//Second: configurar el sensor driver: creamos una instancia para cada I2Cx
 #ifdef CONFIG_SENSORS_LSM303DLHC_I2C
   #ifdef CONFIG_STM32_I2C1
     ret = stm32_lsm303dlhc_initialize(1);

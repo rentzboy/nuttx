@@ -25,7 +25,6 @@
  ****************************************************************************/
 
 #include <nuttx/config.h>
-#include <nuttx/i2c/i2c_master.h>
 #include <stdio.h>
 #include <debug.h>
 #include "lsm303dlhc.h"
@@ -80,15 +79,15 @@
   i2c = stm32_i2c_get_instance(bus);
   if (i2c == NULL)
     {
-      syslog(LOG_ERR, "ERROR: Failed to get an instance of I2C%d interface\n", bus);
+      snerror("ERROR: Failed to get an instance of I2C%d interface\n", bus);
       return -1;
     }
   else
     {
-      ret = register_lsm303dlhc(i2c, bus);
+      ret = lsm303dlhc_register("/dev/lsm303dlhc", i2c);
       if (ret < 0)
         {
-          syslog(LOG_ERR, "ERROR: Failed to register the LSM303DLHC sensor with the I2C%d interface\n",
+          snerror("ERROR: Failed to register the LSM303DLHC sensor with the I2C%d interface\n",
                  bus);
 
         }
