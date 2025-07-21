@@ -24,7 +24,7 @@
  * Included Files
  ****************************************************************************/
 
-#include <nuttx/config.h>
+#include <lsm303dlhc_gemini.h>
 #include <nuttx/fs/fs.h>
 #include <nuttx/i2c/i2c_master.h>
 #include <nuttx/kmalloc.h>
@@ -95,7 +95,6 @@ static const struct file_operations g_lsm303dlhc_fops =
 static int lsm303dlhc_open(FAR struct file *filep)
 {
   /* TODO: Implement */
-
   return OK;
 }
 
@@ -126,9 +125,26 @@ static int lsm303dlhc_close(FAR struct file *filep)
 static ssize_t lsm303dlhc_read(FAR struct file *filep, FAR char *buffer,
                                size_t buflen)
 {
-  /* TODO: Implement */
+  struct lsm303dlhc_dev_s* dev;
+	struct inode* node;
+  struct i2c_config_s i2c_config;
+  ssize_t ret;
 
-  return 0;
+	node = filep->f_inode;
+  dev = node->i_private;
+
+  i2c_config.address = LSM303DLHC_ACC_ADDRESS;
+  i2c_config.frequency = CONFIG_LSM303DLHC_I2C_FREQUENCY;
+  i2c_config.addrlen = 7;
+  
+  ret = i2c_read(dev, &i2c_config, buffer, buflen);
+  if (ret < 0)
+  {
+      snerr("ERROR: Failed to read from the LSM303DLHC\n");
+      return ret;
+  }
+
+  return ret;
 }
 
 /****************************************************************************
