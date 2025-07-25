@@ -441,10 +441,11 @@ int32_t transfer (struct i2c_master_s *dev, struct i2c_msg_s *msgs, int count) {
     /* CALL from: i2c_read(), i2c_write(), i2c_writeRead(). 
     count: el # de mensajes a transferir -each msg contains a buffer and a length- */
     /* Master PRE-transfer:
-    1- Clear PE: PE bit from I2C_CR1 register                            => from code
-    2- Config Analog/Digital filters: ANOFF and DNF in I2C_CR1 register  => from code
-    3- Transfer mode (MHz): I2C_TIMINGR register                         => i2c_msg_s->frequency
-    4- [optional]Configure NOSTRETCH bit in I2C_CR1 register             => from code
+    0- Set I2C peripheral clock in RCC                                   => from initialization code
+    1- Clear PE: PE bit from I2C_CR1 register                            => from initialization code
+    2- Config Analog/Digital filters: ANOFF and DNF in I2C_CR1 register  => from initialization code
+    3- Transfer mode (MHz): I2C_TIMINGR register                         => i2c_msg_s->frequency (admite 10kHz, 400kHz y 1MHz)
+    4- [optional]Configure NOSTRETCH bit in I2C_CR1 register             => from initialization code
     5- Addressing mode (7-bit or 10-bit): ADD10 in I2C_CR2 register      => i2c_msg_s->flags
     6- Slave address to be sent: SADD[9:0] in I2C_CR2 register           => i2c_msg_s->addr
     7- Transfer direction: RD_WRN bit from Control register 2            => i2c_msg_s->flags

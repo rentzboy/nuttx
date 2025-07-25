@@ -2851,33 +2851,44 @@ int stm32_i2cbus_uninitialize(struct i2c_master_s *dev)
  */
 static void stm32_i2c_set_instance(struct i2c_master_s *i2c)
 {
+  struct stm32_i2c_priv_s *priv = NULL;  /* private data of device with multiple instances */
+  struct stm32_i2c_inst_s *inst = NULL;  /* device, single instance */
+
+  priv = ((struct stm32_i2c_inst_s *)i2c)->priv;
+
+  i2c->ops  = &stm32_i2c_ops;
+
+
 #ifdef CONFIG_STM32_I2C1
-  if (i2c == (struct i2c_master_s*) &stm32_i2c1_priv)
+  if (priv == (struct stm32_i2c_priv_s*) &stm32_i2c1_priv)
   {
     g_stm32_i2c_instances[0].i2c = i2c;
     g_stm32_i2c_instances[0].port = I2C1;
+    return;
   }
 #endif
 #ifdef CONFIG_STM32_I2C2
-  else if (i2c == (struct i2c_master_s*) &stm32_i2c2_priv)
+  else if (priv == (struct stm32_i2c_priv_s*) &stm32_i2c2_priv)
   {
     g_stm32_i2c_instances[1].i2c = i2c;
     g_stm32_i2c_instances[1].port = I2C2;
+    return;
   }
 #endif
 #ifdef CONFIG_STM32_I2C3
-  else if (i2c == (struct i2c_master_s*) stm32_i2c3_priv)
+  else if (priv == (struct stm32_i2c_priv_s*) stm32_i2c3_priv)
   {
     g_stm32_i2c_instances[2].i2c = i2c;
     g_stm32_i2c_instances[2].port = I2C3;
-
+    return;
   }
 #endif
 #ifdef CONFIG_STM32_I2C4
-  else if (i2c == (struct i2c_master_s*) &stm32_i2c4_priv)
+  else if (priv == (struct stm32_i2c_priv_s*) &stm32_i2c4_priv)
   {
     g_stm32_i2c_instances[3].i2c = i2c;
     g_stm32_i2c_instances[3].port = I2C4;
+    return;
   }
 #endif
   else

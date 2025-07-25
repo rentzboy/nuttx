@@ -28,6 +28,7 @@
 #include <nuttx/fs/fs.h>
 #include <nuttx/i2c/i2c_master.h>
 #include <nuttx/kmalloc.h>
+#include <nuttx/include/string.h>
 #include "lsm303dlhc.h"
 
 #include <nuttx/include/sys/types.h>
@@ -35,6 +36,7 @@
 #include <errno.h>
 #include <debug.h>
 
+//TODO: PENDING MAGNETOMETER DRIVER
 /****************************************************************************
  * Pre-processor Definitions
  ****************************************************************************/
@@ -58,13 +60,13 @@ struct lsm303dlhc_dev_s
  * Private Function Prototypes
  ****************************************************************************/
 
-static int lsm303dlhc_open(FAR struct file *filep);
-static int lsm303dlhc_close(FAR struct file *filep);
+static int lsm303dlhc_acc_open(FAR struct file *filep);
+static int lsm303dlhc_acc_close(FAR struct file *filep);
 static ssize_t lsm303dlhc_read(FAR struct file *filep, FAR char *buffer,
                               size_t buflen);
-static ssize_t lsm303dlhc_write(FAR struct file *filep,
+static ssize_t lsm303dlhc_acc_write(FAR struct file *filep,
                                 FAR const char *buffer, size_t buflen);
-static int lsm303dlhc_ioctl(FAR struct file *filep, int cmd,
+static int lsm303dlhc_acc_ioctl(FAR struct file *filep, int cmd,
                             unsigned long arg);
 
 /****************************************************************************
@@ -73,11 +75,11 @@ static int lsm303dlhc_ioctl(FAR struct file *filep, int cmd,
 
 static const struct file_operations g_lsm303dlhc_fops =
 {
-  lsm303dlhc_open,
-  lsm303dlhc_close,
-  lsm303dlhc_read,
-  lsm303dlhc_write,
-  lsm303dlhc_ioctl
+  lsm303dlhc_acc_open,
+  lsm303dlhc_acc_close,
+  lsm303dlhc_acc_read,
+  lsm303dlhc_acc_write,
+  lsm303dlhc_acc_ioctl
 };
 
 /****************************************************************************
@@ -92,7 +94,7 @@ static const struct file_operations g_lsm303dlhc_fops =
  *
  ****************************************************************************/
 
-static int lsm303dlhc_open(FAR struct file *filep)
+static int lsm303dlhc_acc_open(FAR struct file *filep)
 {
   /* TODO: Implement */
   return OK;
@@ -106,12 +108,13 @@ static int lsm303dlhc_open(FAR struct file *filep)
  *
  ****************************************************************************/
 
-static int lsm303dlhc_close(FAR struct file *filep)
+static int lsm303dlhc_acc_close(FAR struct file *filep)
 {
   /* TODO: Implement */
 
   return OK;
 }
+
 
 /****************************************************************************
  * Name: lsm303dlhc_read
@@ -127,23 +130,28 @@ static ssize_t lsm303dlhc_read(FAR struct file *filep, FAR char *buffer,
 {
   struct lsm303dlhc_dev_s* dev;
 	struct inode* node;
-  struct i2c_config_s i2c_config;
   ssize_t ret;
+  char *str;
 
 	node = filep->f_inode;
   dev = node->i_private;
 
-  i2c_config.address = LSM303DLHC_ACC_ADDRESS;
-  i2c_config.frequency = CONFIG_LSM303DLHC_I2C_FREQUENCY;
-  i2c_config.addrlen = 7;
-  
-  ret = i2c_read(dev, &i2c_config, buffer, buflen);
+  str = strstr(node->i_name, "acc");
+
+  if (str != NULL)
+  {
+    ret = lsm303dlhc_i2c_read(dev, buffer, buflen, "acc");
+  }
+  else
+  {
+    ret = lsm303dlhc_i2c_read(dev, buffer, buflen, "mag");
+  }
+
   if (ret < 0)
   {
       snerr("ERROR: Failed to read from the LSM303DLHC\n");
       return ret;
   }
-
   return ret;
 }
 
@@ -156,7 +164,7 @@ static ssize_t lsm303dlhc_read(FAR struct file *filep, FAR char *buffer,
  *
  ****************************************************************************/
 
-static ssize_t lsm303dlhc_write(FAR struct file *filep,
+static ssize_t lsm303dlhc_acc_write(FAR struct file *filep,
                                 FAR const char *buffer, size_t buflen)
 {
   /* TODO: Implement */
@@ -172,12 +180,105 @@ static ssize_t lsm303dlhc_write(FAR struct file *filep,
  *
  ****************************************************************************/
 
-static int lsm303dlhc_ioctl(FAR struct file *filep, int cmd,
+static int lsm303dlhc_acc_ioctl(FAR struct file *filep, int cmd,
                             unsigned long arg)
 {
   /* TODO: Implement */
 
   return -ENOSYS;
+}
+
+/* ---------------------- Auxiliary functions ---------------------- */
+static int lsm303dlhc_i2c_read(struct lsm303dlhc_dev_s* dev, uint8_t *rbuffer, uint8_t length, const char *sensor)
+{
+  struct i2c_config_s i2c_config;
+  char wbuffer[1];
+  int ret;
+  length = 6; //Acc registers, from 0x28 to 0x2D
+
+  //TODO: Cast rbuffer to acc or mag struct
+
+  if (sensor == "acc")
+  {
+    dev->acc_addr = LSM303DLHC_ACC_ADDRESS;
+  }
+  else
+  {
+    dev->acc_addr = LSM303DLHC_MAG_ADDRESS;
+  }
+  
+  i2c_config.frequency = CONFIG_LSM303DLHC_I2C_FREQUENCY;
+  i2c_config.address = dev->acc_addr;
+  i2c_config.addrlen = 7;
+
+    /* In order to read multiple bytes, the MSB of the register address must be set to 1 in the address field. 
+  In other words, SUB(7) must be equal to 1 while SUB(6-0) represents the address of the first register to be read. */
+
+      wbuffer[0] = ACC_OUT_X_L_A | 0x80; //if MSB is 1, we are reading multiple bytes pag.20 sensor manual
+
+  ret = i2c_writeread(dev->i2c, &i2c_config, wbuffer, 1, rbuffer, length);
+  if (ret < 0)  
+  {
+      snerr("ERROR: Failed to read from the LSM303DLHC\n");
+  }
+  return ret;
+}
+
+static int lsm303dlhc_read_register(struct lsm303dlhc_dev_s* dev, const uint8_t regAddr, const char *sensor)
+{
+  struct i2c_config_s i2c_config;
+  uint8_t regValue;
+  int ret;
+
+  if (sensor == "acc")
+  {
+    dev->acc_addr = LSM303DLHC_ACC_ADDRESS;
+  }
+  else
+  {
+    dev->acc_addr = LSM303DLHC_MAG_ADDRESS;
+  }
+
+  i2c_config.frequency = CONFIG_LSM303DLHC_I2C_FREQUENCY;
+  i2c_config.address = dev->acc_addr;
+  i2c_config.addrlen = 7;
+
+  ret = i2c_writeread(dev->i2c, &i2c_config, &regAddr, 1, regValue, 1);
+  if (ret < 0)  
+  {
+      snerr("ERROR: Failed to read from the LSM303DLHC\n");
+  }
+  return regAddr;
+}
+
+static void lsm303dlhc_write_register(struct lsm303dlhc_dev_s* dev, const uint8_t regaddr, uint8_t regValue, const char *sensor)
+{
+  struct i2c_config_s i2c_config;
+  uint8_t wbuffer[2];
+  int ret;
+  
+  if (sensor == "acc")
+  {
+    dev->acc_addr = LSM303DLHC_ACC_ADDRESS;
+  }
+  else
+  {
+    dev->acc_addr = LSM303DLHC_MAG_ADDRESS;
+  }
+
+  i2c_config.frequency = CONFIG_LSM303DLHC_I2C_FREQUENCY;
+  i2c_config.address = dev->acc_addr;
+  i2c_config.addrlen = 7;
+
+  wbuffer[0] = regaddr;
+  wbuffer[1] = regValue;
+
+  ret = i2c_write(dev->i2c, &i2c_config, wbuffer, 1);
+  if (ret < 0)  
+  {
+      snerr("ERROR: Failed to read from the LSM303DLHC\n");
+  }
+  return ret;
 }
 
 /****************************************************************************
