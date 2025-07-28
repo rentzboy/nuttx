@@ -27,7 +27,7 @@
 #include <nuttx/i2c/i2c_master.h>
 #include <nuttx/kmalloc.h>
 #include <nuttx/include/string.h>
-#include "lsm303dlhc.h"
+#include <nuttx/sensors/lsm303dlhc.h>
 
 #include <nuttx/include/sys/types.h>
 #include <assert.h>
@@ -236,8 +236,9 @@ static int lsm303dlhc_i2c_read(struct lsm303dlhc_dev_s* dev, uint8_t *rbuffer, u
     /* In order to read multiple bytes, the MSB of the register address must be set to 1 in the address field. 
   In other words, SUB(7) must be equal to 1 while SUB(6-0) represents the address of the first register to be read. */
 
-  wbuffer[0] = ACC_OUT_X_L_A | 0x80; //if MSB is 1, we are reading multiple bytes pag.20 sensor manual
-
+  /* //MSB must be 1, we are reading multiple bytes pag.20 sensor manual */
+  wbuffer[0] = ACC_OUT_X_L_A | LSM303DLHC_AUTO_INCREMENT_BIT; 
+  
   ret = i2c_writeread(dev->i2c, &i2c_config, wbuffer, 1, rbuffer, length);
   if (ret < 0)  
   {
@@ -328,7 +329,6 @@ int lsm303dlhc_register(FAR const char *devpath,
 {
   FAR struct lsm303dlhc_dev_s *priv;
   int ret;
-  UNUSED(devpath);
 
   DEBUGASSERT(devpath != NULL);
   DEBUGASSERT(i2c != NULL);

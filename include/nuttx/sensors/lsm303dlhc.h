@@ -92,6 +92,7 @@
 
 #define ACC_FIFO_EN             (uint8_t*)0x40 // Habilita el buffer FIFO, desactivado por defecto
 
+#define LSM303DLHC_AUTO_INCREMENT_BIT (1 << 7) // Bit de autoincremento del pointer to read
 
 /*******************************************************************************
  ******************* DEFINICIONES Y DIRECCIONES DEL MAGNETÓMETRO ***************
