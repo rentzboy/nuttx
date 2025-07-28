@@ -29,7 +29,7 @@
 #include <nuttx/board.h>
 #include <stm32.h>
 #include "stm32f3discovery.h"
-#include <nuttx/include/sys/types.h>
+#include <sys/types.h>
 
 
 //Pending revisar si puede ser útil
