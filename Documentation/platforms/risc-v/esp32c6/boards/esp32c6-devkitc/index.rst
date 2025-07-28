@@ -323,11 +323,19 @@ There is also support for an optional fault GPIO (defaults to GPIO9), which can 
 for quick motor braking. All GPIOs are configurable in ``menuconfig``.
 
 mcuboot_nsh
---------------------
+-----------
 
 This configuration is the same as the ``nsh`` configuration, but it generates the application
 image in a format that can be used by MCUboot. It also makes the ``make bootloader`` command to
 build the MCUboot bootloader image using the Espressif HAL.
+
+mcuboot_update_agent
+--------------------
+
+This configuration is used to represent an MCUboot image that contains an update agent
+to perform over-the-air (OTA) updates. Wi-Fi settings are already enabled and image confirmation program is included.
+
+Follow the instructions in the :ref:`MCUBoot and OTA Update <MCUBoot and OTA Update C6>` section to execute OTA update.
 
 nsh
 ---
@@ -432,6 +440,39 @@ by default to each other and running the ``spi`` example::
 If SPI peripherals are already in use you can also use bitbang driver which is a
 software implemented SPI peripheral by enabling `CONFIG_ESPRESSIF_SPI_BITBANG`
 option.
+
+sdmmc_spi
+---------
+
+This configuration is used to mount a FAT/FAT32 SD Card into the OS' filesystem.
+It uses SPI to communicate with the SD Card, defaulting to SPI2.
+
+The SD slot number, SPI port number and minor number can be modified in ``Application Configuration → NSH Library``.
+
+To access the card's files, make sure ``/dev/mmcsd0`` exists and then execute the following commands::
+
+    nsh> ls /dev
+    /dev:
+    console
+    mmcsd0
+    null
+    ttyS0
+    zero
+    nsh> mount -t vfat /dev/mmcsd0 /mnt
+
+This will mount the SD Card to ``/mnt``. Now, you can use the SD Card as a normal filesystem.
+For example, you can read a file and write to it::
+
+    nsh> ls /mnt
+    /mnt:
+    hello.txt
+    nsh> cat /mnt/hello.txt
+    Hello World
+    nsh> echo 'NuttX RTOS' >> /mnt/hello.txt
+    nsh> cat /mnt/hello.txt
+    Hello World!
+    NuttX RTOS
+    nsh>
 
 spiflash
 --------
