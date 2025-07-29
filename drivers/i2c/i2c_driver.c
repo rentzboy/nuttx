@@ -393,7 +393,6 @@ static int i2cdrvr_unlink(FAR struct inode *inode)
 
 int i2c_register(FAR struct i2c_master_s *i2c, int bus)
 {
-  #warning "Entando en la definición de i2c_register"
   FAR struct i2c_driver_s *priv;
   char devname[DEVNAME_FMTLEN];
   int ret;

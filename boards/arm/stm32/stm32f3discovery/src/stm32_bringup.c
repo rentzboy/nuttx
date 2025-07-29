@@ -25,37 +25,33 @@
  ****************************************************************************/
 
 #include <nuttx/config.h>
-#include <syslog.h>
-#include <nuttx/board.h>
-#include <stm32.h>
-#include "stm32f3discovery.h"
+
 #include <sys/types.h>
+#include <syslog.h>
 
+#include <nuttx/board.h>
 
-//Pending revisar si puede ser útil
 #ifdef CONFIG_INPUT_BUTTONS
 #  include <nuttx/input/buttons.h>
 #endif
-
-//Pending revisar si puede ser útil
 #ifdef CONFIG_USERLED
 #  include <nuttx/leds/userled.h>
 #endif
-
-#ifdef CONFIG_I2C_DRIVER
-#  include <stm32_i2c.h>
-#endif
-
-#ifdef CONFIG_SENSORS_LSM303DLHC_I2C
-#  include "stm32_lsm303dlhc.h"
-#endif
-
 #ifdef CONFIG_USBMONITOR
 #  include <nuttx/usb/usbmonitor.h>
 #endif
 
+#include "stm32.h"
+#include "stm32f3discovery.h"
+
+#ifdef CONFIG_I2C_DRIVER
+#  include "stm32_i2c.h"
+#endif
+#ifdef CONFIG_SENSORS_LSM303DLHC_I2C
+#  include "stm32_lsm303dlhc.h"
+#endif
 #ifdef CONFIG_SENSORS_QENCODER
-#include "board_qencoder.h"
+#  include "board_qencoder.h"
 #endif
 
 

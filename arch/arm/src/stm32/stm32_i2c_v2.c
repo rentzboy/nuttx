@@ -514,7 +514,7 @@ static int stm32_i2c_reset(struct i2c_master_s *dev);
 static int stm32_i2c_pm_prepare(struct pm_callback_s *cb, int domain,
                                 enum pm_state_e pmstate);
 #endif
-static void stm32_i2c_set_instance(struct i2c_master_s *i2c);
+static void stm32_i2c_set_instance(struct stm32_i2c_inst_s* stm32_i2c_inst);
 struct i2c_master_s* stm32_i2c_get_instance(int port);
 /****************************************************************************
  * Private Data

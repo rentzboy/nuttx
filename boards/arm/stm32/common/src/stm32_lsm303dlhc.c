@@ -52,11 +52,6 @@
 /****************************************************************************
  * Private Functions
  ****************************************************************************/
-
-/****************************************************************************
- * Public Functions
- ****************************************************************************/
-
 /**
  * stm32_lsm303dlhc_initialize - Initialize the LSM303DLHC sensor using the I2C
  * interface of the specified bus
@@ -69,7 +64,7 @@
  * the device addresses and frequency, and registers the device driver with the
  * system using the provided I2C interface.
  */
- static int stm32_lsm303dlhc_initialize(int bus)
+ int stm32_lsm303dlhc_initialize(int bus)
 {
   struct i2c_master_s *i2c;
   int ret;
@@ -94,3 +89,7 @@
     }
     return ret;
 }
+
+/****************************************************************************
+ * Public Functions
+ ****************************************************************************/
