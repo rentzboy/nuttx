@@ -131,18 +131,9 @@ struct lsm303dlhc_acc_data_s {
   int16_t z_axis_acc;
 };
 
-
 /****************************************************************************
  * Public Function Prototypes
  ****************************************************************************/
-
-#ifdef __cplusplus
-#define EXTERN extern "C"
-extern "C"
-{
-#else
-#define EXTERN extern
-#endif
 
 /****************************************************************************
  * Name: lsm303dlhc_register
@@ -159,13 +150,6 @@ extern "C"
  *   Zero (OK) on success; a negated errno value on failure.
  *
  ****************************************************************************/
-
 int lsm303dlhc_register(FAR const char *devpath,
                         FAR struct i2c_master_s *i2c);
-
-#undef EXTERN
-#ifdef __cplusplus
-}
-#endif
-
 #endif /* __INCLUDE_NUTTX_SENSORS_LSM303DLHC_H */

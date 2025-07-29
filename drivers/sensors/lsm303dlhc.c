@@ -304,6 +304,36 @@ static void lsm303dlhc_write_register(struct lsm303dlhc_dev_s* dev, const uint8_
   return ret;
 }
 
+static int two_complement(int8_t *buffer, uint8_t buflen)
+{
+  /* No es necesaria, pero no la eliminamos */
+  DEBUGASSERT(buflen > 6);
+
+  struct lsm303dlhc_acc_data_s* acc_data;
+  int8_t data[buflen];
+
+  for (uint8_t i = 0; i < buflen; i++)
+  {
+    data[i] = *buffer++;
+  }
+
+  acc_data = kmm_malloc(sizeof(struct lsm303dlhc_acc_data_s));
+  if (acc_data == NULL)
+  {
+    snerr("ERROR: Failed to allocate a new driver instance\n");
+    return -ENOMEM;
+  }
+  
+  acc_data->x_axis_acc = (int16_t)(data[0] | (data[1] << 8));
+  acc_data->y_axis_acc = (int16_t)(data[2] | (data[3] << 8));
+  acc_data->z_axis_acc = (int16_t)(data[4] | (data[5] << 8));
+
+  buffer = acc_data;
+  free(acc_data);
+
+  return OK;
+}
+
 /****************************************************************************
  * Public Functions
  ****************************************************************************/
@@ -361,32 +391,3 @@ int lsm303dlhc_register(FAR const char *devpath,
   return ret;
 }
 
-static int two_complement(int8_t *buffer, uint8_t buflen)
-{
-  /* No es necesaria, pero no la eliminamos */
-  DEBUGASSERT(buflen > 6);
-
-  struct lsm303dlhc_acc_data_s* acc_data;
-  int8_t data[buflen];
-
-  for (uint8_t i = 0; i < buflen; i++)
-  {
-    data[i] = *buffer++;
-  }
-
-  acc_data = kmm_malloc(sizeof(struct lsm303dlhc_acc_data_s));
-  if (acc_data == NULL)
-  {
-    snerr("ERROR: Failed to allocate a new driver instance\n");
-    return -ENOMEM;
-  }
-  
-  acc_data->x_axis_acc = (int16_t)(data[0] | (data[1] << 8));
-  acc_data->y_axis_acc = (int16_t)(data[2] | (data[3] << 8));
-  acc_data->z_axis_acc = (int16_t)(data[4] | (data[5] << 8));
-
-  buffer = acc_data;
-  free(acc_data);
-
-  return OK;
-}

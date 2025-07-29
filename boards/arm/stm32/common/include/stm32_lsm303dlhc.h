@@ -43,14 +43,6 @@
  * Public Data
  ****************************************************************************/
 
-#ifdef __cplusplus
-#define EXTERN extern "C"
-extern "C"
-{
-#else
-#define EXTERN extern
-#endif
-
 /****************************************************************************
  * Inline Functions
  ****************************************************************************/
@@ -72,10 +64,5 @@ extern "C"
  * system using the provided I2C interface.
  */
  int stm32_lsm303dlhc_initialize(int bus);
-
-#undef EXTERN
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* __BOARDS_ARM_STM32_COMMON_INCLUDE_STM32_BMP180_H */

@@ -52,6 +52,10 @@
 /****************************************************************************
  * Private Functions
  ****************************************************************************/
+
+/****************************************************************************
+ * Public Functions
+ ****************************************************************************/
 /**
  * stm32_lsm303dlhc_initialize - Initialize the LSM303DLHC sensor using the I2C
  * interface of the specified bus
@@ -74,7 +78,7 @@
   i2c = stm32_i2c_get_instance(bus);
   if (i2c == NULL)
     {
-      snerror("ERROR: Failed to get an instance of I2C%d interface\n", bus);
+      snerr("ERROR: Failed to get an instance of I2C%d interface\n", bus);
       return -1;
     }
   else
@@ -82,14 +86,10 @@
       ret = lsm303dlhc_register("/dev/lsm303dlhc", i2c);
       if (ret < 0)
         {
-          snerror("ERROR: Failed to register the LSM303DLHC sensor with the I2C%d interface\n",
+          snerr("ERROR: Failed to register the LSM303DLHC sensor with the I2C%d interface\n",
                  bus);
 
         }
     }
     return ret;
 }
-
-/****************************************************************************
- * Public Functions
- ****************************************************************************/
