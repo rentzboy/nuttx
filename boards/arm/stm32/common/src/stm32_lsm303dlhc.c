@@ -27,7 +27,7 @@
 #include <nuttx/config.h>
 #include <stdio.h>
 #include <debug.h>
-#include "lsm303dlhc.h"
+#include "stm32_lsm303dlhc.h"
 
 /****************************************************************************
  * Pre-processor Definitions
@@ -70,12 +70,15 @@
  */
  int stm32_lsm303dlhc_initialize(int bus)
 {
+  #pragma note "compiling stm32_lsm303dlhc_initialize";
   struct i2c_master_s *i2c;
   int ret;
     sninfo("Initializing lsm303dlhc!\n");
 
   //Get the I2C interface registered for the bus  
+
   i2c = stm32_i2c_get_instance(bus);
+
   if (i2c == NULL)
     {
       snerr("ERROR: Failed to get an instance of I2C%d interface\n", bus);

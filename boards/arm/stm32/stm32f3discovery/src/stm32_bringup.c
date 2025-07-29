@@ -41,16 +41,15 @@
 #  include <nuttx/usb/usbmonitor.h>
 #endif
 
-#include "stm32.h"
 #include "stm32f3discovery.h"
 
 #ifdef CONFIG_I2C_DRIVER
 #  include "stm32_i2c.h"
 #endif
-//#ifdef CONFIG_SENSORS_LSM303DLHC_I2C
+#ifdef CONFIG_SENSORS_LSM303DLHC_I2C
 #  include "stm32_lsm303dlhc.h"
 #  include <nuttx/sensors/lsm303dlhc.h>
-//#endif
+#endif
 #ifdef CONFIG_SENSORS_QENCODER
 #  include "board_qencoder.h"
 #endif
@@ -135,33 +134,6 @@ static void stm32_i2c_register(int bus)
 /****************************************************************************
  * Public Functions
  ****************************************************************************/
-//  static int stm32_lsm303dlhc_initialize(int bus)
-// {
-//   struct i2c_master_s *i2c;
-//   int ret;
-//     sninfo("Initializing lsm303dlhc!\n");
-
-//   //Get the I2C interface registered for the bus  
-//   i2c = stm32_i2c_get_instance(bus);
-//   if (i2c == NULL)
-//     {
-//       snerr("ERROR: Failed to get an instance of I2C%d interface\n", bus);
-//       return -1;
-//     }
-//   else
-//     {
-//       ret = lsm303dlhc_register("/dev/lsm303dlhc", i2c);
-//       if (ret < 0)
-//         {
-//           snerr("ERROR: Failed to register the LSM303DLHC sensor with the I2C%d interface\n",
-//                  bus);
-
-//         }
-//     }
-//     return ret;
-// }
-
-
 
 /****************************************************************************
  * Name: stm32_bringup
