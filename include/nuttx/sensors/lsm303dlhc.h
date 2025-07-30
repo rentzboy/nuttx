@@ -77,22 +77,31 @@
 #define ACC_TIME_WINDOW_A       0x3D // Ventana de tiempo para la detección de Doble-Click
 
 
-#define ACC_SPEED_400_KHZ       (uint8_t*)0x70 // 400 KHz
-#define ACC_LOW_POWER_EN        (uint8_t*)0x08 // Habilita el modo bajo consumo, desactivado por defecto
-#define ACC_XEN                 (uint8_t*)0x01 // Habilita el eje X, desactivado por defecto
-#define ACC_YEN                 (uint8_t*)0x02 // Habilita el eje Y, desactivado por defecto
-#define ACC_ZEN                 (uint8_t*)0x04 // Habilita el eje Z, desactivado por defecto
+#define ACC_SPEED_400_KHZ       (uint8_t)0x70 // 400 KHz
+#define ACC_SPEED_200_KHZ       (uint8_t)0x60 // 200 KHz
+#define ACC_SPEED_100_KHZ       (uint8_t)0x50 // 100 KHz
+#define ACC_LOW_POWER_EN        (uint8_t)0x08 // Habilita el modo bajo consumo, desactivado por defecto
+#define ACC_XEN                 (uint8_t)0x01 // Habilita el eje X, desactivado por defecto
+#define ACC_YEN                 (uint8_t)0x02 // Habilita el eje Y, desactivado por defecto
+#define ACC_ZEN                 (uint8_t)0x04 // Habilita el eje Z, desactivado por defecto
 
-#define ACC_BDU_EN              (uint8_t*)0x80 // Habilita el modo BDU (block data update), desactivado por defecto
-#define ACC_SCALE_2G            (uint8_t*)0x00 // Escala 2g, activada por defecto
-#define ACC_SCALE_4G            (uint8_t*)0x10 // Escala 4g, descactivada por defecto
-#define ACC_SCALE_8G            (uint8_t*)0x20 // Escala 8g, desactivada por defecto
-#define ACC_SCALE_16G           (uint8_t*)0x30 // Escala 16g, desactivada por defecto
-#define ACC_HIGH_RES_EN         (uint8_t*)0x08 // Habilita la resolución alta, desactivado por defecto
+#define ACC_BDU_EN              (uint8_t)0x80 // Habilita el modo BDU (block data update), desactivado por defecto
+#define ACC_SCALE_2G            (uint8_t)0x00 // Escala 2g, activada por defecto
+#define ACC_SCALE_4G            (uint8_t)0x10 // Escala 4g, descactivada por defecto
+#define ACC_SCALE_8G            (uint8_t)0x20 // Escala 8g, desactivada por defecto
+#define ACC_SCALE_16G           (uint8_t)0x30 // Escala 16g, desactivada por defecto
+#define ACC_HIGH_RES_EN         (uint8_t)0x08 // Habilita la resolución alta, desactivado por defecto
 
-#define ACC_FIFO_EN             (uint8_t*)0x40 // Habilita el buffer FIFO, desactivado por defecto
+#define ACC_FIFO_EN             (uint8_t)0x40 // Habilita el buffer FIFO, desactivado por defecto
 
 #define LSM303DLHC_AUTO_INCREMENT_BIT (1 << 7) // Bit de autoincremento del pointer to read
+
+#define LSM303DLHC_I2C_FREQUENCY(n)   \
+ (n == 400000 ? ACC_SPEED_400_KHZ :   \
+  (n == 100000 ? ACC_SPEED_100_KHZ :  \
+    (n == 200000 ? ACC_SPEED_200_KHZ :\
+       ACC_SPEED_400_KHZ)))
+
 
 /*******************************************************************************
  ******************* DEFINICIONES Y DIRECCIONES DEL MAGNETÓMETRO ***************

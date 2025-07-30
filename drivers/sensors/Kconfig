@@ -909,6 +909,7 @@ endif # SENSORS_LIS2DH
 config SENSORS_LSM303DLHC
 	bool "STMicro LSM303DLHC 3D accelerometer and 3D magnetometer support"
 	default n
+	select CONFIG_ARCH_BOARD_COMMON
 	depends on I2C || SPI
 	---help---
 		Enable driver support for the STMicro 3D accelerometer and magnetometer measurement sensor
