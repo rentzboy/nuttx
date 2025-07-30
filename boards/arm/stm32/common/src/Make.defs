@@ -46,6 +46,10 @@ ifeq ($(CONFIG_SENSORS_MAX6675),y)
   CSRCS += stm32_max6675.c
 endif
 
+ifeq ($(CONFIG_SENSORS_LSM303DLHC),y)
+  CSRCS += stm32_lsm303dlhc.c
+endif
+
 ifeq ($(CONFIG_SENSORS_VEML6070),y)
   CSRCS += stm32_veml6070.c
 endif

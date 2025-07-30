@@ -26,10 +26,10 @@
 #include <nuttx/fs/fs.h>
 #include <nuttx/i2c/i2c_master.h>
 #include <nuttx/kmalloc.h>
-#include <nuttx/include/string.h>
+#include <string.h>
 #include <nuttx/sensors/lsm303dlhc.h>
 
-#include <nuttx/include/sys/types.h>
+#include <sys/types.h>
 #include <assert.h>
 #include <errno.h>
 #include <debug.h>
