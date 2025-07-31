@@ -27,7 +27,8 @@
 #include <nuttx/config.h>
 #include <stdio.h>
 #include <debug.h>
-#include "stm32_lsm303dlhc.h"
+#include <stm32_i2c.h>
+#include <nuttx/sensors/lsm303dlhc.h>
 
 /****************************************************************************
  * Pre-processor Definitions
