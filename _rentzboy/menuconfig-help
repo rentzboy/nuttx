@@ -1,0 +1,101 @@
+
+By default, NSH uses the system console (/dev/console) for I/O, which is typically mapped to a serial port (/dev/ttySx) or USB (/dev/ttyACMx). 
+Al activar USARTx, en el archivo stm32_serial.c se registra un puerto serie /dev/ttySx para cada USART activo. 
+En el caso que CONFIG_SERIAL=y, también se registra /dev/console.
+Redirect stdout/stderr for specific tasks or use a custom device driver nsh> echo > /dev/ttyS1 > /dev/syslog
+Si no queremos compartir el serial port para nsh shell y debugging (x confirmar si se puede compartir), podemos utilizar el ST-LINK USB para debugging y el USER USB para la nsh shell: el problema es que pierdo la conexión con nuttx shell cuando conecto la ST-Link para depurar.
+
+# Board-Common Options
+CONFIG_BOARDCTL_USBDEVCTRL => Enable USB device controls (Board selection > Enable boardctl() interface)
+
+
+# STM32 Peripheral Support
+CONFIG_STM32_USB=y => Enable USB device (System type > Peripheral support).
+CONFIG_STM32_USART1 | CONFIG_STM32_USARTx | .... (System type > Peripheral support)
+CONFIG_STM32_USART=y  => selected by CONFIG_STM32_USART1_2_3
+CONFIG_STM32_SERIALDRIVER=y => selected by STM32_USARTx_SERIALDRIVER
+
+# U[S]ART Device Configuration
+CONFIG_STM32_USART2_SERIALDRIVER=y => Standard serial driver (System Type > U[S]ART Configuration > USART2 Driver Configuration). 
+Se crea una configuración para cada CONFIG_STM32_USARTx de los peripherals que activamos.
+En principio no hay que tocar nada, por defecto está bien.
+
+# Files and I/O
+CONFIG_DEV_CONSOLE is not set => Enable /dev/console  (RTOS Features > Files and I/O). Si CONFIG_DEV_CONSOLE no está habilitado, el sistema utilizará el primer dispositivo serie que se registre (por ejemplo, /dev/ttyS0 o /dev/ttyS1) como la consola del sistema.
+
+# Device Drivers
+USBDEV => USB Device Driver Support . Activado automáticamente al seleccionar CONFIG_STM32_USB.
+CONFIG_SERIAL=y => Front-end character drivers for chip-specific UARTs. This provide some TTY-like functionality and are commonly used (but not required for the NuttX system console. (Device Drivers > Serial Driver Support > Serial console). Permite configurar las USARTx activas (baud rate, buffer, ....).
+Entre las diferentes opciones del submenu permite seleccionar la salida de la serial console (si tenemos seteada CONFIG_DEV_CONSOLE), entre las diferentes USARTx activas: CONFIG_USARTx_SERIAL_CONSOLE | CONFIG_U[S]ARTx_SERIALDRIVER
+CONFIG_CDCACM => USB Modem (CDC/ACM) support (Device Drivers > USB Device Driver Support). Depends on CONFIG_USBDEV.
+CONFIG_CDCACM_CONSOLE => CDC/ACM console device (Device Drivers > USB Device Driver Support > USB Modem (CDC/ACM) support). Depends on CONFIG_USBDEV.
+
+# USART2 Configuration [Se crea una configuración para cada CONFIG_STM32_USARTx de los peripherals que activamos].
+CONFIG_USBDEV=y => USB Device Driver Support (Device Drivers > USB Device Driver Support)
+CONFIG_PL2303 =>  Emulates the Prolific PL2303 serial/USB converter (Device Drivers > USB Device Driver Support) Puede ser interesante probarlo
+CONFIG_RAM_UART => It uses the memory block in the kernel as a communication medium, which can communicate between different processes or different CPUs                                              
+
+# USB Device Class Driver Options
+CONFIG_USBHOST=y => USB Host Driver Support (Device Drivers). Permite detectar y configurar automáticamente los dispositivos USB que se conectan como teclados, ratones, memorias. 
+
+# System Logging
+CONFIG_SYSLOG=y
+CONFIG_SYSLOG_DEVPATH="/dev/ttyS0" => Full path to the system logging device. (Device Driver > System logging). Change path to redirects all syslog output to a different serial port.
+CONFIG_RAMLOG_SYSLOG=y if you want to store logs in Circular Buffer memory for later retrieval with dmesg, without affecting the NSH console.
+CONFIG_SYSLOG_CHAR=y => Log to a character device (Device Driver > System logging)
+CONFIG_SYSLOG_REGISTER=y => Register syslog channel support (Device Drivers > System logging)
+Hay muchas más opciones de configuración en Device Drivers > System logging
+
+# NSH Library
+CONFIG_NSH_LIBRARY (Application Configuration > NSH Library). Selected by CONFIG_SYSTEM_NSH
+
+# System Libraries and NSH Add-Ons
+CONFIG_SYSTEM_NSH => NuttShell (NSH) example (Application Configuration > System Libraries and NSH Add-Ons)
+
+# NSH Console Configuration
+CONFIG_NSH_CONSOLE => Use console (Application Configuration > NSH Library > Console Configuration)
+CONFIG_NSH_USBCONSOLE => Use a USB serial console (Application Configuration > NSH Library > Console Configuration). 
+CONFIG_NSH_ALTCONDEV is not set (Alternative console device )
+
+# USB Device Trace Support
+CONFIG_NSH_USBDEV_TRACE Enable Builtin USB Trace Support 
+CONFIG_USBDEV_TRACE Enables USB tracing for debug (Device drivers > USB Device Driver Support)
+CONFIG_NSH_ARCHINIT=y => Have architecture-specific initialization (Application Configuration > NSH Library)
+
+# Aplication configuration
+CONFIG_SYSTEM_CDCACM => USB CDC/ACM Device Commands (Application configuration > System Libraries and NSH Add-Ons)
+
+
+Ejemplos ********** PENDIENTES DE CONFIRMAR QUE ESTAN OK **********
+nsh: CONFIG_STM32_USART2, CONFIG_STM32_USB, CONFIG_SYSTEM_NSH, CONFIG_BUILTIN, CONFIG_SYSTEM_CDCACM, CONFIG_CDCACM => hace falta todo lo relacionado con USB ??
+usbnsh: CONFIG_STM32_USART2, CONFIG_STM32_USB, CONFIG_SYSTEM_NSH, CONFIG_BOARDCTL_USBDEVCTRL, CONFIG_CDCACM, CONFIG_CDCACM_CONSOLE, CONFIG_NSH_ARCHINIT, CONFIG_NSH_BUILTIN_APPS, CONFIG_SYSLOG_DEVPATH="/dev/ttyS0", 
+
+>> CASO #1: Sacar el syslog + nsh shell por el Virtual COM Port (VCP) del USB ST-Link
+En la Discovery, el Virtual COM Port del USB ST-LINK está conectado a los pins PC4 (USART1_TX) y PC5 (USART1_RX). 
+Vamos a redirig el syslog por el USART1. No necesitamos preocuparnos del USB, pues para Nuttx el VCP es transparente.
+1- CONFIG_STM32_USART1=y -> (auto) CONFIG_STM32_USART1_SERIALDRIVER=y. Al ser el primer serial creado, se llamará "/dev/ttyS0"
+[opcional] System Type > U[S]ART Configuration > USART1 Driver Configuration: 1-wire/standard; RS-485
+[optional] Device Drivers > Serial Driver Support > USART1 Configuration: baud rate, ...
+2- CONFIG_SYSLOG_DEVPATH="/dev/ttyS0" (el nombre del USART1_SERIAL)
+3- CONFIG_SYSTEM_NSH=y: activa la nuttx shell + un ejemplo. No es necesario configurar nada más.
+
+>> CASO #2: Sacar la nsh console por el USER_USB
+No vamos a utilizar un puerto serial (USART), unicamente USB.
+1- CONFIG_STM32_USB (activar usb y los drivers)
+2- CONFIG_BOARDCTL_USBDEVCTRL
+3- CONFIG_NSH_USBCONSOLE 
+4- CONFIG_SYSTEM_NSH=y: activa la nuttx shell + un ejemplo. No es necesario configurar nada más.
+Comprobar desde Windows > Dispositivos que se reconoce el puerto USER USB.
+EL ST-LINK USB si que lo reconoce, pues incluye un VCP, pero el USER USB va a pelo.
+
+>> CASO #3: Sacar la NSH console por el USART1-VCP y syslog por el USART2-USER_USB
+la nsh console es igual al caso #1. Para el syslog tenemos varias posibilidades
+- utilizar CDC-ACM para el puerto USER_USB
+- CONFIG_PL2303 para
+- conectar al USER_USB el clon del conector Prolific para  
+
+>> CASO #4: Conectar el teclado a la discovery para escribir en la nsh shell. Necesito un conector usb hembra2hembra.
+
+CDC-ACM es un estándar dentro de la especificación USB que permite a los dispositivos USB emular un puerto serie (o puerto COM).
+Virtual COM Port (VCP)	is a Microsoft Windows interface to access different communication channels (e.g. Serial RS232, USB, etc)
+
