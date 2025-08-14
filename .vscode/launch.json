@@ -1,0 +1,144 @@
+
+// Launch.json attributes list: https://code.visualstudio.com/docs/editor/debugging#_launchjson-attributes
+// Cortex-Debug attributes list: https://github.com/Marus/cortex-debug/blob/master/debug_attributes.md
+// Configuration copied from: https://github.com/prtzl/Embedded_videos/tree/master/045_BUILDING-PT4/test-f407vg/.vscode
+// https://wiki.segger.com/J-Link_Visual_Studio_Code
+// Algunas configuraciones las ponemos en el archivo settings.json
+
+{
+    "version": "0.2.0",
+    "projectName": "Nuttx",
+    "configurations": [
+        //JLink launch nuttx.elf
+        {
+            //https://wiki.segger.com/J-Link_Visual_Studio_Code
+            "name": "JLink launch",
+            "type": "cortex-debug", //es el que define la lista de atributos para la configuración mediante IntelliSense, Every installed debug extension introduces a type
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/nuttx/nuttx.elf",
+            "request": "launch",
+            "servertype": "jlink",
+            "serverpath": "/opt/SEGGER/JLink/JLinkGDBServerCLExe",
+            "serverArgs": [],
+            "device": "STM32F303VC",
+            "interface": "swd",
+            "runToEntryPoint": "__start", // otherwise, it starts at reset handler - not interested
+            //"preLaunchTask": "Build all", // task configured in tasks.json
+            // "preLaunchCommands": ["Build all"], // you can execute command instead of task
+            "svdFile": "${workspaceFolder}/STM32F303VCT6.svd", // Include svd to watch device peripherals
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 4
+            },
+            "swoConfig":
+            {
+                "enabled": true,
+                "cpuFrequency": 48000000, //si no está bien NO se mostrará nada
+                //"swoFrequency": 48000000, no hace falta ponerla, JLink la detecta
+                "source": "probe",
+                "decoders":
+                [
+                    {
+                        "label": "ITM port 0 output",
+                        "type": "console",
+                        "port": 0,
+                        "showOnStartup": true,
+                        "encoding": "ascii"
+                    }
+                ]
+            },
+            //A mi no me hace falta, pero por si alguna vez fallara, probar esto
+            //https://github.com/Marus/cortex-debug/issues/60#issuecomment-1260950119
+            "postLaunchCommands": [
+                //"monitor swo start 48000000 48000000"
+            ],
+            "showDevDebugOutput": "raw",
+        },
+        //JLink attach nuttx.elf
+        {
+            "name": "JLink attach",
+            "type": "cortex-debug",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/nuttx/nuttx.elf",
+            "request": "attach",
+            "servertype": "jlink",
+            "device": "STM32F303VC",
+            "interface": "swd",
+            "runToEntryPoint": "__start",
+            "preLaunchTask": "Build all", // configured in tasks.json
+            // "preLaunchCommands": ["Build all"], // you can execute command instead of task
+            "svdFile": "${workspaceFolder}/STM32F303VCT6.svd", // Include svd to watch device peripherals
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 4
+            },
+            "swoConfig":
+            {
+                "enabled": true,
+                "cpuFrequency": 72000000,
+                "swoFrequency": 4000000,
+                "source": "probe",
+                "decoders":
+                [
+                    {
+                        "label": "ITM port 0 output",
+                        "type": "console",
+                        "port": 0,
+                        "showOnStartup": true,
+                        "encoding": "ascii"
+                    }
+                ]
+            }
+        },
+        //ST-util launch nuttx.elf
+        {
+            //Utilizar mejor el st-util attach, pues launch flashea cada vez la flash
+            "name": "ST-util launch",
+            "type": "cortex-debug",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/nuttx/nuttx.elf",
+            "request": "launch",
+            "servertype": "stutil",
+            "serverArgs": ["--connect-under-reset"],
+            /* Antes era necesario ponerlo en el launch.json, pero ahora en cambio da error */
+            //"preLaunchCommands": ["st-util -p 50001 --connect-under-reset"],
+            //"overrideLaunchCommands": ["st-util -p 50001 --connect-under-reset"],
+            //"postRestartCommands": ["st-util -p 50001 --connect-under-reset"],
+            //"servertype": "external", "gdbTarget": "localhost:50001",
+            "device": "STM32F303VCT6",
+            "interface": "swd",
+            "runToEntryPoint": "main", // if "__start", it stops at reset handler - not interested
+            //"preLaunchTask": "Build-nuttx.elf", // configured in tasks.json
+            // "preLaunchCommands": ["Build all"], // you can execute command instead of task
+            "svdFile": "${workspaceFolder}/STM32F303VCT6.svd", // Include svd to watch device peripherals
+            "swoConfig": {
+                "source": "probe",
+                "decoders": []
+            }, // currently (v1.7.0) not supported
+            "showDevDebugOutput": "raw",
+            //"postDebugTask": "Killall -9 st-util" //para evitar el error: 
+
+        },
+        //ST-util attach nuttx.elf
+        {
+            "name": "ST-util attach",
+            "type": "cortex-debug",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/nuttx/nuttx.elf",
+            "request": "attach",
+            "servertype": "stutil",
+            "serverArgs": ["--connect-under-reset"],
+            "device": "STM32F303VCT6",
+            "interface": "swd",
+            "runToEntryPoint": "main", // else it starts at reset handler - not interested
+            "preLaunchTask": "Build-nuttx.elf", // configured in tasks.json
+            // "preLaunchCommands": ["Build all"], // you can execute command instead of task
+            "svdFile": "${workspaceFolder}/STM32F303VCT6.svd", // Include svd to watch device peripherals
+            "swoConfig": {
+                "source": "probe",
+                "decoders": []
+            }, // currently (v1.7.0) not supported
+            "showDevDebugOutput": "raw",
+        }
+    ]
+}
