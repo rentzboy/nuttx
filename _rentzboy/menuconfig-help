@@ -8,11 +8,11 @@ Si no queremos compartir el serial port para nsh shell y debugging (x confirmar 
 # STM32 Peripheral Support
 CONFIG_STM32_USB=y => Enable USB device (System type > Peripheral support).
 CONFIG_STM32_USART1 | CONFIG_STM32_USARTx | .... (System type > Peripheral support)
-CONFIG_STM32_USART=y  => selected by CONFIG_STM32_USART1_2_3
-CONFIG_STM32_SERIALDRIVER=y => selected by STM32_USARTx_SERIALDRIVER
+CONFIG_STM32_USART=y  => [auto] selected by CONFIG_STM32_USART1_2_3
+CONFIG_STM32_SERIALDRIVER=y => [auto] selected by STM32_USARTx_SERIALDRIVER
 
 # U[S]ART Device Configuration
-CONFIG_STM32_USART2_SERIALDRIVER=y => Standard serial driver (System Type > U[S]ART Configuration > USART2 Driver Configuration). 
+CONFIG_STM32_USART2_SERIALDRIVER=y => [auto] Standard serial driver (System Type > U[S]ART Configuration > USART2 Driver Configuration). 
 Se crea una configuración para cada CONFIG_STM32_USARTx de los peripherals que activamos.
 En principio no hay que tocar nada, por defecto está bien.
 
@@ -20,13 +20,13 @@ En principio no hay que tocar nada, por defecto está bien.
 CONFIG_DEV_CONSOLE is not set => Enable /dev/console  (RTOS Features > Files and I/O). Si CONFIG_DEV_CONSOLE no está habilitado, el sistema utilizará el primer dispositivo serie que se registre (por ejemplo, /dev/ttyS0 o /dev/ttyS1) como la consola del sistema.
 
 # Device Drivers
-CONFIG_USBDEV=y => USB Device Driver Support (Device Drivers > USB Device Driver Support). Selected by CONFIG_STM32_USB.
+CONFIG_USBDEV=y => [auto] USB Device Driver Support (Device Drivers > USB Device Driver Support). Selected by CONFIG_STM32_USB.
 CONFIG_SERIAL=y => Front-end character drivers for chip-specific UARTs. This provide some TTY-like functionality and are commonly used (but not required for the NuttX system console. (Device Drivers > Serial Driver Support > Serial console). Permite configurar las USARTx activas (baud rate, buffer, ....).
 Entre las diferentes opciones del submenu permite seleccionar la salida de la serial console (si tenemos seteada CONFIG_DEV_CONSOLE), entre las diferentes USARTx activas: CONFIG_USARTx_SERIAL_CONSOLE | CONFIG_U[S]ARTx_SERIALDRIVER
 CONFIG_CDCACM => USB Modem (CDC/ACM) support (Device Drivers > USB Device Driver Support). Depends on CONFIG_USBDEV.
 CONFIG_CDCACM_CONSOLE => CDC/ACM console device (Device Drivers > USB Device Driver Support > USB Modem (CDC/ACM) support). Depends on CONFIG_USBDEV.
 
-# USART2 Configuration [Se crea una configuración para cada CONFIG_STM32_USARTx de los peripherals que activamos].
+# USARTx Configuration [Se crea una configuración para cada CONFIG_STM32_USARTx de los peripherals que activamos].
 CONFIG_PL2303 =>  Emulates the Prolific PL2303 serial/USB converter (Device Drivers > USB Device Driver Support) Puede ser interesante probarlo
 CONFIG_RAM_UART => It uses the memory block in the kernel as a communication medium, which can communicate between different processes or different CPUs                                              
 
@@ -41,6 +41,7 @@ CONFIG_SYSLOG=y => Enable system logging (Device Driver > System logging)
 CONFIG_SYSLOG_DEVPATH="/dev/ttyS0" => Full path to the system logging device. (Device Driver > System logging).
 CONFIG_RAMLOG_SYSLOG => store logs in Circular Buffer memory for later retrieval with dmesg, without affecting the NSH console.
 CONFIG_SYSLOG_CHAR=y => Log to a character device (Device Driver > System logging)
+CONFIG_SYSLOG_CDCACM => Use the CDCACM as a SYSLOG output device, send message to remote process (Device Driver > System logging)
 CONFIG_SYSLOG_REGISTER=y => Register syslog channel support (Device Drivers > System logging)
 Hay muchas más opciones de configuración en Device Drivers > System logging
 
