@@ -1,74 +1,79 @@
 
 By default, NSH uses the system console (/dev/console) for I/O, which is typically mapped to a serial port (/dev/ttySx) or USB (/dev/ttyACMx). 
-Al activar USARTx, en el archivo stm32_serial.c se registra un puerto serie /dev/ttySx para cada USART activo. 
-En el caso que CONFIG_SERIAL=y, también se registra /dev/console.
+Al activar USARTx en menuconfig, en stm32_serial.c se registra un puerto serie /dev/ttySx para cada USARTx activo. 
 Redirect stdout/stderr for specific tasks or use a custom device driver nsh> echo > /dev/ttyS1 > /dev/syslog
-Si no queremos compartir el serial port para nsh shell y debugging (x confirmar si se puede compartir), podemos utilizar el ST-LINK USB para debugging y el USER USB para la nsh shell: el problema es que pierdo la conexión con nuttx shell cuando conecto la ST-Link para depurar.
+Si no queremos compartir el serial port para nsh shell y debugging (x confirmar si se puede compartir), podemos utilizar el ST-LINK USB para debugging y el USER USB para la nsh shell: el problema es que pierdo la conexión con nuttx shell cuando conecto la ST-Link para depurar. Otra opción es utilizar el Prolific.
 
-# STM32 Peripheral Support
+# Build setup > Debug options
+CONFIG_DEBUG_FEATURES => Enables built-in debug features.  Selecting this option will (1) debug assertions in the code, (2) enable extended parameter testing in many functions, and (3) enable support for debug output to the SYSLOG. Debug output must also be selected on a subsystem-by-subsystem basis. (Build setup > Debug options > Enable Debug features > activar las necesarias)
+
+# System type > ARMv7-M Configuration Options
+CONFIG_ARMV7M_ITMSYSLOG=y, CONFIG_ARMV7M_ITMSYSLOG_PORT=0, CONFIG_ARMV7M_ITMSYSLOG_SWODIV=15 => Enable hooks to support ITM syslog output. This requires Additional MCU support in order to be used.  See arch/arm/src/armv7-m/itm_syslog.h for additional initialization information. (System type > ITM SYSLOG Support) => no activar pues no he podido sacar SWO por el GDB server, unicamente con el STM32CubeProgrammer.
+
+# System type > STM32 Peripheral Support
 CONFIG_STM32_USB=y => Enable USB device (System type > Peripheral support).
 CONFIG_STM32_USART1 | CONFIG_STM32_USARTx | .... (System type > Peripheral support)
 CONFIG_STM32_USART=y  => [auto] selected by CONFIG_STM32_USART1_2_3
 CONFIG_STM32_SERIALDRIVER=y => [auto] selected by STM32_USARTx_SERIALDRIVER
 
-# U[S]ART Device Configuration
+# System type > > U[S]ART Configuration > U[S]ART Driver Configuration
 CONFIG_STM32_USART2_SERIALDRIVER=y => [auto] Standard serial driver (System Type > U[S]ART Configuration > USART2 Driver Configuration). 
-Se crea una configuración para cada CONFIG_STM32_USARTx de los peripherals que activamos.
-En principio no hay que tocar nada, por defecto está bien.
-
-# Files and I/O
-CONFIG_DEV_CONSOLE is not set => Enable /dev/console  (RTOS Features > Files and I/O). Si CONFIG_DEV_CONSOLE no está habilitado, el sistema utilizará el primer dispositivo serie que se registre (por ejemplo, /dev/ttyS0 o /dev/ttyS1) como la consola del sistema.
-
-# Device Drivers
-CONFIG_USBDEV=y => [auto] USB Device Driver Support (Device Drivers > USB Device Driver Support). Selected by CONFIG_STM32_USB.
-CONFIG_SERIAL=y => Front-end character drivers for chip-specific UARTs. This provide some TTY-like functionality and are commonly used (but not required for the NuttX system console. (Device Drivers > Serial Driver Support > Serial console). Permite configurar las USARTx activas (baud rate, buffer, ....).
-Entre las diferentes opciones del submenu permite seleccionar la salida de la serial console (si tenemos seteada CONFIG_DEV_CONSOLE), entre las diferentes USARTx activas: CONFIG_USARTx_SERIAL_CONSOLE | CONFIG_U[S]ARTx_SERIALDRIVER
-CONFIG_CDCACM => USB Modem (CDC/ACM) support (Device Drivers > USB Device Driver Support). Depends on CONFIG_USBDEV.
-CONFIG_CDCACM_CONSOLE => CDC/ACM console device (Device Drivers > USB Device Driver Support > USB Modem (CDC/ACM) support). Depends on CONFIG_USBDEV.
-
-# USARTx Configuration [Se crea una configuración para cada CONFIG_STM32_USARTx de los peripherals que activamos].
-CONFIG_PL2303 =>  Emulates the Prolific PL2303 serial/USB converter (Device Drivers > USB Device Driver Support) Puede ser interesante probarlo
-CONFIG_RAM_UART => It uses the memory block in the kernel as a communication medium, which can communicate between different processes or different CPUs                                              
-
-# USB Device Class Driver Options
-CONFIG_USBHOST=y => USB Host Driver Support (Device Drivers). Permite detectar y configurar automáticamente los dispositivos USB que se conectan como teclados, ratones, memorias. 
+Se crea una configuración para cada CONFIG_STM32_USARTx de los peripherals que activamos. Los valores por defecto están bien, no tocar.
 
 # Board-Common Options
 CONFIG_BOARDCTL_USBDEVCTRL => Enable USB device controls (Board selection > Enable boardctl() interface)
 
-# System Logging
+# RTOS Features > Files and I/O
+CONFIG_DEV_CONSOLE is not set => Enable /dev/console  (RTOS Features > Files and I/O). Si CONFIG_DEV_CONSOLE no está habilitado, el sistema utilizará el primer dispositivo serie que se registre (por ejemplo, /dev/ttyS0 o /dev/ttyS1) como la consola del sistema. **LEER AYUDA ***
+Si /dev/console es USART, check, si /dev/console es USB not check. 
+
+# Device drivers > Sensor Device Support
+CONFIG_SENSORS => Drivers for various sensors. Creo que hay que activarla para utilizar los archivos de nuttx/drivers/sensors
+
+# Device Drivers
+CONFIG_SERIAL=y (Device Drivers > Serial Driver Support) => Front-end character drivers for chip-specific UARTs. This provide some TTY-like functionality and are commonly used (but not required for) the NuttX system console. See also include/nuttx/serial/serial.h 
+CONFIG_SERIAL_CONSOLE => [auto]
+CONFIG_MCU_SERIAL => [auto]
+
+# Device drivers > Serial Driver Support
+CONFIG_STANDARD_SERIAL => Enable standard "upper-half" serial driver 
+Serial console (xxxxx) => permite escoger la serial console (USARTx, otra, desactivada) entre las las diferentes USARTx activas: CONFIG_USARTx_SERIAL_CONSOLE | CONFIG_U[S]ARTx_SERIALDRIVER | CONFIG_OTHER_SERIAL_CONSOLE | CONFIG_NO_SERIAL_CONSOLE
+USARTx Configuration => Se crea una configuración para cada CONFIG_STM32_USARTx de los peripherals que activamos
+
+# Device Drivers > USB Device Driver Support
+CONFIG_USBDEV=y => [auto] USB Device Driver Support. Selected by CONFIG_STM32_USB.
+CONFIG_USBDEV_COMPOSITE => permite utilizar el USB como un VCP (debugging + serial al mismo tiempo)
+CONFIG_PL2303 =>  Emulates the Prolific PL2303 serial/USB converter (Device Drivers > USB Device Driver Support) Puede ser interesante probarlo
+CONFIG_RAM_UART => It uses the memory block in the kernel as a communication medium, which can communicate between different CPU´s / processes.
+CONFIG_USBDEV_TRACE => Enables USB tracing for debug (Device drivers > USB Device Driver Support)
+CONFIG_CDCACM => USB Modem (CDC/ACM) support (Device Drivers > USB Device Driver Support).
+CONFIG_CDCACM_CONSOLE => CDC/ACM console device (Device Drivers > USB Device Driver Support > USB Modem (CDC/ACM) support).
+CONFIG_USBHOST=y => USB Host Driver Support (Device Drivers). Permite detectar y configurar automáticamente los dispositivos USB que se conectan como teclados, ratones, memorias. 
+
+# Device drivers > System Logging
 CONFIG_SYSLOG=y => Enable system logging (Device Driver > System logging)
+CONFIG_SYSLOG_CHARDEV => Enables support for a simple character driver at /dev/log. LEER AYUDA. (Device Driver > System logging)
+CONFIG_SYSLOG_CHAR=y => Log to a character device (Device Driver > System logging)
 CONFIG_SYSLOG_DEVPATH="/dev/ttyS0" => Full path to the system logging device. (Device Driver > System logging).
 CONFIG_RAMLOG_SYSLOG => store logs in Circular Buffer memory for later retrieval with dmesg, without affecting the NSH console.
-CONFIG_SYSLOG_CHAR=y => Log to a character device (Device Driver > System logging)
 CONFIG_SYSLOG_CDCACM => Use the CDCACM as a SYSLOG output device, send message to remote process (Device Driver > System logging)
 CONFIG_SYSLOG_REGISTER=y => Register syslog channel support (Device Drivers > System logging)
 Hay muchas más opciones de configuración en Device Drivers > System logging
 
-# NSH Library
-CONFIG_NSH_LIBRARY (Application Configuration > NSH Library). Selected by CONFIG_SYSTEM_NSH
+# Device drivers > Segger RTT
+SEGGER_RTT => [auto]
 
-# System Libraries and NSH Add-Ons
-CONFIG_SYSTEM_NSH => NuttShell (NSH) example (Application Configuration > System Libraries and NSH Add-Ons)
-
-# NSH Console Configuration
-CONFIG_NSH_CONSOLE => Use console (Application Configuration > NSH Library > Console Configuration)
+# Application Configuration > NSH Library
+CONFIG_NSH_LIBRARY => [auto] (Application Configuration > NSH Library). Selected by CONFIG_SYSTEM_NSH
+CONFIG_NSH_CONSOLE => Use console (Application Configuration > NSH Library > Console Configuration) **LEER AYUDA ***
 CONFIG_NSH_USBCONSOLE => Use a USB serial console (Application Configuration > NSH Library > Console Configuration). 
-CONFIG_NSH_ALTCONDEV is not set (Alternative console device )
-
-# USB Device Trace Support
+CONFIG_NSH_ALTCONDEV is not set (Application Configuration > NSH Library > Console Configuration)
 CONFIG_NSH_USBDEV_TRACE => Enable Builtin USB Trace Support 
-CONFIG_USBDEV_TRACE => Enables USB tracing for debug (Device drivers > USB Device Driver Support)
 CONFIG_NSH_ARCHINIT=y => To perform architecture-specific initialization (Application Configuration > NSH Library)
 
-# Aplication configuration
+# Aplication configuration > System Libraries and NSH Add-Ons
+CONFIG_SYSTEM_NSH => NuttShell (NSH) example (Application Configuration > System Libraries and NSH Add-Ons)
 CONFIG_SYSTEM_CDCACM => USB CDC/ACM Device Commands (Application configuration > System Libraries and NSH Add-Ons)
-
-# Debug options
-CONFIG_DEBUG_FEATURES => Enables built-in debug features.  Selecting this option will (1) debug assertions in the code, (2) enable extended parameter testing in many functions, and (3) enable support for debug output to the SYSLOG. Debug output must also be selected on a subsystem-by-subsystem basis. (Build setup > Debug options > Enable Debug features > activar las necesarias)
-
-# ARMv7-M Configuration Options
-CONFIG_ARMV7M_ITMSYSLOG=y, CONFIG_ARMV7M_ITMSYSLOG_PORT=0, CONFIG_ARMV7M_ITMSYSLOG_SWODIV=15 => Enable hooks to support ITM syslog output. This requires Additional MCU support in order to be used.  See arch/arm/src/armv7-m/itm_syslog.h for additional initialization information. (System type > ITM SYSLOG Support)
 
 Ejemplos ********** PENDIENTES DE CONFIRMAR QUE ESTAN OK **********
 nsh: CONFIG_STM32_USART2, CONFIG_STM32_USB, CONFIG_SYSTEM_NSH, CONFIG_BUILTIN, CONFIG_SYSTEM_CDCACM, CONFIG_CDCACM => esta conf. incluye soporte para USB, por según se indica en https://nuttx.apache.org/docs/latest/platforms/arm/stm32f3/boards/stm32f3discovery/index.html
