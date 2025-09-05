@@ -29,6 +29,7 @@
 *.swo
 *.swp
 *.sym
+*.tmp
 *.wsp
 *.ddc
 *.dds

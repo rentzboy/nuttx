@@ -110,3 +110,10 @@ la nsh console es igual al caso #1. Para el syslog tenemos varias posibilidades
 CDC-ACM es un estándar dentro de la especificación USB que permite a los dispositivos USB emular un puerto serie (o puerto COM).
 Virtual COM Port (VCP)	is a Microsoft Windows interface to access different communication channels (e.g. Serial RS232, USB, etc)
 
+==============================================================================
+System type > STM32 Peripheral Support > STM32_I2C1
+Device Drivers > CONFIG_I2C
+Device Drivers > Sensor Device Support > CONFIG_SENSORS_LSM303DLHC=y
+Device Drivers > Sensor Device Support > CONFIG_SENSORS_LSM303DLHC_I2C=y
+Device Drivers > Sensor Device Support > CONFIG_LSM303DLHC_I2C_FREQUENCY=400000
+CONFIG_EXAMPLES_LSM303DLHC=y
