@@ -24,7 +24,7 @@ Se crea una configuración para cada CONFIG_STM32_USARTx de los peripherals que 
 CONFIG_BOARDCTL_USBDEVCTRL => Enable USB device controls (Board selection > Enable boardctl() interface)
 
 # RTOS Features > Files and I/O
-CONFIG_DEV_CONSOLE is not set => Enable /dev/console  (RTOS Features > Files and I/O). Si CONFIG_DEV_CONSOLE no está habilitado, el sistema utilizará el primer dispositivo serie que se registre (por ejemplo, /dev/ttyS0 o /dev/ttyS1) como la consola del sistema. **LEER AYUDA ***
+CONFIG_DEV_CONSOLE is not set => Enable /dev/console  (RTOS Features > Files and I/O). Si CONFIG_DEV_CONSOLE no está habilitado, el sistema utilizará el primer dispositivo serie que se registre (por ejemplo, /dev/ttyS0 o /dev/ttyS1) como la consola del sistema en nuttx/arch/arm/src/common/arm_internal.h.  **LEER menuconfig ayuda ***
 Si /dev/console es USART, check, si /dev/console es USB not check. 
 
 # Device drivers > Sensor Device Support
@@ -52,12 +52,14 @@ CONFIG_USBHOST=y => USB Host Driver Support (Device Drivers). Permite detectar y
 
 # Device drivers > System Logging
 CONFIG_SYSLOG=y => Enable system logging (Device Driver > System logging)
-CONFIG_SYSLOG_CHARDEV => Enables support for a simple character driver at /dev/log. LEER AYUDA. (Device Driver > System logging)
-CONFIG_SYSLOG_CHAR=y => Log to a character device (Device Driver > System logging)
-CONFIG_SYSLOG_DEVPATH="/dev/ttyS0" => Full path to the system logging device. (Device Driver > System logging).
-CONFIG_RAMLOG_SYSLOG => store logs in Circular Buffer memory for later retrieval with dmesg, without affecting the NSH console.
+CONFIG_CONSOLE_SYSLOG => Redirige la Consola HACIA el Syslog (printf() -> /dev/console -> Syslog). NO CONFUNDIR con CONFIG_SYSLOG_CONSOLE
+CONFIG_SYSLOG_CONSOLE => 1/3: es la opción más habitual. syslog() -> Consola (/dev/console)
+CONFIG_SYSLOG_CHAR=y => 2/3: Log to a character device. Va de la mano con CONFIG_SYSLOG_DEVPATH
+CONFIG_SYSLOG_DEVPATH="/dev/ttyS0" =>2/3: Full path to the system logging device. Va de la mano con CONFIG_SYSLOG_CHAR
+CONFIG_RAMLOG_SYSLOG => 3/3: store logs in Circular Buffer memory for later retrieval with dmesg, without affecting the NSH console.
 CONFIG_SYSLOG_CDCACM => Use the CDCACM as a SYSLOG output device, send message to remote process (Device Driver > System logging)
-CONFIG_SYSLOG_REGISTER=y => Register syslog channel support (Device Drivers > System logging)
+CONFIG_SYSLOG_CHARDEV => Enables support for a simple character driver at /dev/log.  Es una interfaz de ENTRADA. Esta opción hace que el propio sistema syslog se registre a sí mismo como un dispositivo de caracteres, usualmente en /dev/kmsg, para que otros procesos puedan escribir en él. Todo lo que se escriba será inyectado en el sistema syslog como un nuevo mensaje de log. NO CONFUNDIR con CONFIG_SYSLOG_CHAR
+CONFIG_SYSLOG_REGISTER=y => [auto] Register syslog channel support.
 Hay muchas más opciones de configuración en Device Drivers > System logging
 
 # Device drivers > Segger RTT
