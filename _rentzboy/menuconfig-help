@@ -111,9 +111,14 @@ CDC-ACM es un estándar dentro de la especificación USB que permite a los dispo
 Virtual COM Port (VCP)	is a Microsoft Windows interface to access different communication channels (e.g. Serial RS232, USB, etc)
 
 ==============================================================================
+Build setup > Debug options > CONFIG_DEBUG_SENSORS (info/warn/err)
+Build setup > Debug options > CONFIG_DEBUG_I2C (info/warn/err)
 System type > STM32 Peripheral Support > STM32_I2C1
-Device Drivers > CONFIG_I2C
-Device Drivers > Sensor Device Support > CONFIG_SENSORS_LSM303DLHC=y
+Board Selection > (Board common logic) CONFIG_ARCH_BOARD_COMMON
+RTOS Features > RTOS hooks > (Custom board late initialization) CONFIG_BOARD_LATE_INITIALIZE
+Device Drivers > (I2C Driver Support) CONFIG_I2C
+Device Drivers > I2C Driver Support > (I2C character driver) CONFIG_I2C_DRIVER
+Device Drivers > Sensor Device Support > (STMicro LSM303DLHC 3D accele .... ) CONFIG_SENSORS_LSM303DLHC=y
 Device Drivers > Sensor Device Support > CONFIG_SENSORS_LSM303DLHC_I2C=y
 Device Drivers > Sensor Device Support > CONFIG_LSM303DLHC_I2C_FREQUENCY=400000
-CONFIG_EXAMPLES_LSM303DLHC=y
+Application Configuration > Examples > (LSM303DLHC reader example) CONFIG_EXAMPLES_LSM303DLHC=y

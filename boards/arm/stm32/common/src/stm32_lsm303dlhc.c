@@ -74,7 +74,7 @@
   #pragma note "compiling stm32_lsm303dlhc_initialize";
   struct i2c_master_s *i2c;
   int ret;
-    sninfo("Initializing lsm303dlhc!\n");
+    sninfo("Let´s initilizate lsm303dlhc!\n");
 
   //Get the I2C interface registered for the bus  
 
