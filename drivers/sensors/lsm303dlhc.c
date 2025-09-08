@@ -293,7 +293,7 @@ static int lsm303dlhc_write_register(struct lsm303dlhc_dev_s* dev, const uint8_t
     dev->acc_addr = LSM303DLHC_MAG_ADDRESS;
   }
 
-  i2c_config.frequency = LSM303DLHC_I2C_FREQUENCY(CONFIG_LSM303DLHC_I2C_FREQUENCY);;
+  i2c_config.frequency = LSM303DLHC_I2C_FREQUENCY(CONFIG_LSM303DLHC_I2C_FREQUENCY);
   i2c_config.address = dev->acc_addr;
   i2c_config.addrlen = 7;
 

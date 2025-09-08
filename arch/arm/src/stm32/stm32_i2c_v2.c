@@ -444,7 +444,7 @@ struct stm32_i2c_priv_s
 /* I2C Device, Instance */
 enum port
 {
-    I2C1,
+    I2C1 = 1,
     I2C2,
     I2C3,
     I2C4

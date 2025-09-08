@@ -71,7 +71,6 @@
  */
  int stm32_lsm303dlhc_initialize(int bus)
 {
-  #pragma note "compiling stm32_lsm303dlhc_initialize";
   struct i2c_master_s *i2c;
   int ret;
     sninfo("Let´s initilizate lsm303dlhc!\n");
