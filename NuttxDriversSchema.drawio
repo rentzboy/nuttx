@@ -245,6 +245,9 @@
         <mxCell id="A2ZbU5LwQxJ9MIYdX8El-38" value="board_late_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-1368.75" y="366.5" width="137.5" height="33.75" as="geometry" />
         </mxCell>
+        <mxCell id="fMb444TC9tvtAkGpkfXK-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="A2ZbU5LwQxJ9MIYdX8El-40" target="fMb444TC9tvtAkGpkfXK-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="A2ZbU5LwQxJ9MIYdX8El-40" value="drivers_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="-1494" y="227.5" width="107" height="30" as="geometry" />
         </mxCell>
@@ -309,6 +312,9 @@
         </mxCell>
         <mxCell id="KQ7ychixl7HlwoMqf_E2-1" value="stm32_clockconfig()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
           <mxGeometry x="-1147" y="140" width="123" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="fMb444TC9tvtAkGpkfXK-1" value="syslog_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="-1500.5" y="296.5" width="120" height="31.5" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
