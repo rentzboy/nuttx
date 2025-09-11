@@ -86,12 +86,17 @@
     }
   else
     {
-      ret = lsm303dlhc_register("/dev/lsm303dlhc", i2c);
+      ret = lsm303dlhc_register("/dev/lsm303dlhc_ACC", i2c);
       if (ret < 0)
         {
-          snerr("ERROR: Failed to register the LSM303DLHC sensor with the I2C%d interface\n",
+          snerr("ERROR: Failed to register the LSM303DLHC_ACC sensor with the I2C%d interface\n",
                  bus);
-
+        }
+      ret = lsm303dlhc_register("/dev/lsm303dlhc_MAG", i2c);
+      if (ret < 0)
+        {
+          snerr("ERROR: Failed to register the LSM303DLHC_MAG sensor with the I2C%d interface\n",
+                 bus);
         }
     }
     return ret;

@@ -116,14 +116,14 @@ static void stm32_i2c_register(int bus)
   i2c = stm32_i2cbus_initialize(bus);
   if (i2c == NULL)
     {
-      syslog(LOG_ERR, "ERROR: Failed to get I2C%d interface\n", bus);
+      snerr("ERROR: Failed to get I2C%d interface\n", bus);
     }
   else
     {
       ret = i2c_register(i2c, bus);
       if (ret < 0)
         {
-          syslog(LOG_ERR, "ERROR: Failed to register I2C%d driver: %d\n",
+          snerr("ERROR: Failed to register I2C%d driver: %d\n",
                  bus, ret);
           stm32_i2cbus_uninitialize(i2c);
         }
