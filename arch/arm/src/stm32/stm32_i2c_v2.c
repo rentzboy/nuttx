@@ -456,13 +456,7 @@ struct stm32_i2c_inst_s
   struct stm32_i2c_priv_s *priv; /* Common driver private data structure */
 };
 
-struct stm32_i2c_instances_s
-{
-  struct i2c_master_s* i2c;
-  uint8_t port;
-};
-
-static struct stm32_i2c_instances_s g_stm32_i2c_instances[4]; //Global, inicializado a 0 automáticamente
+static struct i2c_master_s* g_stm32_i2c_master_instances[4]; //Global, inicializado a 0 automáticamente
 
 /****************************************************************************
  * Private Function Prototypes
@@ -2793,9 +2787,9 @@ struct i2c_master_s *stm32_i2cbus_initialize(int port)
 #endif
     }
 
-  nxmutex_unlock(&priv->lock);
   //Save instance in global variable
   stm32_i2c_set_instance(inst);
+  nxmutex_unlock(&priv->lock);
   return (struct i2c_master_s *)inst;
 }
 
@@ -2859,32 +2853,29 @@ static void stm32_i2c_set_instance(struct stm32_i2c_inst_s* stm32_i2c_inst)
 #ifdef CONFIG_STM32_I2C1
   if (priv == (struct stm32_i2c_priv_s*) &stm32_i2c1_priv)
   {
-    g_stm32_i2c_instances[0].i2c = (struct i2c_master_s *)stm32_i2c_inst->ops;
-    g_stm32_i2c_instances[0].port = I2C1;
+    g_stm32_i2c_master_instances[0] = (struct i2c_master_s *)stm32_i2c_inst;
     return;
   }
 #endif
 #ifdef CONFIG_STM32_I2C2
   else if (priv == (struct stm32_i2c_priv_s*) &stm32_i2c2_priv)
   {
-    g_stm32_i2c_instances[1].i2c = (struct i2c_master_s *)stm32_i2c_inst->ops;
-    g_stm32_i2c_instances[1].port = I2C2;
+    g_stm32_i2c_instances[1] = (struct i2c_master_s *)stm32_i2c_inst;
     return;
   }
 #endif
 #ifdef CONFIG_STM32_I2C3
+
   else if (priv == (struct stm32_i2c_priv_s*) stm32_i2c3_priv)
   {
-    g_stm32_i2c_instances[2].i2c = (struct i2c_master_s *)stm32_i2c_inst->ops;
-    g_stm32_i2c_instances[2].port = I2C3;
+    g_stm32_i2c_instances[2] = (struct i2c_master_s *)stm32_i2c_inst;
     return;
   }
 #endif
 #ifdef CONFIG_STM32_I2C4
   else if (priv == (struct stm32_i2c_priv_s*) &stm32_i2c4_priv)
   {
-    g_stm32_i2c_instances[3].i2c = (struct i2c_master_s *)stm32_i2c_inst->ops;
-    g_stm32_i2c_instances[3].port = I2C4;
+    g_stm32_i2c_instances[3] = (struct i2c_master_s *)stm32_i2c_inst;
     return;
   }
 #endif
@@ -2908,13 +2899,13 @@ struct i2c_master_s* stm32_i2c_get_instance(int port)
   switch (port)
   {
     case I2C1:
-      return g_stm32_i2c_instances[0].i2c;
+      return g_stm32_i2c_master_instances[0];
     case I2C2:
-      return g_stm32_i2c_instances[1].i2c;
+      return g_stm32_i2c_master_instances[1];
     case I2C3:
-      return g_stm32_i2c_instances[2].i2c;
+      return g_stm32_i2c_master_instances[2];
     case I2C4:
-      return g_stm32_i2c_instances[3].i2c;
+      return g_stm32_i2c_master_instances[3];
     default:
       return NULL;
   }

@@ -71,6 +71,5 @@ int i2c_write(FAR struct i2c_master_s *dev,
 
   /* Then perform the transfer. */
 
-  ret = I2C_TRANSFER(dev, &msg, 1);
   return (ret >= 0) ? OK : ret;
 }

@@ -88,3 +88,6 @@ SAVEconfig
 .aider*
 imx9-norimage.img
 config.txt
+disassembly.S
+arch/arm/src/stm32_start.s
+libs/libc/bin/lib_utsname.s
