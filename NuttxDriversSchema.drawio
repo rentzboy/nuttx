@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0" version="28.2.0" pages="6">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0" version="28.2.0" pages="7">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="BMI160">
     <mxGraphModel dx="1997" dy="1781" grid="0" gridSize="13" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0" adaptiveColors="simple">
       <root>
@@ -315,6 +315,130 @@
         </mxCell>
         <mxCell id="fMb444TC9tvtAkGpkfXK-1" value="syslog_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
           <mxGeometry x="-1500.5" y="296.5" width="120" height="31.5" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="I2C_Protocol" id="6zFktuCoW-a-RQhbZbMz">
+    <mxGraphModel dx="2824" dy="578" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="light-dark(#edefde, #121212)" math="0" shadow="0" adaptiveColors="simple">
+      <root>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-0" />
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-1" parent="5yRmT7sYDER6Cvilm9VJ-0" />
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-9" value="stm32_i2c_transfer" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-1246" y="35" width="125" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-10" value="&lt;p&gt;&lt;a href=&quot;https://cwiki.apache.org/confluence/display/NUTTX/NuttX+Initialization+Sequence&quot;&gt;https://cwiki.apache.org/confluence/display/NUTTX/NuttX+Initialization+Sequence&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;b&gt;PRIMER NIVEL&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;b&gt;&amp;gt; [1] stm32_clockconfig()&lt;/b&gt;&amp;nbsp;[stm32_rcc.c]:&amp;nbsp;Initialize the PLLs and peripheral clocking needed by the board&amp;nbsp;based on the values in board.h + enable peripheral clocking according to the NuttX configuration file.&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;[2]&lt;/b&gt;&amp;nbsp;&lt;b&gt;stm32_lowsetup()&lt;/b&gt; [stm32_lowsetup.c]&amp;nbsp;Enable a very basic console USART and configure GPIO pins for rx/tx, so showProgress() can work&lt;/p&gt;&lt;p&gt;&lt;b&gt;&amp;gt;&lt;/b&gt; &lt;b&gt;[3]&lt;/b&gt;&amp;nbsp;&lt;b&gt;stm32_gpioinit()&lt;/b&gt; [stm32_gpio.c]&amp;nbsp;Perform any GPIO remapping that is needed for some boards (only for F10x boards)&lt;/p&gt;&lt;p&gt;&lt;b&gt;&amp;gt;&lt;/b&gt; &lt;b&gt;[4]&lt;/b&gt;&amp;nbsp;&lt;b&gt;itm_syslog_initialize()&lt;/b&gt; [] Perform ARMv7-M ITM SYSLOG initialization&lt;/p&gt;&lt;p&gt;&lt;b&gt;&amp;gt;&lt;/b&gt; &lt;b&gt;[5]&amp;nbsp;stm32_boardinitialize()&lt;/b&gt; [stm32_boot.c] &lt;u&gt;Board specific logic&lt;/u&gt; is initialized: LEDs, USB, SPI&lt;/p&gt;&lt;p&gt;&lt;b&gt;&amp;gt; [6] nx_start()&lt;/b&gt;&amp;nbsp;[nx_start.c] initialize the operating system and to spawn the user initialization thread of execution.&lt;/p&gt;&lt;p&gt;&lt;b&gt;SEGUNDO NIVEL&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&amp;gt;&amp;nbsp;&lt;b&gt;up_initialize()&lt;/b&gt; [&amp;lt;arch&amp;gt;_initialize.c] Handle &lt;u&gt;architecture specific&lt;/u&gt; details of running the OS: ISR, clocks, register drivers.&amp;nbsp;All ARM-based MCUs share a common &lt;code&gt;up_initialize()&lt;/code&gt; implementation provided at &lt;code&gt;nuttx/arch/arm/src/common/arm_initialize.c&lt;/code&gt;.&lt;br&gt; The operations perform by this common ARM initialization will, however, call into facilities provided by the particular ARM chip&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;drivers_initialize()&lt;/b&gt; [drivers_initialize.c] if-defined-endif list to initialize/register device drivers from .config which are architecture agnostic =&amp;gt; OS dependent&lt;/p&gt;&lt;p&gt;&amp;gt;&amp;nbsp;&lt;b&gt;nx_bringup()&lt;/b&gt; [nx_start.c]&amp;nbsp;&amp;nbsp;It starts all of the required threads and tasks to bring up the system. No confundir con stm32_bringup()&lt;/p&gt;&lt;p&gt;&amp;gt;&amp;nbsp;&lt;b&gt;nx_start_application()&lt;/b&gt; [nx_bringup.c] Launches the application either by creating a task for it or executing a program from a filesystem after mounting it.&lt;/p&gt;&lt;p&gt;&lt;b&gt;&amp;gt;&amp;nbsp;board_late_initialize()&lt;/b&gt; [stm32_boot.c]&amp;nbsp;is a last-minute, board-specific initialization,&amp;nbsp;an ideal place to do board-specific initialization steps that &lt;br&gt;depend on having a fully initialized OS such as memory allocations, initialization of complex device drivers, mounting of file systems, etc.&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;board_app_initialize()&lt;/b&gt; [boardctl.c] Principalmente para inicializar boardctl()&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;stm32_bringup()&lt;/b&gt; [stm32_bringup.c] Hay 2 archivos con el mismo nombre en diferentes rutas: (1) Perform &lt;u&gt;architecture-specific&lt;/u&gt; initialization (2)&amp;nbsp;Perform &lt;u&gt;board-specific&lt;/u&gt; initialization.&amp;nbsp;Listado de if defined-endif para inicializar devices en función del .config&lt;/p&gt;&lt;p&gt;&lt;b&gt;CUSTOM DRIVERS [I2C]&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&amp;gt; &lt;b&gt;stm32_i2c_register()&lt;/b&gt; [stm32_bringup.c] Inicializa el lower half driver de I2C en&amp;nbsp;stm32_i2cbus_initialize() y luego registra el upper half driver con&amp;nbsp;i2c_register() pasándole la instancia devuelta por&amp;nbsp;stm32_i2cbus_initialize(). &lt;span style=&quot;color: rgb(255, 20, 66);&quot;&gt;De esta manera se relacionan el lower y el upper half driver.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&amp;gt;&amp;nbsp;&lt;b&gt;stm32_i2cbus_initialize()&lt;/b&gt; [stm32_i2c_v2.c] Setup the I2C hardware, ready for operation with defaults. This function returns (struct i2c_master_s *) inst, where int = stm32_i2c_inst_s *. El upper half driver (i2c_masters_s) no necesita tener constancia de todos los campos del lower half (stm32_i2c_inst_s). Al devolver un cast, únicamente pasamos el espacio de memoria que ocupa el cast, el resto de la memoria (=campos de la struct) no se devuelve.&lt;br&gt;&lt;b&gt;ATENCIÓN &lt;/b&gt;a la descripción de la struct i2c_master_s en nuttx/include/nuttx/i2c/i2c_master.h. This structure only defines the initial fields of the structure visible to the I2C client. &lt;u&gt;The specific implementation may add additional, device specific fields after the vtable.&lt;/u&gt;&lt;/p&gt;&lt;p&gt;&amp;gt;&amp;nbsp;&lt;b&gt;i2c_register() &lt;/b&gt;[i2c_driver.c] Registra el driver en el FS (file system)&lt;br&gt;&lt;b&gt;ATENCIÓN &lt;/b&gt;a la descripción de la función en nuttx/drivers/i2c/i2c_driver.c The I2C character driver is a simple character driver that supports I2C transfers.&amp;nbsp;&lt;br&gt;The intent of this driver is to support I2C testing. It is not suitable for use in any real driver application.&lt;/p&gt;&lt;p&gt;&amp;gt; Los 3 archivos donde creo que habría que inicializar nuestros drivers son:&lt;br&gt;&amp;nbsp; → nuttx/drivers/drivers_initialize.c: raramente, para driver más ligados al OS.&lt;br&gt;&amp;nbsp; → nuttx/boards/arm/stm32/stm32f3discovery/src/stm32_boot.c: me gusta este sitio, pero en los ejemplos hay muy pocos drivers aqui o con weak functions.&lt;br&gt;&amp;nbsp; → nuttx/boards/arm/stm32/stm32f4discovery/src/stm32_bringup.c: para la mayoría de los drivers de los peripherals.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=15;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-1437" y="644" width="1053" height="1058" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-11" value="stm32_i2c_enableinterrupts" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-1265" y="175" width="159" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="bsHupvWEBgLNVUVJAmAr-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-12" target="5yRmT7sYDER6Cvilm9VJ-36">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bsHupvWEBgLNVUVJAmAr-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-12" target="5yRmT7sYDER6Cvilm9VJ-53">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bsHupvWEBgLNVUVJAmAr-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-12" target="5yRmT7sYDER6Cvilm9VJ-51">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bsHupvWEBgLNVUVJAmAr-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-12" target="5yRmT7sYDER6Cvilm9VJ-47">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-12" value="stm32_i2c_sendstart" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-1248.5" y="238" width="126" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-18" target="5yRmT7sYDER6Cvilm9VJ-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-18" target="5yRmT7sYDER6Cvilm9VJ-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-18" target="5yRmT7sYDER6Cvilm9VJ-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-18">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-345" y="534.44" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-18" target="5yRmT7sYDER6Cvilm9VJ-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-18" value="stm32_boardinitialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-557" y="450.44" width="130" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-22" value="stm32_spidev_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-564" y="534.44" width="145" height="32.5" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-23" value="stm32_usbinitialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-143.5" y="384" width="120" height="32.5" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-24" value="stm32_netinitialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-446.5" y="384" width="120" height="32.5" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-25" value="board_autoled_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-306.5" y="384" width="145" height="32.5" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-27" target="5yRmT7sYDER6Cvilm9VJ-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-27" value="nx_bringup()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-609" y="384" width="125" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-28" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-29" target="5yRmT7sYDER6Cvilm9VJ-32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-29" value="nx_start_application()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-731" y="441.5" width="135" height="32.5" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-30" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-32" target="5yRmT7sYDER6Cvilm9VJ-40">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-31" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-32" target="5yRmT7sYDER6Cvilm9VJ-42">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-32" value="board_late_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-732.25" y="511.5" width="137.5" height="33.75" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-34" value="drivers_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-1494" y="227.5" width="107" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-36" value="stm32_i2c_enable/disable_reload" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-1059" y="300" width="189" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-37" value="up_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-1609" y="226.5" width="95" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-38" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-40" target="5yRmT7sYDER6Cvilm9VJ-44">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-40" value="stm32_bringup()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-609.5" y="595" width="121" height="31.88" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-42" value="&amp;nbsp; board_app_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-843.5" y="594.44" width="136" height="33" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-44" value="stm32_i2ctool()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-446.5" y="594.88" width="120" height="32.56" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-47" value="stm32_i2c_set_read/write_transfer_dir" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-472" y="300" width="234" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-48" value="i2c_register()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-746" y="450.44" width="120" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-50" value="stm32_i2c_sem_waitdone" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-1261" y="302" width="155" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-51" value="stm32_i2c_set_7bit_address" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-653" y="300" width="169" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-52" value="stm32_i2c_process" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-1246" y="111" width="125" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-53" value="&amp;nbsp;stm32_i2c_set_bytes_to_transfer" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-853" y="300" width="188" height="35" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
