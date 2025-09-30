@@ -320,7 +320,7 @@
     </mxGraphModel>
   </diagram>
   <diagram name="I2C_Protocol" id="6zFktuCoW-a-RQhbZbMz">
-    <mxGraphModel dx="3282" dy="612" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="light-dark(#edefde, #121212)" math="0" shadow="0" adaptiveColors="simple">
+    <mxGraphModel dx="3043" dy="612" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="light-dark(#edefde, #121212)" math="0" shadow="0" adaptiveColors="simple">
       <root>
         <mxCell id="5yRmT7sYDER6Cvilm9VJ-0" />
         <mxCell id="5yRmT7sYDER6Cvilm9VJ-1" parent="5yRmT7sYDER6Cvilm9VJ-0" />
@@ -395,26 +395,20 @@
         <mxCell id="5yRmT7sYDER6Cvilm9VJ-29" value="nx_start_application()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
           <mxGeometry x="-641.5" y="18.5" width="135" height="32.5" as="geometry" />
         </mxCell>
-        <mxCell id="5yRmT7sYDER6Cvilm9VJ-30" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-32" target="5yRmT7sYDER6Cvilm9VJ-40">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="5yRmT7sYDER6Cvilm9VJ-31" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-32" target="5yRmT7sYDER6Cvilm9VJ-42">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
         <mxCell id="5yRmT7sYDER6Cvilm9VJ-32" value="board_late_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
           <mxGeometry x="-642.75" y="88.5" width="137.5" height="33.75" as="geometry" />
         </mxCell>
         <mxCell id="5yRmT7sYDER6Cvilm9VJ-36" value="stm32_i2c_enable/disable_reload" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
           <mxGeometry x="-1059" y="336" width="189" height="35" as="geometry" />
         </mxCell>
-        <mxCell id="5yRmT7sYDER6Cvilm9VJ-38" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-40" target="5yRmT7sYDER6Cvilm9VJ-44">
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-40" value="stm32_i2c_isr_process" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-961" y="152.88" width="145" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="bsHupvWEBgLNVUVJAmAr-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-42" target="5yRmT7sYDER6Cvilm9VJ-40">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="5yRmT7sYDER6Cvilm9VJ-40" value="stm32_bringup()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
-          <mxGeometry x="-520" y="172" width="121" height="31.88" as="geometry" />
-        </mxCell>
-        <mxCell id="5yRmT7sYDER6Cvilm9VJ-42" value="&amp;nbsp; board_app_initialize()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
-          <mxGeometry x="-754" y="171.44000000000005" width="136" height="33" as="geometry" />
+        <mxCell id="5yRmT7sYDER6Cvilm9VJ-42" value="&amp;nbsp; stm32_i2c_isr" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-942" y="53.5" width="107" height="35" as="geometry" />
         </mxCell>
         <mxCell id="5yRmT7sYDER6Cvilm9VJ-44" value="stm32_i2ctool()" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
           <mxGeometry x="-357" y="171.88" width="120" height="32.56" as="geometry" />
