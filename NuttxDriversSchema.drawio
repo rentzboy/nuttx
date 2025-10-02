@@ -358,7 +358,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="5yRmT7sYDER6Cvilm9VJ-12" value="stm32_i2c_sendstart" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
-          <mxGeometry x="-740" y="175" width="126" height="35" as="geometry" />
+          <mxGeometry x="-760" y="175" width="126" height="35" as="geometry" />
         </mxCell>
         <mxCell id="5yRmT7sYDER6Cvilm9VJ-27" value="stm32_i2c_modifyreg32" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
           <mxGeometry x="-826" y="291" width="141" height="35" as="geometry" />
@@ -367,13 +367,13 @@
           <mxGeometry x="-1659" y="291" width="189" height="35" as="geometry" />
         </mxCell>
         <mxCell id="5yRmT7sYDER6Cvilm9VJ-40" value="stm32_i2c_isr_process" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
-          <mxGeometry x="-1391" y="571.38" width="145" height="35" as="geometry" />
+          <mxGeometry x="-1621" y="480.38" width="145" height="35" as="geometry" />
         </mxCell>
         <mxCell id="bsHupvWEBgLNVUVJAmAr-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-42" target="5yRmT7sYDER6Cvilm9VJ-40">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="5yRmT7sYDER6Cvilm9VJ-42" value="&amp;nbsp; stm32_i2c_isr" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
-          <mxGeometry x="-1372" y="472" width="107" height="35" as="geometry" />
+          <mxGeometry x="-1602" y="381" width="107" height="35" as="geometry" />
         </mxCell>
         <mxCell id="5yRmT7sYDER6Cvilm9VJ-47" value="stm32_i2c_set_read/write_transfer_dir" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
           <mxGeometry x="-1072" y="291" width="222" height="35" as="geometry" />
@@ -405,20 +405,17 @@
         <mxCell id="5yRmT7sYDER6Cvilm9VJ-53" value="&amp;nbsp;stm32_i2c_set_bytes_to_transfer" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
           <mxGeometry x="-1453" y="291" width="188" height="35" as="geometry" />
         </mxCell>
-        <mxCell id="bsHupvWEBgLNVUVJAmAr-17" value="stm32_i2c_modifyreg32" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
-          <mxGeometry x="-549" y="529" width="141" height="35" as="geometry" />
-        </mxCell>
         <mxCell id="bsHupvWEBgLNVUVJAmAr-18" value="stm32_i2c_sem_waitstop" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
           <mxGeometry x="-1429" y="175" width="157" height="35" as="geometry" />
-        </mxCell>
-        <mxCell id="bsHupvWEBgLNVUVJAmAr-19" value="stm32_i2c_set_read/write_transfer_dir" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
-          <mxGeometry x="-802" y="529" width="234" height="35" as="geometry" />
         </mxCell>
         <mxCell id="bsHupvWEBgLNVUVJAmAr-20" value="stm32_i2c_setclock" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
           <mxGeometry x="-1081" y="175" width="130" height="35" as="geometry" />
         </mxCell>
         <mxCell id="bsHupvWEBgLNVUVJAmAr-21" value="stm32_i2c_clearinterrupts" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
           <mxGeometry x="-1257" y="175" width="160" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="bsHupvWEBgLNVUVJAmAr-44" value="stm32_i2c_enableinterrupts: I2C_CR1_TXRX | I2C_CR1_NACKIE&#xa;stm32_i2c_sem_waitstop: wait for an STOP to complete or timout" style="text;whiteSpace=wrap;fontSize=14;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-1309" y="407" width="626" height="221" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
