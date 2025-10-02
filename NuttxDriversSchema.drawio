@@ -320,7 +320,7 @@
     </mxGraphModel>
   </diagram>
   <diagram name="I2C_Protocol" id="6zFktuCoW-a-RQhbZbMz">
-    <mxGraphModel dx="4051" dy="578" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="light-dark(#edefde, #121212)" math="0" shadow="0" adaptiveColors="simple">
+    <mxGraphModel dx="3780" dy="478" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="light-dark(#edefde, #121212)" math="0" shadow="0" adaptiveColors="simple">
       <root>
         <mxCell id="5yRmT7sYDER6Cvilm9VJ-0" />
         <mxCell id="5yRmT7sYDER6Cvilm9VJ-1" parent="5yRmT7sYDER6Cvilm9VJ-0" />
@@ -348,32 +348,17 @@
         <mxCell id="bsHupvWEBgLNVUVJAmAr-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-12" target="5yRmT7sYDER6Cvilm9VJ-27">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="bsHupvWEBgLNVUVJAmAr-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-12" target="5yRmT7sYDER6Cvilm9VJ-47">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="-672" y="253" />
-              <mxPoint x="-961" y="253" />
-            </Array>
-          </mxGeometry>
+        <mxCell id="bsHupvWEBgLNVUVJAmAr-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-12" target="5yRmT7sYDER6Cvilm9VJ-47">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="bsHupvWEBgLNVUVJAmAr-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-12" target="5yRmT7sYDER6Cvilm9VJ-51">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="-672" y="253" />
-              <mxPoint x="-1168" y="253" />
-            </Array>
-          </mxGeometry>
+        <mxCell id="bsHupvWEBgLNVUVJAmAr-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-12" target="5yRmT7sYDER6Cvilm9VJ-51">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="bsHupvWEBgLNVUVJAmAr-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-12" target="5yRmT7sYDER6Cvilm9VJ-53">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="-672" y="252" />
-              <mxPoint x="-1359" y="252" />
-            </Array>
-          </mxGeometry>
+        <mxCell id="bsHupvWEBgLNVUVJAmAr-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-12" target="5yRmT7sYDER6Cvilm9VJ-53">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="5yRmT7sYDER6Cvilm9VJ-12" value="stm32_i2c_sendstart" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
-          <mxGeometry x="-735" y="179" width="126" height="35" as="geometry" />
+          <mxGeometry x="-740" y="175" width="126" height="35" as="geometry" />
         </mxCell>
         <mxCell id="5yRmT7sYDER6Cvilm9VJ-27" value="stm32_i2c_modifyreg32" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
           <mxGeometry x="-826" y="291" width="141" height="35" as="geometry" />
