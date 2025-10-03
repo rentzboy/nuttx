@@ -320,7 +320,7 @@
     </mxGraphModel>
   </diagram>
   <diagram name="I2C_Protocol" id="6zFktuCoW-a-RQhbZbMz">
-    <mxGraphModel dx="3615" dy="478" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="light-dark(#edefde, #121212)" math="0" shadow="0" adaptiveColors="simple">
+    <mxGraphModel dx="3780" dy="478" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="light-dark(#edefde, #121212)" math="0" shadow="0" adaptiveColors="simple">
       <root>
         <mxCell id="5yRmT7sYDER6Cvilm9VJ-0" />
         <mxCell id="5yRmT7sYDER6Cvilm9VJ-1" parent="5yRmT7sYDER6Cvilm9VJ-0" />
@@ -365,6 +365,9 @@
         </mxCell>
         <mxCell id="5yRmT7sYDER6Cvilm9VJ-36" value="stm32_i2c_enable/disable_reload" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
           <mxGeometry x="-1659" y="291" width="189" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="bsHupvWEBgLNVUVJAmAr-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="5yRmT7sYDER6Cvilm9VJ-1" source="5yRmT7sYDER6Cvilm9VJ-40" target="bsHupvWEBgLNVUVJAmAr-45">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="5yRmT7sYDER6Cvilm9VJ-40" value="stm32_i2c_isr_process" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
           <mxGeometry x="-1621" y="480.38" width="145" height="35" as="geometry" />
@@ -414,8 +417,11 @@
         <mxCell id="bsHupvWEBgLNVUVJAmAr-21" value="stm32_i2c_clearinterrupts" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
           <mxGeometry x="-1257" y="175" width="160" height="35" as="geometry" />
         </mxCell>
-        <mxCell id="bsHupvWEBgLNVUVJAmAr-44" value="stm32_i2c_enableinterrupts: I2C_CR1_TXRX | I2C_CR1_NACKIE&#xa;stm32_i2c_sem_waitstop: wait for an STOP to complete or timout&#xa;stm32_i2c_sendstart: se ejecuta una sola vez para configurar el transfer y activar las ISR del I20C&#xa;stm32_i2c_isr_process: se ejecuta para cada byte que se envia, hasta error o se completa la transmisición (TC). El contador y pointer al buffer se gestiona aqui.&#xa;&#xa;" style="text;whiteSpace=wrap;fontSize=14;fontStyle=0" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+        <mxCell id="bsHupvWEBgLNVUVJAmAr-44" value="stm32_i2c_enableinterrupts: I2C_CR1_TXRX | I2C_CR1_NACKIE&#xa;stm32_i2c_sem_waitstop: wait for an STOP to complete or timout&#xa;stm32_i2c_sendstart: se ejecuta una sola vez para configurar el transfer y activar las ISR del I20C&#xa;stm32_i2c_isr_process: se ejecuta para cada byte que se envia, hasta error o se completa la transmisición (TC). El contador y pointer al buffer se gestiona aqui. &#xa;stm32_i2c_putreg: carga el byte al STM32_I2C_TXDR para que se envíe&#xa;&#xa;" style="text;whiteSpace=wrap;fontSize=14;fontStyle=0" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
           <mxGeometry x="-1309" y="407" width="626" height="221" as="geometry" />
+        </mxCell>
+        <mxCell id="bsHupvWEBgLNVUVJAmAr-45" value="stm32_i2c_putreg" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="5yRmT7sYDER6Cvilm9VJ-1">
+          <mxGeometry x="-1621" y="574" width="145" height="35" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
