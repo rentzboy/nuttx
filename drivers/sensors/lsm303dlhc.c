@@ -112,7 +112,9 @@ static int lsm303dlhc_open(FAR struct file *filep)
 
   /* Setup the LSM303DLHC ACC */
   
-  lsm303dlhc_write_register(dev, ACC_CTRL_REG1_A, ACC_SPEED_400_KHZ, "acc");
+  uint8_t regValue = (uint8_t)ACC_SPEED_400_KHZ | (uint8_t)ACC_YEN | (uint8_t)ACC_YEN | (uint8_t)ACC_ZEN;
+
+  lsm303dlhc_write_register(dev, ACC_CTRL_REG1_A, regValue, "acc");
   up_mdelay(5);
 
   /* No need to return a fd (file descriptor) */
@@ -150,7 +152,6 @@ static ssize_t lsm303dlhc_read(FAR struct file *filep, FAR char *buffer,
 	struct inode* node;
   ssize_t ret;
   int ret2;
-  char *str;
 
   /* Sanity check */
 
@@ -163,9 +164,9 @@ static ssize_t lsm303dlhc_read(FAR struct file *filep, FAR char *buffer,
 	node = filep->f_inode;
   dev = node->i_private;
 
-  str = strstr(node->i_name, "acc");
+  /* Read ACC data (MAG ya tal ....) */
 
-  ret = lsm303dlhc_i2c_read(dev, (uint8_t*)buffer, (uint8_t)buflen, str == NULL ? "mag" : "acc");
+  ret = lsm303dlhc_i2c_read(dev, (uint8_t*)buffer, (uint8_t)buflen, "acc");
 
   if (ret > 0)
   {
@@ -178,7 +179,7 @@ static ssize_t lsm303dlhc_read(FAR struct file *filep, FAR char *buffer,
       snerr("ERROR: Failed to convert to two's complement\n");
     }
   }
-  return ret;  //OK (0) || ERROR (-1)
+  return buflen;
 }
 
 /****************************************************************************
@@ -220,9 +221,9 @@ static int lsm303dlhc_i2c_read(struct lsm303dlhc_dev_s* dev, uint8_t *rbuffer, u
   struct i2c_config_s i2c_config;
   uint8_t wbuffer[1];
   int ret;
-  length = 6; //Acc registers, from 0x28 to 0x2D
+  length = 6; // 0x28 to 0x2D (ACC), 0x03 to 0x08 (MAG)
 
-  //TODO: Cast rbuffer to acc or mag struct
+  //TODO: Realmente viene acc hardcoded de lsm303dlhc_read()
 
   if (strcmp(sensor, "acc") == 0)
   {
@@ -233,7 +234,7 @@ static int lsm303dlhc_i2c_read(struct lsm303dlhc_dev_s* dev, uint8_t *rbuffer, u
     dev->acc_addr = LSM303DLHC_MAG_ADDRESS;
   }
   
-  i2c_config.frequency = LSM303DLHC_I2C_FREQUENCY(CONFIG_LSM303DLHC_I2C_FREQUENCY);;
+  i2c_config.frequency = LSM303DLHC_I2C_FREQUENCY(CONFIG_LSM303DLHC_I2C_FREQUENCY);
   i2c_config.address = dev->acc_addr;
   i2c_config.addrlen = 7;
 
@@ -241,7 +242,7 @@ static int lsm303dlhc_i2c_read(struct lsm303dlhc_dev_s* dev, uint8_t *rbuffer, u
   In other words, SUB(7) must be equal to 1 while SUB(6-0) represents the address of the first register to be read. */
 
   /* //MSB must be 1, we are reading multiple bytes pag.20 sensor manual */
-  wbuffer[0] = ACC_OUT_X_L_A | LSM303DLHC_AUTO_INCREMENT_BIT; 
+  wbuffer[0] = LSM303DLHC_READ_MULTIPLE_BYTES(ACC_OUT_X_L_A); 
   
   ret = i2c_writeread(dev->i2c, &i2c_config, wbuffer, 1, rbuffer, length);
   if (ret < 0)  
@@ -251,6 +252,7 @@ static int lsm303dlhc_i2c_read(struct lsm303dlhc_dev_s* dev, uint8_t *rbuffer, u
   return ret; //OK (0) || ERROR (-1)
 }
 
+//No se utiliza actualmente. Se podría llamar desde lsm303dlhc_i2c_read cuando únicamente se lee un registro
 static int lsm303dlhc_read_register(struct lsm303dlhc_dev_s* dev, const uint8_t regAddr, const char *sensor)
 {
   struct i2c_config_s i2c_config;
@@ -381,7 +383,6 @@ int lsm303dlhc_register(FAR const char *devpath,
   priv->i2c       = i2c;
   priv->acc_addr  = LSM303DLHC_ACC_ADDRESS;
   priv->mag_addr  = LSM303DLHC_MAG_ADDRESS;
-  //priv->frequency = LSM303DLHC_I2C_FREQUENCY;
 
   /* Register the character driver */
 
