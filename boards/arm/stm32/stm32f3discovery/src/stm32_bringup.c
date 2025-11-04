@@ -26,22 +26,32 @@
 
 #include <nuttx/config.h>
 
-#include <stdbool.h>
-#include <stdio.h>
+#include <sys/types.h>
 #include <syslog.h>
-#include <errno.h>
 
 #include <nuttx/board.h>
 
+#ifdef CONFIG_INPUT_BUTTONS
+#  include <nuttx/input/buttons.h>
+#endif
+#ifdef CONFIG_USERLED
+#  include <nuttx/leds/userled.h>
+#endif
 #ifdef CONFIG_USBMONITOR
 #  include <nuttx/usb/usbmonitor.h>
 #endif
 
-#include "stm32.h"
 #include "stm32f3discovery.h"
 
+#ifdef CONFIG_I2C_DRIVER
+#  include "stm32_i2c.h"
+#endif
+#ifdef CONFIG_SENSORS_LSM303DLHC_I2C
+#  include "stm32_lsm303dlhc.h"
+#  include <nuttx/sensors/lsm303dlhc.h>
+#endif
 #ifdef CONFIG_SENSORS_QENCODER
-#include "board_qencoder.h"
+#  include "board_qencoder.h"
 #endif
 
 /****************************************************************************
@@ -83,6 +93,41 @@
 
 #if !defined(CONFIG_USBDEV_TRACE) && !defined(CONFIG_USBHOST_TRACE)
 #  undef HAVE_USBMONITOR
+#endif
+
+#ifdef CONFIG_I2C_DRIVER
+/**
+ * @name stm32_i2c_register
+ * @note This function definition would be better placed in stm32_i2c.c
+ * but since there are many stm32_i2c.c files, it is "easy" to keep it here.
+ * @brief Register an I2C bus
+ *
+ * This function is called from the board-specific logic to register
+ * the I2C bus
+ *
+ * @param bus   The I2C bus number (1-4) to be registered.
+ */
+static void stm32_i2c_register(int bus)
+{
+  struct i2c_master_s *i2c;
+  int ret;
+
+  i2c = stm32_i2cbus_initialize(bus);
+  if (i2c == NULL)
+    {
+      snerr("ERROR: Failed to get I2C%d interface\n", bus);
+    }
+  else
+    {
+      ret = i2c_register(i2c, bus);
+      if (ret < 0)
+        {
+          snerr("ERROR: Failed to register I2C%d driver: %d\n",
+                 bus, ret);
+          stm32_i2cbus_uninitialize(i2c);
+        }
+    }
+}
 #endif
 
 /****************************************************************************
@@ -153,5 +198,21 @@ int stm32_bringup(void)
   #endif
 #endif
 
+//Second: configurar el sensor driver: creamos una instancia para cada I2Cx
+#ifdef CONFIG_SENSORS_LSM303DLHC_I2C
+  #ifdef CONFIG_STM32_I2C1
+    ret = stm32_lsm303dlhc_initialize(1);
+  #endif
+  #ifdef CONFIG_STM32_I2C2
+    ret = stm32_lsm303dlhc_initialize(2);
+  #endif
+  #ifdef CONFIG_STM32_I2C3
+    ret = stm32_lsm303dlhc_initialize(3);
+  #endif
+  if (ret != OK)
+  {
+    snerr("ERROR: Failed to register the LSM303DLHC sensor: %d\n", ret);
+  }
   return ret;
+#endif
 }

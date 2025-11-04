@@ -29,6 +29,7 @@
 *.swo
 *.swp
 *.sym
+*.tmp
 *.wsp
 *.ddc
 *.dds
@@ -74,7 +75,6 @@ uImage
 # $(TOPDIR)/Makefile.[unix|win]::$(DIRLINKS_EXTERNAL_DIRS)
 .dirlinks
 .fakelnk
-.vscode
 .idea
 .DS_Store
 tools/gdb/__pycache__
@@ -88,3 +88,6 @@ SAVEconfig
 .aider*
 imx9-norimage.img
 config.txt
+disassembly.S
+arch/arm/src/stm32_start.s
+libs/libc/bin/lib_utsname.s

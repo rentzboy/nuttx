@@ -23,6 +23,7 @@ include common/Make.defs
 # BCM2711 specific C source files
 
 CHIP_CSRCS += bcm2711_boot.c
+CHIP_CSRCS += bcm2711_mailbox.c
 CHIP_CSRCS += bcm2711_serial.c
 CHIP_CSRCS += bcm2711_gpio.c
 CHIP_CSRCS += bcm2711_timer.c
@@ -40,7 +41,13 @@ CHIP_CSRCS += bcm2711_i2c.c
 endif
 
 # SPI interfaces
-#
+
 ifeq ($(CONFIG_BCM2711_SPI),y)
 CHIP_CSRCS += bcm2711_spi.c
+endif
+
+# EMMC interfaces
+
+ifeq ($(CONFIG_BCM2711_EMMC),y)
+CHIP_CSRCS += bcm2711_sdio.c
 endif

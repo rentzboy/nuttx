@@ -846,7 +846,7 @@ static int nau7802_thread(int argc, FAR char *argv[])
 
       /* Wait for next measurement cycle */
 
-      nxsig_usleep(ODR_TO_INTERVAL[dev->odr]);
+      nxsched_usleep(dev->interval);
     }
 
   return err;

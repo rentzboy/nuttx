@@ -1,0 +1,27 @@
+
+====================================================================================================
+******* CONFIGURACIÓN ACTIVA *******
+1- SYSLOG X USART1 (ROUTED TO VCP)
+FROM: https://nuttx.apache.org/docs/latest/platforms/arm/stm32f3/boards/stm32f3discovery/index.html
+SYSLOG_CHANNEL TO SERIAL CONSOLE (escoge la que indiquemos en CONFIG_SERIAL_CONSOLE)
+CONFIG_DEV_CONSOLE=Y   (Y para serial, N para USB)
+CONFIG_SYSLOG_CONSOLE=Y
+CONFIG_SERIAL_CONSOLE = CONFIG_USART1_SERIAL_CONSOLE
+#define CONFIG_SYSLOG_CHAR=N
+#define CONFIG_SYSLOG_DEVPATH=N => se utiliza unicamente al seleccionar CONFIG_SYSLOG_CHAR
+#define CONFIG_SYSLOG_REGISTER=Y => auto
+#define CONFIG_ARCH_LOWPUTC=Y => para ejecutar syslog() al arrancar, con funcionalidad mínima
+==> FUNCIONA TANTO Showprogress al arrancar como nuttx shell !!
+Para enviar comandos a NSH tengo que utilizar screen /dev/ttyACM0, pues Serial Monitor de VS Code solo funciona el output.
+no pueden estar ambos conectados a la vez.
+2- NO UTILIZAMOS ITM PUES NO HE CONSEGUIDO QUE FUNCIONE JUNTO CON EL GDB.
+=====================================================================================
+******* CONFIGURACIÓN NO PROBABA *******
+1- SYSLOG X USART2 (PROLIFIC)
+FROM: https://nuttx.apache.org/docs/latest/platforms/arm/stm32f3/boards/stm32f3discovery/index.html
+SYSLOG_CHANNEL TO CHAR SERIAL DEVICE usart2
+#define CONFIG_SYSLOG_DEVPATH "ttyUSB0"		"/dev/ttyS0"
+#define CONFIG_SYSLOG_CHAR 1 => serial device
+#define CONFIG_SYSLOG_REGISTER 1 => auto
+#define CONFIG_ARCH_LOWPUTC 1 => para ejecutar syslog() al arrancar, con funcionalidad mínima
+==> PENDING TEST
