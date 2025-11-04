@@ -39,7 +39,7 @@
 
 #include "stm32_capture.h"
 
-#if defined(CONFIG_STM32H7_CAP)
+#if defined(CONFIG_CAPTURE)
 
 /****************************************************************************
  * Pre-processor Definitions
@@ -576,7 +576,7 @@ struct cap_lowerhalf_s *stm32_cap_initialize(int timer)
   /* Initialize the elements of lower half state structure */
 
   lower->started  = false;
-  lower->cap      = stm32_cap_init(timer, lower->channel);
+  lower->cap      = stm32_cap_init(timer);
 
   if (lower->cap == NULL)
     {
@@ -587,4 +587,4 @@ errout:
   return (struct cap_lowerhalf_s *)lower;
 }
 
-#endif /* CONFIG_STM32H7_CAP */
+#endif /* CONFIG_CAPTURE */

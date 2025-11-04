@@ -51,14 +51,6 @@
  * Pre-processor Definitions
  ****************************************************************************/
 
-#ifndef CONFIG_ESP32S2_STORAGE_MTD_OFFSET
-#  define CONFIG_ESP32S2_STORAGE_MTD_OFFSET 0x180000
-#endif
-
-#ifndef CONFIG_ESP32S2_STORAGE_MTD_SIZE
-#  define CONFIG_ESP32S2_STORAGE_MTD_SIZE 0x100000
-#endif
-
 /****************************************************************************
  * Private Types
  ****************************************************************************/
@@ -360,8 +352,8 @@ static int init_storage_partition(void)
   int ret = OK;
   struct mtd_dev_s *mtd;
 
-  mtd = esp_spiflash_alloc_mtdpart(CONFIG_ESP32S2_STORAGE_MTD_OFFSET,
-                                   CONFIG_ESP32S2_STORAGE_MTD_SIZE);
+  mtd = esp_spiflash_alloc_mtdpart(CONFIG_ESPRESSIF_STORAGE_MTD_OFFSET,
+                                   CONFIG_ESPRESSIF_STORAGE_MTD_SIZE);
   if (!mtd)
     {
       syslog(LOG_ERR, "ERROR: Failed to alloc MTD partition of SPI Flash\n");
@@ -408,11 +400,10 @@ static int init_storage_partition(void)
 
 #else
 
-  ret = register_mtddriver("/dev/esp32s2flash", mtd, 0755, NULL);
+  ret = register_mtddriver("/dev/mtdblock0", mtd, 0755, NULL);
   if (ret < 0)
     {
-      syslog(LOG_ERR, "ERROR: Failed to register MTD esp32s2flash: %d\n",
-             ret);
+      syslog(LOG_ERR, "ERROR: Failed to register MTD mtdblock0: %d\n", ret);
       return ret;
     }
 

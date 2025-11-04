@@ -438,10 +438,10 @@ static int init_storage_partition(void)
 
 #else
 
-  ret = register_mtddriver("/dev/espflash", mtd, 0755, NULL);
+  ret = register_mtddriver("/dev/mtdblock0", mtd, 0755, NULL);
   if (ret < 0)
     {
-      syslog(LOG_ERR, "ERROR: Failed to register MTD espflash: %d\n", ret);
+      syslog(LOG_ERR, "ERROR: Failed to register MTD mtdblock0: %d\n", ret);
       return ret;
     }
 
@@ -473,7 +473,11 @@ int board_spiflash_init(void)
 {
   int ret = OK;
 
-  esp_spiflash_init();
+  ret = esp_spiflash_init();
+  if (ret != OK)
+    {
+      return ret;
+    }
 
 #ifdef CONFIG_ESPRESSIF_HAVE_OTA_PARTITION
   ret = init_ota_partitions();

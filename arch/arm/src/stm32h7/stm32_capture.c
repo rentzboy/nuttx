@@ -59,15 +59,7 @@
  * intended for some other purpose.
  */
 
-#if defined(CONFIG_STM32H7_TIM1_CAP)  || defined(CONFIG_STM32H7_TIM2_CAP)  || \
-    defined(CONFIG_STM32H7_TIM3_CAP)  || defined(CONFIG_STM32H7_TIM4_CAP)  || \
-    defined(CONFIG_STM32H7_TIM5_CAP)  || defined(CONFIG_STM32H7_TIM8_CAP)  || \
-    defined(CONFIG_STM32H7_TIM12_CAP) || defined(CONFIG_STM32H7_TIM13_CAP) || \
-    defined(CONFIG_STM32H7_TIM14_CAP) || defined(CONFIG_STM32H7_TIM15_CAP) || \
-    defined(CONFIG_STM32H7_TIM16_CAP) || defined(CONFIG_STM32H7_TIM17_CAP) || \
-    defined(CONFIG_STM32H7_LPTIM1_CAP) || defined(CONFIG_STM32H7_LPTIM2_CAP) || \
-    defined(CONFIG_STM32H7_LPTIM3_CAP) || defined(CONFIG_STM32H7_LPTIM4_CAP) || \
-    defined(CONFIG_STM32H7_LPTIM5_CAP)
+#if defined(CONFIG_STM32H7_TIMX_CAP)
 
 /* Check if any channel is enabled.
  * This is done to simplify the logic below.
@@ -217,6 +209,32 @@ static inline
 uint32_t stm32_cap_gpio(const struct stm32_cap_priv_s *priv,
                         int channel)
 {
+  if (channel < 0) /* Special case: return first available channel */
+    {
+      uint32_t gpio;
+
+      /* Try counter channel first */
+
+      gpio = stm32_cap_gpio(priv, STM32_CAP_CHANNEL_COUNTER);
+      if (gpio)
+        {
+          return gpio;
+        }
+
+      /* Then try channels 1..4 */
+
+      for (int ch = 1; ch <= 4; ch++)
+        {
+          gpio = stm32_cap_gpio(priv, ch);
+          if (gpio)
+            {
+              return gpio;
+            }
+        }
+
+      return 0; /* None found */
+    }
+
   switch (priv->base)
     {
 #ifdef CONFIG_STM32H7_TIM1_CAP
@@ -1578,7 +1596,7 @@ static inline const struct stm32_cap_priv_s * stm32_cap_get_priv(int timer)
  * Public Function - Initialization
  ****************************************************************************/
 
-struct stm32_cap_dev_s *stm32_cap_init(int timer, uint8_t channel)
+struct stm32_cap_dev_s *stm32_cap_init(int timer)
 {
   const struct stm32_cap_priv_s *priv = stm32_cap_get_priv(timer);
   uint32_t gpio;
@@ -1587,7 +1605,7 @@ struct stm32_cap_dev_s *stm32_cap_init(int timer, uint8_t channel)
     {
       stm32_cap_set_rcc(priv, true);
 
-      gpio = stm32_cap_gpio(priv, channel);
+      gpio = stm32_cap_gpio(priv, -1);
       if (gpio)
         {
           stm32_configgpio(gpio);
@@ -1601,7 +1619,7 @@ struct stm32_cap_dev_s *stm32_cap_init(int timer, uint8_t channel)
   return (struct stm32_cap_dev_s *)priv;
 }
 
-int stm32_cap_deinit(struct stm32_cap_dev_s * dev, uint8_t channel)
+int stm32_cap_deinit(struct stm32_cap_dev_s * dev)
 {
   const struct stm32_cap_priv_s *priv = (struct stm32_cap_priv_s *)dev;
   uint32_t gpio;
@@ -1612,7 +1630,7 @@ int stm32_cap_deinit(struct stm32_cap_dev_s * dev, uint8_t channel)
 
   stm32_modifyreg16(priv, STM32_BTIM_CR1_OFFSET, ATIM_CR1_CEN, 0);
 
-  gpio = stm32_cap_gpio(priv, channel);
+  gpio = stm32_cap_gpio(priv, -1);
   if (gpio)
     {
       stm32_unconfiggpio(gpio);

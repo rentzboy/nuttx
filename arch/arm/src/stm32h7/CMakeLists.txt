@@ -32,7 +32,6 @@ list(
   stm32_start.c
   stm32_rcc.c
   stm32_lowputc.c
-  stm32_capture.c
   stm32_serial.c
   stm32_uid.c)
 
@@ -143,8 +142,16 @@ if(CONFIG_TIMER)
   list(APPEND SRCS stm32_tim_lowerhalf.c)
 endif()
 
+if(CONFIG_STM32H7_TIMX_CAP)
+  list(APPEND SRCS stm32_capture.c)
+endif()
+
 if(CONFIG_CAPTURE)
   list(APPEND SRCS stm32_capture_lowerhalf.c)
+endif()
+
+if(CONFIG_STM32H7_LTDC)
+  list(APPEND SRCS stm32_ltdc.c)
 endif()
 
 if(CONFIG_USBDEV)
@@ -176,6 +183,10 @@ endif()
 
 if(CONFIG_STM32H7_ETHMAC)
   list(APPEND SRCS stm32_ethernet.c)
+endif()
+
+if(CONFIG_MDIO_BUS)
+  list(APPEND SRCS stm32_mdio.c)
 endif()
 
 if(CONFIG_SENSORS_QENCODER)
