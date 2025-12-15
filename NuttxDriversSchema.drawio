@@ -320,7 +320,7 @@
     </mxGraphModel>
   </diagram>
   <diagram name="I2C_Protocol" id="6zFktuCoW-a-RQhbZbMz">
-    <mxGraphModel dx="3613" dy="815" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="light-dark(#edefde, #121212)" math="0" shadow="0" adaptiveColors="simple">
+    <mxGraphModel dx="3042" dy="578" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="light-dark(#edefde, #121212)" math="0" shadow="0" adaptiveColors="simple">
       <root>
         <mxCell id="5yRmT7sYDER6Cvilm9VJ-0" />
         <mxCell id="5yRmT7sYDER6Cvilm9VJ-1" parent="5yRmT7sYDER6Cvilm9VJ-0" />
@@ -418,7 +418,7 @@
           <mxGeometry height="35" width="160" x="-1224" y="175" as="geometry" />
         </mxCell>
         <mxCell id="bsHupvWEBgLNVUVJAmAr-44" parent="5yRmT7sYDER6Cvilm9VJ-1" style="text;whiteSpace=wrap;fontSize=14;fontStyle=0" value="stm32_i2c_enableinterrupts: I2C_CR1_TXRX | I2C_CR1_NACKIE&#xa;stm32_i2c_sem_waitstop: wait for an STOP to complete or timout&#xa;stm32_i2c_sendstart: se ejecuta una sola vez para configurar el transfer y activar las ISR del I20C&#xa;stm32_i2c_isr_process: se ejecuta para cada byte que se envia, hasta error o se completa la transmisición (TC). El contador y pointer al buffer se gestiona aqui. &#xa;stm32_i2c_putreg: carga el byte al STM32_I2C_TXDR para que se envíe&#xa;&#xa;" vertex="1">
-          <mxGeometry height="221" width="626" x="-1276" y="407" as="geometry" />
+          <mxGeometry height="145" width="626" x="-1276" y="407" as="geometry" />
         </mxCell>
         <mxCell id="bsHupvWEBgLNVUVJAmAr-45" parent="5yRmT7sYDER6Cvilm9VJ-1" style="whiteSpace=wrap;html=1;rounded=1;" value="stm32_i2c_putreg" vertex="1">
           <mxGeometry height="35" width="145" x="-1588" y="574" as="geometry" />
@@ -427,7 +427,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="RVnMoGm3yEM2TyiJjrki" name="signals">
-    <mxGraphModel dx="1388" dy="578" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1665" dy="693" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
