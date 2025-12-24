@@ -50,7 +50,7 @@
 #define STM32_HSI_FREQUENCY     8000000ul
 #define STM32_LSI_FREQUENCY     40000            /* Between 30kHz and 60kHz */
 #define STM32_HSE_FREQUENCY     STM32_BOARD_XTAL
-#define STM32_LSE_FREQUENCY     32768            /* X2 on board */
+#define STM32_LSE_FREQUENCY     32768            /* X2 on board => NO está instalado en la Discovery_3  */
 
 /* PLL source is HSE/1,
  * PLL multiplier is 9:
