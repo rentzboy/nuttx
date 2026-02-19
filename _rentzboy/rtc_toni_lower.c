@@ -14,9 +14,9 @@
 #define STM32_LSE_FREQUENCY     32768            /* X2 on board => NO instalado en la Discovery_3 */
 
 /* Calculados para los HSI/LSI de la Discovery_3 => Inputclock / (asyncPrediv * syncPrediv) = 1Hz */
-#define STM32_RTC_LSE_ASYNC_PREDIV    (0x80) /* 7-bit asynchronous clock divider -128- */
+#define STM32_RTC_LSE_ASYNC_PREDIV    (0x80)  /* 7-bit asynchronous clock divider -128- */
 #define STM32_RTC_LSE_SYNC_PREDIV     (0x100) /* 15-bit asynchronous clock divider -256- */
-#define STM32_RTC_LSI_ASYNC_PREDIV    (0x64) /* 7-bit asynchronous clock divider -100- */
+#define STM32_RTC_LSI_ASYNC_PREDIV    (0x64)  /* 7-bit asynchronous clock divider -100- */
 #define STM32_RTC_LSI_SYNC_PREDIV     (0x190) /* 15-bit asynchronous clock divider -400- */
 
 #define STM32_RTC_BASE                0x40002800
@@ -162,7 +162,7 @@ typedef struct stm32_rtc_priv_s
     mutex_t lock;                     /* Mutual exclusion mutex */
 }stm32_rtc_priv_t;
 
-/* Lower RTC driver*/
+/* Lower RTC driver */
 typedef struct rtc_lowerhalf_s {
     stm32_rtc_ops_t *ops;
     stm32_rtc_priv_t *priv;
@@ -267,7 +267,7 @@ void stm32_rtc_deinit(void);
 /****************************************************************************
  * Public Function Prototypes
  ****************************************************************************/
- rtc_upperhalf_t* stm32_rtc_initialize(void)
+rtc_upperhalf_t* stm32_rtc_initialize(void)
 {
     stm32_rtc_priv_t *priv = NULL;
     rtc_lowerhalf_t *inst = NULL;
@@ -288,6 +288,7 @@ void stm32_rtc_deinit(void);
     return (rtc_upperhalf_t*)inst; //solo devuelvo la parte inicial (upper_half)
 }
 
+//Creo que hay que eliminar el prefijo y pasarla al upper half driver
 int stm32_rtc_register(void)
 {
     int ret;
@@ -380,9 +381,7 @@ int stm32_rtc_write_enable(void)
 
 int stm32_rtc_clocks_config(void)
 {
-
     return OK;
-    
 }
 /* Enables or disables the RTC wake-up feature */
 void stm32_rtc_wakeup_Cmd(bool enable)
