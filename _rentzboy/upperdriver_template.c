@@ -7,33 +7,6 @@
 #include <malloc.h>
 #include <string.h>
 
-/*
-1-Funcionalidades p.774
-Clock -time of the day-
-Calendar -including compensation 28-29-30-31days
-Programmable alarm with interrupt function. The alarm can be triggered by any combination of the calendar fields
-Configuracion: source clock, prescaler
-Digital calibration
-Input tamper detection
-Input time-stamp function
-
-***** lower half driver *****
-RTC_RD_TIME  | Mostrar un reloj y/o calendario     | int (*readTime) (id_rtc, struct rtc_time *tm)
-RTC_SET_TIME | Inicializar el reloj y/o calendario | int (*setTime) (id_rtc, struct rtc_time *tm)
-
-RTC_RD_ALARM  | readAlarm (id_alarm, struct rtc_time *tm)
-RTC_SET_ALARM | Programar una alarma from calendar fields -> event/interrupt | setAlarm (id_alarm, struct rtc_time *tm, callback)
-RTC_CANCEL_ALARM (id_alarm)
-
-RTC_SET_PERIODIC | Programar un periodic wakeup trigger -> event/interrupt
-RTC_CANCEL_PERIODIC
-
-RTC_SET_RELATIVE
-
-***** upper half driver *****
-callback(pid_t pid, int signum, FAR void *arg); //task to notify, signum=SIGALRM, arg=alarm time ?? => depende de signals.h (o como se llame)
-
-*/
 
 /*************************************
 rtc.h
@@ -53,34 +26,56 @@ struct rtc_lowerhalf_s {
 };
 
 //Se declara en rtc.h, pues se definen en stm32_rtc_lowerhalf.c
-struct rtc_ops_s {
-    /*  Funciones específicas de este driver, se definen en stm32_rtc_lowerhalf.c
-        Cada #define ioctl(#) llama a una de estas funciones, mediante un switch/case en rtc_ioctl()
-        Defines the callable interface from the RTC common upper-half driver into lower half implementation.
-            -> Each method in this structure corresponds to one of the RTC IOCTL commands.  
-            -> All IOCTL command logic is implemented in the lower-half driver.
-            -> la struct es una lista de punteros a funciones
-            -> No incluye las file_operations (open, close, read, ...), solo las del RTC driver (bajo nivel).
-    */
+struct rtc_ops_s
+{
+  /* rdtime() returns the current RTC time. */
+  CODE int (*rdtime)(FAR struct rtc_lowerhalf_s *lower, FAR struct rtc_time *rtctime);
 
-    int (*settime)(FAR struct rtc_lowerhalf_s *lower, FAR const struct tm *tm);
-    int (*rdtime)(FAR struct rtc_lowerhalf_s *lower, FAR struct tm *tm);
+  /* settime sets the RTC's time */
+  CODE int (*settime)(FAR struct rtc_lowerhalf_s *lower, FAR const struct rtc_time *rtctime);
 
-    int (*setalarm)(FAR struct rtc_lowerhalf_s *lower, FAR const struct tm *tm);
-    int (*rdalarm)(FAR struct rtc_lowerhalf_s *lower, FAR struct tm *tm);
+  /* havesettime checks if RTC time have been set */
+  CODE bool (*havesettime)(FAR struct rtc_lowerhalf_s *lower);
 
-    int (*setperiodic)(FAR struct rtc_lowerhalf_s *lower, FAR const struct tm *tm);
-    int (*rdperiodic)(FAR struct rtc_lowerhalf_s *lower, FAR struct tm *tm);
+#ifdef CONFIG_RTC_ALARM
+  /* setalarm sets up a new alarm. */
+  CODE int (*setalarm)(FAR struct rtc_lowerhalf_s *lower, FAR const struct lower_setalarm_s *alarminfo);
+
+  /* setalarm sets up a new alarm relative to the current time. */
+  CODE int (*setrelative)(FAR struct rtc_lowerhalf_s *lower, FAR const struct lower_setrelative_s *alarminfo);
+
+  /* cancelalarm cancels the current alarm. */
+  CODE int (*cancelalarm)(FAR struct rtc_lowerhalf_s *lower, int alarmid);
+
+  /* rdalarm query the current alarm. */
+  CODE int (*rdalarm)(FAR struct rtc_lowerhalf_s *lower, FAR struct lower_rdalarm_s *alarminfo);
+#endif
+#ifdef CONFIG_RTC_PERIODIC
+  /* setperiodic sets up a new periodic wakeup. */
+  CODE int (*setperiodic)(FAR struct rtc_lowerhalf_s *lower, FAR const struct lower_setperiodic_s *alarminfo);
+
+  /* cancelperiodic cancels the current periodic wakeup. */
+  CODE int (*cancelperiodic)(FAR struct rtc_lowerhalf_s *lower, int alarmid);
+#endif
+#ifdef CONFIG_RTC_IOCTL
+  /* Support for architecture-specific RTC operations */
+  CODE int (*ioctl)(FAR struct rtc_lowerhalf_s *lower, int cmd, unsigned long arg);
+#endif
+#ifndef CONFIG_DISABLE_PSEUDOFS_OPERATIONS
+  /* The driver has been unlinked and there are no further open references to the driver */
+  CODE int (*destroy)(FAR struct rtc_lowerhalf_s *lower);
+#endif
 };
+
+
 
 //Se declara en .h, se define en .c y se llama desde stm32_bringup.c
 int rtc_initialize(int minor, FAR struct rtc_lowerhalf_s *lower)
 {
-    /*  -> rtc_upperhalf_s filled with return value from stm32_rtc_initialize() & casted to upper
+    /*  -> rtc_upperhalf_s filled with return from stm32_rtc_initialize (=rtc_lowerhalf_s *lower) => binding upper/lower half driver
         -> Encapasula la llamada a register_driver(devpath, &g_rtc_fops, 0666, upper); //&g_rtc_fops a nivel de rtc.c
-        -> struct rtc_upperhalf_s *upper = (struct rtc_upperhalf_s *) lower;
+        -> El resto de valores de struct rtc_upperhalf_s (crefs, unlinked) se inicializan a 0 al no definirlos el usuario
     */
-
 }
 /*************************************
 rtc.c
@@ -112,13 +107,34 @@ struct file_operations g_rtc_fops = {
 };
 
 struct rtc_upperhalf_s {
-    /*  -> Se pasa como arg a register_driver(....., struct rtc_upperhalf_s *upper); //void *priv
+    /*  -> Antes de registrar el upper half driver, se vincula al rtc_lowerhalf_s
+        -> Se pasa como arg a register_driver(....., struct rtc_upperhalf_s *upper); //void *priv
         -> Define sobre qué objeto se ejecutan las funciones de g_rtc_fops
         -> Es específico de la instancia creada en el lower half: cada RTC tiene su propio upper
-        -> Antes de registrar el upper half driver, se vincula al rtc_lowerhalf_s
+        -> Permite llevar un registro de las instancias creadas -crefs-
         -> open("/dev/rtc0", ...) => filep->f_inode->i_private = upper
     */
-    struct rtc_lowerhalf_s *lower;
+  FAR struct rtc_lowerhalf_s *lower;  /* Contained lower half driver */
+  mutex_t lock;                       /* Supports mutual exclusion */
+
+#ifndef CONFIG_DISABLE_PSEUDOFS_OPERATIONS
+  uint8_t crefs;                      /* Number of open references */
+  bool unlinked;                      /* True if the driver has been unlinked */
+#endif
+
+#ifdef CONFIG_RTC_ALARM
+  /* This is an array, indexed by the alarm ID, that provides information
+   * needed to map an alarm expiration to a signal event.
+   */
+
+  struct rtc_alarminfo_s alarminfo[CONFIG_RTC_NALARMS];
+#endif
+
+#ifdef CONFIG_RTC_PERIODIC
+  /* Currently only one periodic wakeup is supported. */
+
+  struct rtc_alarminfo_s periodicinfo;
+#endif
 };
 
 //rtc_open/close/read/write/ioctl se definen en el rtc.c, pues no se utilizan fuera de este archivo
@@ -145,8 +161,11 @@ int rtc_ioctl(FAR struct file *filep, int cmd, unsigned long arg) {
     struct inode *node; 
     node = filep->f_inode;
 
-    struct rtc_upperhalf_s *upper = (struct rtc_upperhalf_s *) node->i_private;
+    struct rtc_upperhalf_s *upper;
     struct rtc_lowerhalf_s *lower;
+
+    upper = (struct rtc_upperhalf_s *) node->i_private;
+    lower = upper->lower; //lower = rtc_ops_s
 
 
     switch (cmd)
@@ -180,39 +199,4 @@ int rtc_ioctl(FAR struct file *filep, int cmd, unsigned long arg) {
     return 0;
 }
 
-/*************************************
-stm32_rtc_lowerhalf.c
-**************************************/
-//PENDING
-struct rtc_config_s {
 
-#if CONFIG_STM32_RTC_LSICLOCK 
-
-#elif CONFIG_STM32_RTC_LSECLOCK
-
-#elif CONFIG_STM32_RTC_HSECLOCK
-
-#else
-    #error "Unsupported clock source"
-#endif
-
-//Clock source
-    uint8_t clock_source;
-
-//Clock prescaler
-    uint16_t prescaler;
-
-//Alarm prescaler
-    uint16_t alarm_prescaler;
-
-//Alarm mask
-    uint8_t alarm_mask;
-
-//Alarm trigger
-    uint8_t alarm_trigger;
-
-//Alarm event
-    uint8_t alarm_event;
-
-
-};
