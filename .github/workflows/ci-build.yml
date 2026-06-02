@@ -1,0 +1,56 @@
+name: Build STM32F3Discovery
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Clone NuttX apps
+        run: git clone --depth 1 https://github.com/rentzboy/apps.git ../apps
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y make python3-kconfiglib \
+            libncurses-dev flex bison
+
+      - name: Cache ARM toolchain
+        id: cache-toolchain
+        uses: actions/cache@v4
+        with:
+          path: /opt/arm-gnu-toolchain-14.2
+          key: arm-gnu-toolchain-14.2.rel1-x86_64-arm-none-eabi
+
+      - name: Download ARM GNU Toolchain 14.2
+        if: steps.cache-toolchain.outputs.cache-hit != 'true'
+        run: |
+          wget -q "https://developer.arm.com/-/media/Files/downloads/gnu/14.2.rel1/binrel/arm-gnu-toolchain-14.2.rel1-x86_64-arm-none-eabi.tar.xz"
+          sudo mkdir -p /opt/arm-gnu-toolchain-14.2
+          sudo tar -xf arm-gnu-toolchain-14.2.rel1-x86_64-arm-none-eabi.tar.xz \
+            --strip-components=1 -C /opt/arm-gnu-toolchain-14.2
+
+      - name: Add toolchain to PATH
+        run: echo "/opt/arm-gnu-toolchain-14.2/bin" >> $GITHUB_PATH
+
+      - name: Configure
+        run: ./tools/configure.sh stm32f3discovery:nsh
+
+      - name: Build
+        run: make -j$(nproc)
+
+      - name: Upload firmware artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuttx-stm32f3discovery-nsh
+          path: |
+            nuttx
+            nuttx.bin
+            nuttx.hex
+          if-no-files-found: warn
