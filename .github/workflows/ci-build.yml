@@ -1,3 +1,25 @@
+#┌────────────────────┬────────────────────────────────────────────────────────────────────────────────────┐
+#│        Paso        │                                      Detalle                                       │
+#├────────────────────┼────────────────────────────────────────────────────────────────────────────────────┤
+#│ Checkout           │ Obtiene el repositorio del workspace                                               │
+#├────────────────────┼────────────────────────────────────────────────────────────────────────────────────┤
+#│ Clone kernel/apps  │ Clona NuttX 12.5.1 limpio desde GitHub (los gitlinks del repo quedan vacíos en CI) │
+#├────────────────────┼────────────────────────────────────────────────────────────────────────────────────┤
+#│ Install deps       │ cmake, ninja-build, python3-kconfiglib vía apt                                     │
+#├────────────────────┼────────────────────────────────────────────────────────────────────────────────────┤
+#│ Cache toolchain    │ Cachea el toolchain ARM entre runs para no descargarlo cada vez                    │
+#├────────────────────┼────────────────────────────────────────────────────────────────────────────────────┤
+#│ Download toolchain │ Descarga ARM GNU 14.2.rel1 desde arm.com solo si no está en caché                  │
+#├────────────────────┼────────────────────────────────────────────────────────────────────────────────────┤
+#│ Configure          │ cmake -S nuttx -B build -DBOARD_CONFIG=stm32f3discovery:nsh -GNinja                │
+#├────────────────────┼────────────────────────────────────────────────────────────────────────────────────┤
+#│ Build              │ cmake --build build -j$(nproc)                                                     │
+#├────────────────────┼────────────────────────────────────────────────────────────────────────────────────┤
+#│ Artifacts          │ Sube nuttx, nuttx.bin, nuttx.hex como artefactos descargables                      │
+#└────────────────────┴────────────────────────────────────────────────────────────────────────────────────┘
+
+# En el próximo git push se activa automáticamente. Los artefactos del firmware quedan disponibles en la # pestaña Actions de GitHub.
+
 name: Build STM32F3Discovery
 
 on:
