@@ -56,6 +56,12 @@
 #  undef CONFIG_STM32_SPI3
 #endif
 
+/* Check if we can support the RTC driver */
+#define HAVE_RTC_DRIVER 1
+#if !defined(CONFIG_RTC) || !defined(CONFIG_RTC_DRIVER)
+#  undef HAVE_RTC_DRIVER
+#endif
+
 /* STM32F3Discovery GPIOs ***************************************************/
 
 /* The STM32F3Discovery board has ten LEDs.  Two of these are controlled by
