@@ -106,29 +106,20 @@ int stm32_i2cbus_uninitialize(struct i2c_master_s *dev);
 struct i2c_slave_s *stm32_i2cbus_slaveinitialize(int port);
 
 /****************************************************************************
- * Name: stm32_i2cbus_uninitialize
+ * Name: stm32_i2c_get_instance
  *
  * Description:
- *   De-initialize the selected I2C port, and power down the device.
+ *   Return the I2C instance associated with the given port.
  *
  * Input Parameters:
- *   Device structure as returned by the stm32_i2cbus_initialize()
+ *   port - The port number associated with the I2C instance to return.
  *
  * Returned Value:
- *   OK on success, ERROR when internal reference count mismatch or dev
- *   points to invalid hardware device.
+ *   The I2C master structure associated with the port, or NULL if the
+ *   I2C instance has not been initialized.
  *
  ****************************************************************************/
 
-int stm32_i2cbus_uninitialize(struct i2c_master_s *dev);
-
-/**
- * Return the I2C instance associated with the given port.
- *
- * @param port The port number associated with the I2C instance to return.
- * @return The I2C master structure associated with the port, or NULL if the
- * i2c instance has not been initialized.
- */
-struct i2c_master_s* stm32_i2c_get_instance(int port);
+struct i2c_master_s *stm32_i2c_get_instance(int port);
 
 #endif /* __ARCH_ARM_SRC_STM32_STM32_I2C_H */
