@@ -106,23 +106,6 @@ int stm32_i2cbus_uninitialize(struct i2c_master_s *dev);
 struct i2c_slave_s *stm32_i2cbus_slaveinitialize(int port);
 
 /****************************************************************************
- * Name: stm32_i2cbus_uninitialize
- *
- * Description:
- *   De-initialize the selected I2C port, and power down the device.
- *
- * Input Parameters:
- *   Device structure as returned by the stm32_i2cbus_initialize()
- *
- * Returned Value:
- *   OK on success, ERROR when internal reference count mismatch or dev
- *   points to invalid hardware device.
- *
- ****************************************************************************/
-
-int stm32_i2cbus_uninitialize(struct i2c_master_s *dev);
-
-/****************************************************************************
  * Name: stm32_i2c_get_instance
  *
  * Description:
