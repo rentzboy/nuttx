@@ -1,3 +1,6 @@
+#Generado por Claude. Da error, pero no importa,pues está desactivado.
+#Si vamos a usar GitHub actions, modificar el build.yml de NuttX, pero para unicamente nuestra placa
+
 #┌────────────────────┬────────────────────────────────────────────────────────────────────────────────────┐
 #│        Paso        │                                      Detalle                                       │
 #├────────────────────┼────────────────────────────────────────────────────────────────────────────────────┤

@@ -1,0 +1,4 @@
+1- NO Funciona
+Los siguientes pasos no puedo comprobarlos, porque no conecta.
+2- Para conectarse a la NuttShell: screen /dev/ttyACM0 115200 por el ST-LINK USB
+3- El USER-USB no tiene los driver instalados, Windows no lo reconoce 

@@ -43,6 +43,16 @@
 
 #include "stm32f3discovery.h"
 
+/* Conditional logic in stm32f3discovery.h will determine if certain features
+ * are supported.  Tests for these features need to be made after including
+ * stm32f4discovery.h.
+ */
+
+#ifdef HAVE_RTC_DRIVER
+#  include <nuttx/timers/rtc.h>
+#  include "stm32_rtc.h"
+#endif
+
 #ifdef CONFIG_I2C_DRIVER
 #  include "stm32_i2c.h"
 #endif
@@ -150,6 +160,9 @@ static void stm32_i2c_register(int bus)
 
 int stm32_bringup(void)
 {
+#ifdef HAVE_RTC_DRIVER
+  struct rtc_lowerhalf_s *lower;
+#endif
   int ret = OK;
 
 #ifdef HAVE_USBMONITOR
@@ -185,6 +198,31 @@ int stm32_bringup(void)
     }
 #endif
 
+#ifdef HAVE_RTC_DRIVER
+  /* Instantiate the STM32 lower-half RTC driver */
+
+  lower = stm32_rtc_lowerhalf();
+  if (!lower)
+    {
+      serr("ERROR: Failed to instantiate the RTC lower-half driver\n");
+      return -ENOMEM;
+    }
+  else
+    {
+      /* Bind the lower half driver and register the combined RTC driver
+       * as /dev/rtc0
+       */
+
+      ret = rtc_initialize(0, lower);
+      if (ret < 0)
+        {
+          serr("ERROR: Failed to bind/register the RTC driver: %d\n", ret);
+          return ret;
+        }
+    }
+#endif
+
+//First: configurar el I2C driver
 #ifdef CONFIG_I2C_DRIVER
   /* Register I2C drivers on behalf of the I2C tool */
   #ifdef CONFIG_STM32_I2C1
