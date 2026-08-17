@@ -10887,21 +10887,6 @@ config STM32_RTC_HSECLOCK
 		Drive the RTC with the HSE clock, divided down to 1MHz.
 
 endchoice # RTC clock source
-
-config STM32_RTC_TIMESTAMP
-	bool "RTC time-stamp function"
-	default n
-	depends on !STM32_HAVE_RTC_COUNTER
-	select RTC_IOCTL
-	---help---
-		Enable the RTC time-stamp function (RM0316 section 27.3.13).  The
-		calendar is captured into RTC_TSTR/RTC_TSDR/RTC_TSSSR on the
-		configured edge of the RTC_TS pin.  It is driven from applications
-		with the STM32_RTC_SET_TIMESTAMP, STM32_RTC_RD_TIMESTAMP and
-		STM32_RTC_CANCEL_TIMESTAMP IOCTL commands defined in
-		arch/arm/src/stm32/stm32_timestamp.h, which the upper-half RTC
-		driver forwards to the lower half (hence the RTC_IOCTL dependency).
-
 endmenu # RTC configuration
 
 menu "Ethernet MAC configuration"
