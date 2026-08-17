@@ -122,4 +122,21 @@ struct i2c_slave_s *stm32_i2cbus_slaveinitialize(int port);
 
 int stm32_i2cbus_uninitialize(struct i2c_master_s *dev);
 
+/****************************************************************************
+ * Name: stm32_i2c_get_instance
+ *
+ * Description:
+ *   Return the I2C instance associated with the given port.
+ *
+ * Input Parameters:
+ *   port - The port number associated with the I2C instance to return.
+ *
+ * Returned Value:
+ *   The I2C master structure associated with the port, or NULL if the
+ *   I2C instance has not been initialized.
+ *
+ ****************************************************************************/
+
+struct i2c_master_s *stm32_i2c_get_instance(int port);
+
 #endif /* __ARCH_ARM_SRC_STM32_STM32_I2C_H */
