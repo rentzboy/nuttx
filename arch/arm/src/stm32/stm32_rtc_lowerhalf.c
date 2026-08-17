@@ -36,9 +36,17 @@
 #include <nuttx/mutex.h>
 #include <nuttx/timers/rtc.h>
 
+#ifdef CONFIG_STM32_RTC_TIMESTAMP
+#  include <nuttx/signal.h>
+#endif
+
 #include "arm_internal.h"
 #include "chip.h"
 #include "stm32_rtc.h"
+
+#ifdef CONFIG_STM32_RTC_TIMESTAMP
+#  include "stm32_timestamp.h"
+#endif
 
 #ifdef CONFIG_RTC_DRIVER
 
@@ -64,6 +72,30 @@ struct stm32_cbinfo_s
 #if defined(CONFIG_STM32_STM32F4XXX) || defined(CONFIG_STM32_STM32L15XX)
   uint8_t id;                       /* Identifies the alarm */
 #endif
+};
+#endif
+
+#ifdef CONFIG_STM32_RTC_TIMESTAMP
+/* Notification bookkeeping for the time-stamp function.
+ *
+ * An architecture-specific IOCTL is forwarded verbatim by the upper half,
+ * so - unlike the alarm - none of the notification state lives in
+ * drivers/timers/rtc.c.  This lower half owns it: the time-stamp interrupt
+ * handler runs in interrupt context and cannot deliver the notification
+ * itself, so it defers it through 'work' with nxsig_notification().
+ */
+
+struct stm32_tsinfo_s
+{
+  volatile bool active;      /* True: TSE is set and a capture is armed */
+  uint8_t edge;              /* Programmed TSEDGE: STM32_RTC_TS_* */
+  bool notify;               /* Derived state, not user input: true when
+                              * TSIE was set because the caller asked for a
+                              * notification (event.sigev_notify !=
+                              * SIGEV_NONE) */
+  pid_t pid;                 /* Task to be notified (0 = caller) */
+  struct sigevent event;     /* Describes how the task is to be notified */
+  struct sigwork_s work;     /* Deferred notification work */
 };
 #endif
 
@@ -95,6 +127,12 @@ struct stm32_lowerhalf_s
   /* Periodic wakeup information */
 
   struct lower_setperiodic_s periodic;
+#endif
+
+#ifdef CONFIG_STM32_RTC_TIMESTAMP
+  /* Time-stamp capture information */
+
+  struct stm32_tsinfo_s tsinfo;
 #endif
 };
 

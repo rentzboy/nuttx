@@ -1,4 +1,4 @@
-# Gemini Code Assistant Configuration for NuttX
+# Gemini Code Assistant Configuration for NuttXXXXX
 
 This document provides a summary of the NuttX coding standards to guide the Gemini Code Assistant in generating and modifying code that aligns with the project's conventions.
 
