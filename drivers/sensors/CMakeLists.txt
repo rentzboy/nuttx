@@ -29,6 +29,10 @@ if(CONFIG_SENSORS)
     list(APPEND SRCS usensor.c)
   endif()
 
+  if(CONFIG_SENSORS_MONITOR)
+    list(APPEND SRCS sensor_monitor.c)
+  endif()
+
   if(CONFIG_SENSORS_RPMSG)
     list(APPEND SRCS sensor_rpmsg.c)
   endif()
@@ -101,6 +105,10 @@ if(CONFIG_SENSORS)
 
     if(CONFIG_SENSORS_AK09912)
       list(APPEND SRCS ak09912.c)
+    endif()
+
+    if(CONFIG_SENSORS_MT6816)
+      list(APPEND SRCS mt6816.c)
     endif()
 
     if(CONFIG_SENSORS_AS5048B)
@@ -344,6 +352,12 @@ if(CONFIG_SENSORS)
       list(APPEND SRCS tmp112.c)
     endif()
 
+    # QMI8658 6-axis IMU
+
+    if(CONFIG_SENSORS_QMI8658)
+      list(APPEND SRCS qmi8658_uorb.c)
+    endif()
+
   endif() # CONFIG_I2C
 
   # These drivers depend on SPI support
@@ -364,6 +378,10 @@ if(CONFIG_SENSORS)
       else()
         list(APPEND SRCS adxl372.c)
       endif()
+    endif()
+
+    if(CONFIG_SENSORS_LIS3DSH_UORB)
+      list(APPEND SRCS lis3dsh_uorb.c)
     endif()
 
     if(CONFIG_LIS3DSH)
@@ -420,6 +438,10 @@ if(CONFIG_SENSORS)
 
   if(CONFIG_SENSORS_MPU60X0)
     list(APPEND SRCS mpu60x0.c)
+  endif()
+
+  if(CONFIG_SENSORS_MPU6050)
+    list(APPEND SRCS mpu6050_uorb.c)
   endif()
 
   if(CONFIG_SENSORS_MPU9250)

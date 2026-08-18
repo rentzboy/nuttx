@@ -5,6 +5,9 @@
 
 comment "RP23XX Configuration Options"
 
+config ARCH_RV_ISA_VENDOR_EXTENSIONS
+	default "zba_zbb_zbs_zbkb_zcb_zcmp"
+
 config RP23XX_RV_RP2350B
 	bool "Use RP2350B variant (QFN-80)"
 	default n
@@ -304,7 +307,7 @@ config RP23XX_RV_PWM0A_INVERT
 
 if RP23XX_RV_PWM_MULTICHAN && RP23XX_RV_PWM_NCHANNELS > 1
 
-	config RP23XX_RV_PWM0B_INVERT
+config RP23XX_RV_PWM0B_INVERT
 	bool "PWM0 channel 2 invert"
 	default n
 	---help---
@@ -313,7 +316,7 @@ if RP23XX_RV_PWM_MULTICHAN && RP23XX_RV_PWM_NCHANNELS > 1
 
 endif # RP23XX_RV_PWM_MULTICHAN && RP23XX_RV_PWM_NCHANNELS > 1
 
-	config RP23XX_RV_PWM0_PHASE_CORRECT
+config RP23XX_RV_PWM0_PHASE_CORRECT
 	bool "PWM0 phase correct"
 	default n
 

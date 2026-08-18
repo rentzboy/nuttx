@@ -25,7 +25,7 @@
  ****************************************************************************/
 
 #include <nuttx/config.h>
-#include <debug.h>
+#include <nuttx/debug.h>
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
@@ -173,7 +173,7 @@ static int esp_ulp_write(struct file *filep,
 
 static void esp_ulp_register(void)
 {
-  register_driver("/dev/ulp", &g_esp_ulp_fops, 0666, NULL);
+  register_driver("/dev/ulp", &g_esp_ulp_fops, 0600, NULL);
 }
 
 /****************************************************************************

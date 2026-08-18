@@ -360,6 +360,45 @@ struct mountpt_operations
   CODE int     (*chstat)(FAR struct inode *mountpt, FAR const char *relpath,
                          FAR const struct stat *buf, int flags);
   CODE int     (*syncfs)(FAR struct inode *mountpt);
+
+  /* ioctl issued on a descriptor for the mountpoint directory rather than
+   * on a file inside the volume.  It belongs with the directory operations
+   * above -- it takes the same (mountpt, dir) pair as opendir/readdir -- but
+   * is placed here at the end so the positional initialisers every file
+   * system uses stay unchanged; a file system that does not implement it
+   * simply leaves the slot NULL.
+   *
+   * Commands such as FIOC_REFORMAT, FIOC_OPTIMIZE and FIOC_INTEGRITY act on
+   * the volume, not on any one file, but the only route to a file system
+   * has historically been the per-file ioctl method.  That forces a caller
+   * to open an unrelated file just to name the volume, and a file system
+   * whose volume operation is incompatible with an open file then cannot
+   * implement the command at all.
+   *
+   * A file system that has such commands implements this method; the ioctl
+   * arrives with the mountpoint inode and the open directory, and no open
+   * file in sight.  It is consulted before the VFS acts on the command, so
+   * it must answer -ENOTTY for anything it does not recognise; the VFS then
+   * applies its own handling.  Leaving it NULL keeps the previous behaviour,
+   * in which the VFS answers -ENOTTY for any command it does not handle
+   * itself.
+   */
+
+  CODE int     (*ioctldir)(FAR struct inode *mountpt,
+                           FAR struct fs_dirent_s *dir,
+                           int cmd, unsigned long arg);
+
+  /* Optional DAC check for a path relative to this mountpoint.
+   * Filesystems may implement this for a common in-volume permission
+   * entry point.  The VFS mount-crossing gate does not call it; entry
+   * into a volume uses inode_checkpathperm() on the mountpoint inode.
+   * Filesystems without Unix permissions leave it NULL.
+   *
+   * Placed at the end so existing positional initialisers stay valid.
+   */
+
+  CODE int     (*permission)(FAR struct inode *mountpt,
+                             FAR const char *relpath, int amode);
 };
 #endif /* CONFIG_DISABLE_MOUNTPOINT */
 
@@ -407,9 +446,7 @@ struct inode
   uint16_t          i_flags;    /* Flags for inode */
   union inode_ops_u u;          /* Inode operations */
   ino_t             i_ino;      /* Inode serial number */
-#if defined(CONFIG_PSEUDOFS_FILE) || defined(CONFIG_FS_SHMFS)
   size_t            i_size;     /* The size of per inode driver */
-#endif
 #ifdef CONFIG_PSEUDOFS_ATTRIBUTES
   mode_t            i_mode;     /* Access mode flags */
   uid_t             i_owner;    /* Owner */
@@ -624,6 +661,35 @@ void fs_initialize(void);
 int register_driver(FAR const char *path,
                     FAR const struct file_operations *fops, mode_t mode,
                     FAR void *priv);
+
+/****************************************************************************
+ * Name: register_driver_with_size
+ *
+ * Description:
+ *   Register a character driver inode into the pseudo file system and
+ *   assign a size to it.
+ *
+ * Input Parameters:
+ *   path - The path to the inode to create
+ *   fops - The file operations structure
+ *   mode - inmode privileges
+ *   priv - Private, user data that will be associated with the inode.
+ *   size - Size in bytes to assign to the driver
+ *
+ * Returned Value:
+ *   Zero on success (with the inode point in 'inode'); A negated errno
+ *   value is returned on a failure (all error values returned by
+ *   inode_reserve):
+ *
+ *   EINVAL - 'path' is invalid for this operation
+ *   EEXIST - An inode already exists at 'path'
+ *   ENOMEM - Failed to allocate in-memory resources for the operation
+ *
+ ****************************************************************************/
+
+int register_driver_with_size(FAR const char *path,
+                              FAR const struct file_operations *fops,
+                              mode_t mode, FAR void *priv, size_t size);
 
 /****************************************************************************
  * Name: register_blockdriver
@@ -1009,59 +1075,6 @@ int fdlist_dupfile(FAR struct fdlist *list, int oflags, int minfd,
                    FAR struct file *filep);
 
 /****************************************************************************
- * Name: fdlist_allocate
- *
- * Description:
- *   Allocate a struct fd instance and associate it with an empty file
- *   instance. The difference between this function and
- *   file_allocate_from_inode is that this function is only used for
- *   placeholder purposes. Later, the caller will initialize the file entity
- *   through the returned filep.
- *
- *   The fd allocated by this function can be released using fdlist_close.
- *
- *   After the function call is completed, it will hold a reference count
- *   for the filep. Therefore, when the filep is no longer in use, it is
- *   necessary to call file_put to release the reference count, in order
- *   to avoid a race condition where the file might be closed during
- *   this process.
- *
- * Returned Value:
- *   Returns the file descriptor == index into the files array on success;
- *   a negated errno value is returned on any failure.
- *
- ****************************************************************************/
-
-int fdlist_allocate(FAR struct fdlist *list, int oflags,
-                    int minfd, FAR struct file **filep);
-
-/****************************************************************************
- * Name: file_allocate
- *
- * Description:
- *   Allocate a struct fd instance and associate it with an empty file
- *   instance. The difference between this function and
- *   file_allocate_from_inode is that this function is only used for
- *   placeholder purposes. Later, the caller will initialize the file entity
- *   through the returned filep.
- *
- *   The fd allocated by this function can be released using nx_close.
- *
- *   After the function call is completed, it will hold a reference count
- *   for the filep. Therefore, when the filep is no longer in use, it is
- *   necessary to call file_put to release the reference count, in order
- *   to avoid a race condition where the file might be closed during
- *   this process.
- *
- * Returned Value:
- *   Returns the file descriptor == index into the files array on success;
- *   a negated errno value is returned on any failure.
- *
- ****************************************************************************/
-
-int file_allocate(int oflags, int minfd, FAR struct file **filep);
-
-/****************************************************************************
  * Name: file_allocate_from_inode
  *
  * Description:
@@ -1223,7 +1236,7 @@ int fdlist_open(FAR struct fdlist *list,
  * Name: nx_open
  *
  * Description:
- *   nx_open() is similar to the standard 'open' interface except that is is
+ *   nx_open() is similar to the standard 'open' interface except that it is
  *   not a cancellation point and it does not modify the errno variable.
  *
  *   nx_open() is an internal NuttX interface and should not be called
@@ -1236,6 +1249,26 @@ int fdlist_open(FAR struct fdlist *list,
  ****************************************************************************/
 
 int nx_open(FAR const char *path, int oflags, ...);
+
+/****************************************************************************
+ * Name: file_allocate
+ *
+ * Description:
+ *   Allocate a file instance and return
+ *
+ ****************************************************************************/
+
+FAR struct file *file_allocate(void);
+
+/****************************************************************************
+ * Name: file_deallocate
+ *
+ * Description:
+ *   Free a file instance.
+ *
+ ****************************************************************************/
+
+void file_deallocate(FAR struct file *filep);
 
 /****************************************************************************
  * Name: file_get2

@@ -29,7 +29,7 @@
 #include <poll.h>
 #include <string.h>
 #include <errno.h>
-#include <debug.h>
+#include <nuttx/debug.h>
 
 #include <nuttx/arch.h>
 #include <nuttx/kmalloc.h>
@@ -1632,7 +1632,7 @@ int pcf8574_lcd_backpack_register(FAR const char *devpath,
 
   /* Register the character driver */
 
-  ret = register_driver(devpath, &g_pcf8574_lcd_fops, 0666, priv);
+  ret = register_driver(devpath, &g_pcf8574_lcd_fops, 0600, priv);
   if (ret < 0)
     {
       lcdinfo("Failed to register driver: %d\n", ret);

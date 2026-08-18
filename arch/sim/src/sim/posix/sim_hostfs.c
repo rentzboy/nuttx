@@ -40,8 +40,189 @@
 #include "sim_internal.h"
 
 /****************************************************************************
+ * Pre-processor Definitions
+ ****************************************************************************/
+
+#define HOSTFS_RETRY_DELAY_US 10000
+
+/****************************************************************************
  * Private Functions
  ****************************************************************************/
+
+/****************************************************************************
+ * Name: host_oflags_convert
+ ****************************************************************************/
+
+static int host_oflags_convert(int flags)
+{
+  int mapflags = 0;
+
+  switch (flags & NUTTX_O_ACCMODE)
+    {
+      case NUTTX_O_RDONLY:
+        mapflags = O_RDONLY;
+        break;
+
+      case NUTTX_O_WRONLY:
+        mapflags = O_WRONLY;
+        break;
+
+      case NUTTX_O_RDWR:
+        mapflags = O_RDWR;
+        break;
+    }
+
+  if (flags & NUTTX_O_APPEND)
+    {
+      mapflags |= O_APPEND;
+    }
+
+  if (flags & NUTTX_O_CREAT)
+    {
+      mapflags |= O_CREAT;
+    }
+
+  if (flags & NUTTX_O_EXCL)
+    {
+      mapflags |= O_EXCL;
+    }
+
+  if (flags & NUTTX_O_TRUNC)
+    {
+      mapflags |= O_TRUNC;
+    }
+
+  if (flags & NUTTX_O_NONBLOCK)
+    {
+      mapflags |= O_NONBLOCK;
+    }
+
+  if (flags & NUTTX_O_SYNC)
+    {
+      mapflags |= O_SYNC;
+    }
+
+#ifdef O_DIRECT
+  if (flags & NUTTX_O_DIRECT)
+    {
+      mapflags |= O_DIRECT;
+    }
+#endif
+
+  if (flags & NUTTX_O_CLOEXEC)
+    {
+      mapflags |= O_CLOEXEC;
+    }
+
+  if (flags & NUTTX_O_DIRECTORY)
+    {
+      mapflags |= O_DIRECTORY;
+    }
+
+  return mapflags;
+}
+
+/****************************************************************************
+ * Name: host_flock_type_convert
+ ****************************************************************************/
+
+static int host_flock_type_convert(int type)
+{
+  switch (type)
+    {
+      case NUTTX_F_RDLCK:
+        return F_RDLCK;
+
+      case NUTTX_F_WRLCK:
+        return F_WRLCK;
+
+      case NUTTX_F_UNLCK:
+        return F_UNLCK;
+
+      default:
+        return -EINVAL;
+    }
+}
+
+/****************************************************************************
+ * Name: host_flock_type_revert
+ ****************************************************************************/
+
+static int host_flock_type_revert(int type)
+{
+  switch (type)
+    {
+      case F_RDLCK:
+        return NUTTX_F_RDLCK;
+
+      case F_WRLCK:
+        return NUTTX_F_WRLCK;
+
+      case F_UNLCK:
+        return NUTTX_F_UNLCK;
+
+      default:
+        return -EINVAL;
+    }
+}
+
+/****************************************************************************
+ * Name: host_ioctl_fcntl
+ ****************************************************************************/
+
+static int host_ioctl_fcntl(int fd, int request, unsigned long arg)
+{
+  struct nuttx_flock_s *lock = (struct nuttx_flock_s *)(uintptr_t)arg;
+  struct flock hostlock;
+  int ret;
+
+  if (lock == NULL)
+    {
+      return -EINVAL;
+    }
+
+  hostlock.l_type = host_flock_type_convert(lock->l_type);
+  if (hostlock.l_type < 0)
+    {
+      return hostlock.l_type;
+    }
+
+  hostlock.l_whence = lock->l_whence;
+  hostlock.l_start = lock->l_start;
+  hostlock.l_len = lock->l_len;
+  hostlock.l_pid = lock->l_pid;
+
+  for (; ; )
+    {
+      ret = fcntl(fd, request == NUTTX_FIOC_GETLK ? F_GETLK : F_SETLK,
+                  &hostlock);
+      if (ret >= 0 || request != NUTTX_FIOC_SETLKW ||
+          (errno != EAGAIN && errno != EACCES))
+        {
+          break;
+        }
+
+      usleep(HOSTFS_RETRY_DELAY_US);
+    }
+
+  if (ret < 0)
+    {
+      return host_errno_convert(-errno);
+    }
+
+  lock->l_type = host_flock_type_revert(hostlock.l_type);
+  if (lock->l_type < 0)
+    {
+      return lock->l_type;
+    }
+
+  lock->l_whence = hostlock.l_whence;
+  lock->l_start = hostlock.l_start;
+  lock->l_len = hostlock.l_len;
+  lock->l_pid = hostlock.l_pid;
+
+  return ret;
+}
 
 /****************************************************************************
  * Name: host_stat_convert
@@ -130,71 +311,15 @@ static void host_stat_convert(struct stat *hostbuf, struct nuttx_stat_s *buf)
 
 int host_open(const char *pathname, int flags, int mode)
 {
-  int mapflags = 0;
+  int mapflags = host_oflags_convert(flags);
 
-  /* Perform flag mapping */
-
-  if ((flags & NUTTX_O_RDWR) == NUTTX_O_RDWR)
+  int ret = open(pathname, mapflags, mode);
+  if (ret == -1)
     {
-      mapflags = O_RDWR;
-    }
-  else if (flags & NUTTX_O_RDONLY)
-    {
-      mapflags = O_RDONLY;
-    }
-  else if (flags & NUTTX_O_WRONLY)
-    {
-      mapflags = O_WRONLY;
+      ret = host_errno_convert(-errno);
     }
 
-  if (flags & NUTTX_O_APPEND)
-    {
-      mapflags |= O_APPEND;
-    }
-
-  if (flags & NUTTX_O_CREAT)
-    {
-      mapflags |= O_CREAT;
-    }
-
-  if (flags & NUTTX_O_EXCL)
-    {
-      mapflags |= O_EXCL;
-    }
-
-  if (flags & NUTTX_O_TRUNC)
-    {
-      mapflags |= O_TRUNC;
-    }
-
-  if (flags & NUTTX_O_NONBLOCK)
-    {
-      mapflags |= O_NONBLOCK;
-    }
-
-  if (flags & NUTTX_O_SYNC)
-    {
-      mapflags |= O_SYNC;
-    }
-
-#ifdef O_DIRECT
-  if (flags & NUTTX_O_DIRECT)
-    {
-      mapflags |= O_DIRECT;
-    }
-#endif
-
-  if (flags & NUTTX_O_CLOEXEC)
-    {
-      mapflags |= O_CLOEXEC;
-    }
-
-  if (flags & NUTTX_O_DIRECTORY)
-    {
-      mapflags |= O_DIRECTORY;
-    }
-
-  return host_uninterruptible_errno(open, pathname, mapflags, mode);
+  return ret;
 }
 
 /****************************************************************************
@@ -205,7 +330,13 @@ int host_close(int fd)
 {
   /* Just call the close routine */
 
-  return host_uninterruptible_errno(close, fd);
+  int ret = close(fd);
+  if (ret == -1)
+    {
+      ret = host_errno_convert(-errno);
+    }
+
+  return ret;
 }
 
 /****************************************************************************
@@ -216,7 +347,13 @@ nuttx_ssize_t host_read(int fd, void *buf, nuttx_size_t count)
 {
   /* Just call the read routine */
 
-  return host_uninterruptible_errno(read, fd, buf, count);
+  nuttx_ssize_t ret = read(fd, buf, count);
+  if (ret == -1)
+    {
+      ret = host_errno_convert(-errno);
+    }
+
+  return ret;
 }
 
 /****************************************************************************
@@ -227,7 +364,13 @@ nuttx_ssize_t host_write(int fd, const void *buf, nuttx_size_t count)
 {
   /* Just call the write routine */
 
-  return host_uninterruptible_errno(write, fd, buf, count);
+  nuttx_ssize_t ret = write(fd, buf, count);
+  if (ret == -1)
+    {
+      ret = host_errno_convert(-errno);
+    }
+
+  return ret;
 }
 
 /****************************************************************************
@@ -239,7 +382,13 @@ nuttx_off_t host_lseek(int fd, nuttx_off_t pos, nuttx_off_t offset,
 {
   /* Just call the lseek routine */
 
-  return host_uninterruptible_errno(lseek, fd, offset, whence);
+  nuttx_off_t ret = lseek(fd, offset, whence);
+  if (ret == (nuttx_off_t)-1)
+    {
+      ret =  host_errno_convert(-errno);
+    }
+
+  return ret;
 }
 
 /****************************************************************************
@@ -248,9 +397,28 @@ nuttx_off_t host_lseek(int fd, nuttx_off_t pos, nuttx_off_t offset,
 
 int host_ioctl(int fd, int request, unsigned long arg)
 {
+  int ret;
+
+  switch (request)
+    {
+      case NUTTX_FIOC_GETLK:
+      case NUTTX_FIOC_SETLK:
+      case NUTTX_FIOC_SETLKW:
+        return host_ioctl_fcntl(fd, request, arg);
+
+      default:
+        break;
+    }
+
   /* Just call the ioctl routine */
 
-  return host_uninterruptible_errno(ioctl, fd, request, arg);
+  ret = ioctl(fd, request, arg);
+  if (ret < 0)
+    {
+      ret = host_errno_convert(-errno);
+    }
+
+  return ret;
 }
 
 /****************************************************************************
@@ -270,7 +438,13 @@ void host_sync(int fd)
 
 int host_dup(int fd)
 {
-  return host_uninterruptible_errno(dup, fd);
+  int ret = dup(fd);
+  if (ret < 0)
+    {
+      ret = host_errno_convert(-errno);
+    }
+
+  return ret;
 }
 
 /****************************************************************************
@@ -284,7 +458,11 @@ int host_fstat(int fd, struct nuttx_stat_s *buf)
 
   /* Call the host's stat routine */
 
-  ret = host_uninterruptible_errno(fstat, fd, &hostbuf);
+  ret = fstat(fd, &hostbuf);
+  if (ret < 0)
+    {
+      ret = host_errno_convert(-errno);
+    }
 
   /* Map the return values */
 
@@ -303,19 +481,19 @@ int host_fchstat(int fd, const struct nuttx_stat_s *buf, int flags)
 
   if (flags & NUTTX_CH_STAT_MODE)
     {
-      ret = host_uninterruptible_errno(fchmod, fd, buf->st_mode);
+      ret = fchmod(fd, buf->st_mode);
       if (ret < 0)
         {
-          return ret;
+          return host_errno_convert(-errno);
         }
     }
 
   if (flags & (NUTTX_CH_STAT_UID | NUTTX_CH_STAT_GID))
     {
-      ret = host_uninterruptible_errno(fchown, fd, buf->st_uid, buf->st_gid);
+      ret = fchown(fd, buf->st_uid, buf->st_gid);
       if (ret < 0)
         {
-          return ret;
+          return host_errno_convert(-errno);
         }
     }
 
@@ -343,10 +521,10 @@ int host_fchstat(int fd, const struct nuttx_stat_s *buf, int flags)
           times[1].tv_nsec = UTIME_OMIT;
         }
 
-      ret = host_uninterruptible_errno(futimens, fd, times);
+      ret = futimens(fd, times);
       if (ret < 0)
         {
-          return ret;
+          return host_errno_convert(-errno);
         }
     }
 
@@ -359,7 +537,13 @@ int host_fchstat(int fd, const struct nuttx_stat_s *buf, int flags)
 
 int host_ftruncate(int fd, nuttx_off_t length)
 {
-  return host_uninterruptible_errno(ftruncate, fd, length);
+  int ret = ftruncate(fd, length);
+  if (ret < 0)
+    {
+      ret = host_errno_convert(-errno);
+    }
+
+  return ret;
 }
 
 /****************************************************************************
@@ -390,6 +574,8 @@ int host_readdir(void *dirp, struct nuttx_dirent_s *entry)
 
       strncpy(entry->d_name, ent->d_name, sizeof(entry->d_name) - 1);
       entry->d_name[sizeof(entry->d_name) - 1] = 0;
+
+      entry->d_ino = ent->d_ino;
 
       /* Map the type */
 
@@ -449,7 +635,13 @@ void host_rewinddir(void *dirp)
 
 int host_closedir(void *dirp)
 {
-  return host_uninterruptible_errno(closedir, dirp);
+  int ret = closedir(dirp);
+  if (ret < 0)
+    {
+      ret = host_errno_convert(-errno);
+    }
+
+  return ret;
 }
 
 /****************************************************************************
@@ -463,7 +655,11 @@ int host_statfs(const char *path, struct nuttx_statfs_s *buf)
 
   /* Call the host's statfs routine */
 
-  ret = host_uninterruptible_errno(statvfs, path, &hostbuf);
+  ret = statvfs(path, &hostbuf);
+  if (ret < 0)
+    {
+      ret = host_errno_convert(-errno);
+    }
 
   /* Map the struct statfs value */
 
@@ -485,7 +681,13 @@ int host_statfs(const char *path, struct nuttx_statfs_s *buf)
 
 int host_unlink(const char *pathname)
 {
-  return host_uninterruptible_errno(unlink, pathname);
+  int ret = unlink(pathname);
+  if (ret < 0)
+    {
+      ret = host_errno_convert(-errno);
+    }
+
+  return ret;
 }
 
 /****************************************************************************
@@ -496,7 +698,13 @@ int host_mkdir(const char *pathname, int mode)
 {
   /* Just call the host's mkdir routine */
 
-  return host_uninterruptible_errno(mkdir, pathname, mode);
+  int ret = mkdir(pathname, mode);
+  if (ret < 0)
+    {
+      ret = host_errno_convert(-errno);
+    }
+
+  return ret;
 }
 
 /****************************************************************************
@@ -505,7 +713,13 @@ int host_mkdir(const char *pathname, int mode)
 
 int host_rmdir(const char *pathname)
 {
-  return host_uninterruptible_errno(rmdir, pathname);
+  int ret = rmdir(pathname);
+  if (ret < 0)
+    {
+      ret = host_errno_convert(-errno);
+    }
+
+  return ret;
 }
 
 /****************************************************************************
@@ -514,7 +728,13 @@ int host_rmdir(const char *pathname)
 
 int host_rename(const char *oldpath, const char *newpath)
 {
-  return host_uninterruptible_errno(rename, oldpath, newpath);
+  int ret = rename(oldpath, newpath);
+  if (ret < 0)
+    {
+      ret = host_errno_convert(-errno);
+    }
+
+  return ret;
 }
 
 /****************************************************************************
@@ -528,7 +748,11 @@ int host_stat(const char *path, struct nuttx_stat_s *buf)
 
   /* Call the host's stat routine */
 
-  ret = host_uninterruptible_errno(stat, path, &hostbuf);
+  ret = stat(path, &hostbuf);
+  if (ret < 0)
+    {
+      ret = host_errno_convert(-errno);
+    }
 
   /* Map the return values */
 
@@ -547,20 +771,19 @@ int host_chstat(const char *path, const struct nuttx_stat_s *buf, int flags)
 
   if (flags & NUTTX_CH_STAT_MODE)
     {
-      ret = host_uninterruptible_errno(chmod, path, buf->st_mode);
+      ret = chmod(path, buf->st_mode);
       if (ret < 0)
         {
-          return ret;
+          return host_errno_convert(-errno);
         }
     }
 
   if (flags & (NUTTX_CH_STAT_UID | NUTTX_CH_STAT_GID))
     {
-      ret = host_uninterruptible_errno(chown, path,
-                                       buf->st_uid, buf->st_gid);
+      ret = chown(path, buf->st_uid, buf->st_gid);
       if (ret < 0)
         {
-          return ret;
+          return host_errno_convert(-errno);
         }
     }
 
@@ -588,10 +811,10 @@ int host_chstat(const char *path, const struct nuttx_stat_s *buf, int flags)
           times[1].tv_nsec = UTIME_OMIT;
         }
 
-      ret = host_uninterruptible_errno(utimensat, AT_FDCWD, path, times, 0);
+      ret = utimensat(AT_FDCWD, path, times, 0);
       if (ret < 0)
         {
-          return ret;
+          return host_errno_convert(-errno);
         }
     }
 

@@ -26,7 +26,7 @@
 
 #include <nuttx/config.h>
 
-#include <debug.h>
+#include <nuttx/debug.h>
 #include <fcntl.h>
 #include <syslog.h>
 #include <sys/ioctl.h>
@@ -41,6 +41,8 @@
 #include "esp_board_i2c.h"
 #include "esp_board_bmp180.h"
 
+#include "espressif/esp_start.h"
+
 #ifdef CONFIG_ESPRESSIF_ADC
 #  include "esp_board_adc.h"
 #endif
@@ -50,7 +52,7 @@
 #endif
 
 #ifdef CONFIG_TIMER
-#  include "espressif/esp_timer.h"
+#  include "espressif/esp_gptimer.h"
 #endif
 
 #ifdef CONFIG_ONESHOT
@@ -129,6 +131,14 @@
 #  include "espressif/esp_sha.h"
 #endif
 
+#ifdef CONFIG_ESPRESSIF_AES_ACCELERATOR
+#  include "espressif/esp_aes.h"
+#endif
+
+#ifdef CONFIG_PM
+#  include "espressif/esp_pm.h"
+#endif
+
 #ifdef CONFIG_NET_OA_TC6
 #  include "esp_board_oa_tc6.h"
 #endif
@@ -137,12 +147,20 @@
 #  include "esp_board_mmcsd.h"
 #endif
 
+#ifdef CONFIG_ESPRESSIF_BLE
+#  include "esp_ble.h"
+#endif
+
 #ifdef CONFIG_ESPRESSIF_USE_LP_CORE
 #  include "espressif/esp_ulp.h"
 #  ifdef CONFIG_ESPRESSIF_ULP_USE_TEST_BIN
 #    include "ulp/ulp_code.h"
 #  endif
 #endif
+
+#  ifdef CONFIG_ESPRESSIF_LP_MAILBOX
+#    include "espressif/esp_lp_mailbox.h"
+#  endif
 
 #include "esp32c6-devkitc.h"
 
@@ -162,9 +180,6 @@
  *
  *   CONFIG_BOARD_LATE_INITIALIZE=y :
  *     Called from board_late_initialize().
- *
- *   CONFIG_BOARD_LATE_INITIALIZE=y && CONFIG_BOARDCTL=y :
- *     Called from the NSH library via board_app_initialize().
  *
  * Input Parameters:
  *   None.
@@ -207,14 +222,23 @@ int esp_bringup(void)
     }
 #endif
 
-#if defined(CONFIG_ESPRESSIF_SHA_ACCELERATOR) && \
-    !defined(CONFIG_CRYPTO_CRYPTODEV_HARDWARE)
+#if !defined(CONFIG_CRYPTO_CRYPTODEV_HARDWARE)
+#  if defined(CONFIG_ESPRESSIF_SHA_ACCELERATOR)
   ret = esp_sha_init();
   if (ret < 0)
     {
       syslog(LOG_ERR,
              "ERROR: Failed to initialize SHA: %d\n", ret);
     }
+#  endif
+
+#  if defined(CONFIG_ESPRESSIF_AES_ACCELERATOR)
+  ret = esp_aes_init();
+  if (ret < 0)
+    {
+      syslog(LOG_ERR, "ERROR: Failed to initialize AES: %d\n", ret);
+    }
+#  endif
 #endif
 
 #ifdef CONFIG_ESPRESSIF_MWDT0
@@ -266,13 +290,13 @@ int esp_bringup(void)
 #endif
 
 #ifdef CONFIG_ESP_RMT
-  ret = board_rmt_txinitialize(RMT_TXCHANNEL, RMT_OUTPUT_PIN);
+  ret = board_rmt_txinitialize(RMT_OUTPUT_PIN);
   if (ret < 0)
     {
       syslog(LOG_ERR, "ERROR: board_rmt_txinitialize() failed: %d\n", ret);
     }
 
-  ret = board_rmt_rxinitialize(RMT_RXCHANNEL, RMT_INPUT_PIN);
+  ret = board_rmt_rxinitialize(RMT_INPUT_PIN);
   if (ret < 0)
     {
       syslog(LOG_ERR, "ERROR: board_rmt_txinitialize() failed: %d\n", ret);
@@ -286,6 +310,15 @@ int esp_bringup(void)
   if (ret < 0)
     {
       _err("Failed to initialize the RTC driver: %d\n", ret);
+    }
+#endif
+
+#ifdef CONFIG_ESPRESSIF_BLE
+  ret = esp_ble_initialize();
+  if (ret)
+    {
+      syslog(LOG_ERR, "ERROR: Failed to initialize BLE\n");
+      return ret;
     }
 #endif
 
@@ -490,6 +523,16 @@ int esp_bringup(void)
     }
 #endif
 
+#ifdef CONFIG_PM
+  /* Configure PM */
+
+  ret = esp_pmconfigure();
+  if (ret < 0)
+    {
+      syslog(LOG_ERR, "ERROR: esp_pmconfigure failed: %d\n", ret);
+    }
+#endif
+
 #ifdef CONFIG_SYSTEM_NXDIAG_ESPRESSIF_CHIP_WO_TOOL
   ret = esp_nxdiag_initialize();
   if (ret < 0)
@@ -510,15 +553,25 @@ int esp_bringup(void)
 
 #ifdef CONFIG_ESPRESSIF_USE_LP_CORE
 
+#  ifdef CONFIG_ESPRESSIF_LP_MAILBOX
+  esp_lp_mailbox_init();
+#  endif
+
   /* ULP initialization should be the handled later than
    * peripherals to use supported peripherals properly on ULP core
    */
 
-  esp_ulp_init();
-
+  ret = esp_ulp_init();
+  if (ret < 0)
+    {
+      syslog(LOG_ERR, "ERROR: esp_ulp_init failed: %d\n", ret);
+    }
+  else
+    {
 #  ifdef CONFIG_ESPRESSIF_ULP_USE_TEST_BIN
-  esp_ulp_load_bin((char *)esp_ulp_bin, esp_ulp_bin_len);
+      esp_ulp_load_bin((char *)esp_ulp_bin, esp_ulp_bin_len);
 #  endif
+    }
 #endif
 
 #ifdef CONFIG_NET_OA_TC6

@@ -105,6 +105,13 @@ static int stat_recursive(FAR const char *path,
   inode = desc.node;
   DEBUGASSERT(inode != NULL);
 
+  ret = inode_checkpathperm(inode, 0, 0);
+  if (ret < 0)
+    {
+      inode_release(inode);
+      goto errout_with_search;
+    }
+
   /* The way we handle the stat depends on the type of inode that we
    * are dealing with.
    */
@@ -428,9 +435,9 @@ int inode_stat(FAR struct inode *inode, FAR struct stat *buf, int resolve)
         {
           /* What is it if it also has child inodes? */
 
-#ifdef CONFIG_PSEUDOFS_FILE
           buf->st_size = inode->i_size;
 
+#ifdef CONFIG_PSEUDOFS_FILE
           if (inode_is_pseudofile(inode))
             {
               buf->st_mode |= S_IFREG;
@@ -454,7 +461,7 @@ int inode_stat(FAR struct inode *inode, FAR struct stat *buf, int resolve)
     }
 
 #ifdef CONFIG_PSEUDOFS_ATTRIBUTES
-  buf->st_mode |= inode->i_mode;
+  buf->st_mode = (buf->st_mode & S_IFMT) | inode->i_mode;
   buf->st_uid   = inode->i_owner;
   buf->st_gid   = inode->i_group;
   buf->st_atim  = inode->i_atime;

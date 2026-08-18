@@ -33,7 +33,7 @@
 #include <unistd.h>
 #include <time.h>
 #include <string.h>
-#include <debug.h>
+#include <nuttx/debug.h>
 #include <errno.h>
 
 #include <nuttx/can.h>
@@ -728,16 +728,6 @@ static int mpfs_transmit(struct netdev_lowerhalf_s *dev,
           netpkt_free(dev, pkt, NETPKT_TX);
         }
 
-      return -EINVAL;
-    }
-
-  /* Validate packet size first, like reference driver */
-
-  if (netpkt_getdatalen(dev, pkt) != sizeof(struct can_frame))
-    {
-      nerr("Invalid packet size: %u bytes (expected %zu)\n",
-           netpkt_getdatalen(dev, pkt), sizeof(struct can_frame));
-      netpkt_free(dev, pkt, NETPKT_TX);
       return -EINVAL;
     }
 

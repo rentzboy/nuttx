@@ -33,7 +33,7 @@
 #include <stdbool.h>
 #include <errno.h>
 #include <assert.h>
-#include <debug.h>
+#include <nuttx/debug.h>
 
 #include <nuttx/arch.h>
 #include <nuttx/analog/adc.h>
@@ -270,7 +270,7 @@ int ads7046_register(FAR const char *devpath, FAR struct spi_dev_s *spi,
 
   /* Register the character driver */
 
-  int ret = register_driver(devpath, &ads7046_fops, 0666, priv);
+  int ret = register_driver(devpath, &ads7046_fops, 0600, priv);
   if (ret < 0)
     {
       aerr("ERROR: Failed to register driver: %s (%d)\n", strerror(-ret),

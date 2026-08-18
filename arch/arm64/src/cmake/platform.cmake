@@ -20,7 +20,7 @@
 #
 # ##############################################################################
 
-get_directory_property(TOOLCHAIN_DIR_FLAGS DIRECTORY ${CMAKE_SOURCE_DIR}
+get_directory_property(TOOLCHAIN_DIR_FLAGS DIRECTORY ${NUTTX_DIR}
                                                      COMPILE_OPTIONS)
 
 set(CMAKE_C_FLAG_ARGS)
@@ -43,6 +43,14 @@ endif()
 
 if(CONFIG_LIBSUPCXX_TOOLCHAIN)
   nuttx_find_toolchain_lib(libsupc++.a)
+endif()
+
+if(CONFIG_LIBCXXTOOLCHAIN)
+  nuttx_find_toolchain_lib(libstdc++.a)
+endif()
+
+if(CONFIG_LIBMINIABI)
+  list(APPEND CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${NUTTX_DIR}/include/cxx)
 endif()
 
 if(CONFIG_COVERAGE_TOOLCHAIN)

@@ -282,6 +282,51 @@ config BCM2711_SPI6
 endif # BCM2711_SPI
 
 #####################################################################
+# PWM
+#####################################################################
+
+config BCM2711_PWM
+	bool "PWM"
+	select PWM
+	default n
+	---help---
+		Enable PWM support on the BCM2711.
+
+if BCM2711_PWM
+
+config BCM2711_PWM0
+	bool "PWM0"
+	default n
+	---help---
+		Enable support for the PWM0 interface.
+
+if BCM2711_PWM0
+
+config BCM2711_PWM0_CHAN1_PIN
+	int "PWM0 Channel 1 GPIO pin"
+	default 12
+	---help---
+		Configure PWM0_0 (channel 1) GPIO pin. Valid options are 12, 18.
+
+config BCM2711_PWM0_CHAN2_PIN
+	int "PWM0 Channel 2 GPIO pin"
+	default 13
+	---help---
+		Configure PWM0_1 (channel 2) GPIO pin. Valid options are 13, 19, 45.
+
+endif # BCM2711_PWM0
+
+config BCM2711_PWM1
+	bool "PWM1"
+	default n
+	---help---
+		Enable support for the PWM1 interface. Note that PWM1 can only be mapped
+		to GPIO 40 for channel 1, and 41 for channel 2. This corresponds to the
+		audio jack on the RPi4B, where channel 1 is RIGHT and 2 is LEFT.
+
+endif # BCM2711_PWM
+
+#####################################################################
 # SDMMC Configuration
 #####################################################################
 
@@ -328,6 +373,37 @@ config BCM2711_EMMC2_XFERSPEED
 		The transfer speed in Hz to use for EMMC2 transfers.
 
 endif # BCM2711_EMMC
+
+#####################################################################
+# Graphics
+#####################################################################
+
+config BCM2711_FRAMEBUFFER
+	bool "Frame buffer graphics support"
+	depends on VIDEO_FB
+	default n
+	---help---
+		Support for the VideoCore frame buffer interface.
+
+config BCM2711_FB_WIDTH
+	int "Default x resolution (width)"
+	default 1920
+	---help---
+		The x resolution (width) of the frame buffer.
+
+config BCM2711_FB_HEIGHT
+	int "Default y resolution (height)"
+	default 1080
+	---help---
+		The y resolution (height) of the frame buffer.
+
+config BCM2711_FB_FORCE_RESOLUTION
+	bool "Force resolution"
+	depends on VIDEO_FB
+	default n
+	---help---
+		Force the frame buffer allocation to use the default resolution instead
+		of querying the physical display and using that.
 
 endmenu # Broadcom BCM2711 Peripheral Selection
 

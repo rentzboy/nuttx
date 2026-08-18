@@ -33,7 +33,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <errno.h>
-#include <debug.h>
+#include <nuttx/debug.h>
 
 #include <nuttx/mtd/mtd.h>
 #ifdef CONFIG_BCH
@@ -79,7 +79,7 @@ static int sam_progmem_register_driver(int minor, struct mtd_dev_s *mtd,
 
   /* Register the MTD driver */
 
-  ret = register_mtddriver(devpath, mtd, 0755, NULL);
+  ret = register_mtddriver(devpath, mtd, 0750, NULL);
   if (ret < 0)
     {
       ferr("ERROR: register_mtddriver %s failed: %d\n", devpath, ret);

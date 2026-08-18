@@ -25,7 +25,7 @@
 #include <nuttx/config.h>
 #include <sys/types.h>
 #include <syslog.h>
-#include <debug.h>
+#include <nuttx/debug.h>
 
 #include <arch/board/board.h>
 
@@ -39,6 +39,15 @@
 
 #ifdef CONFIG_RPI4B_MOUNT_BOOT
 #include <nuttx/fs/fs.h>
+#endif
+
+#ifdef CONFIG_RPI4B_FRAMEBUFFER
+#include <nuttx/video/fb.h>
+#endif
+
+#ifdef CONFIG_RPI4B_BMP280
+#include <nuttx/sensors/bmp280.h>
+#include "bcm2711_i2c.h"
 #endif
 
 #include "rpi4b.h"
@@ -67,11 +76,11 @@ int rpi4b_bringup(void)
     {
       syslog(LOG_ERR, "Failed to initialize GPIO driver: %d\n.", ret);
     }
-#endif // defined(CONFIG_DEV_GPIO)
+#endif /* defined(CONFIG_DEV_GPIO) */
 
   /* Initialize I2C character drivers. */
 
-#if defined(CONFIG_BCM2711_I2C)
+#if defined(CONFIG_BCM2711_I2C_DRIVER)
 
 #if defined(CONFIG_BCM2711_I2C0)
   ret = bcm2711_i2cdev_initialize(0);
@@ -138,6 +147,34 @@ int rpi4b_bringup(void)
   if (ret < 0)
     {
       syslog(LOG_ERR, "Couldn't initialize SDMMC: %d\n", ret);
+    }
+#endif
+
+#ifdef CONFIG_RPI4B_FRAMEBUFFER
+  /* Initialize and register the frame buffer driver */
+
+  ret = fb_register(0, 0);
+  if (ret < 0)
+    {
+      syslog(LOG_ERR, "Couldn't register framebuffer driver: %d", ret);
+    }
+#endif
+
+#ifdef CONFIG_BCM2711_PWM
+  ret = rpi4b_pwm_initialize();
+#endif
+
+#ifdef CONFIG_RPI4B_BMP280
+  struct i2c_master_s *i2c1 = bcm2711_i2cbus_initialize(1);
+  if (i2c1 == NULL)
+    {
+      syslog(LOG_ERR, "Couldn't register I2C1.\n");
+    }
+
+  ret = bmp280_register(0, i2c1); /* Devno = 0 */
+  if (ret < 0)
+    {
+      syslog(LOG_ERR, "Couldn't register BMP280: %d\n", ret);
     }
 #endif
 

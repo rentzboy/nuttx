@@ -36,7 +36,7 @@
 #include <assert.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <debug.h>
+#include <nuttx/debug.h>
 
 #include <nuttx/lib/lib.h>
 #include <nuttx/mutex.h>
@@ -48,12 +48,6 @@
 #include "inode/inode.h"
 #include "hostfs.h"
 #include "fs_heap.h"
-
-/****************************************************************************
- * Pre-processor Definitions
- ****************************************************************************/
-
-#define HOSTFS_RETRY_DELAY_MS       10
 
 /****************************************************************************
  * Private Types
@@ -236,7 +230,7 @@ static void hostfs_mkpath(FAR struct hostfs_mountpt_s  *fs,
 
   if (depth >= 0)
     {
-      strlcat(path, &relpath[first], pathlen - strlen(path));
+      strlcat(path, &relpath[first], pathlen);
     }
 }
 
@@ -304,7 +298,7 @@ static int hostfs_open(FAR struct file *filep, FAR const char *relpath,
    * file.
    */
 
-  if ((oflags & (O_APPEND | O_WRONLY)) == (O_APPEND | O_WRONLY))
+  if ((oflags & O_APPEND) && (oflags & O_ACCMODE) != O_RDONLY)
     {
       ret = host_lseek(hf->fd, 0, 0, SEEK_END);
       if (ret >= 0)
@@ -516,7 +510,7 @@ static ssize_t hostfs_write(FAR struct file *filep, const char *buffer,
    * write flags.
    */
 
-  if ((hf->oflags & O_WROK) == 0)
+  if ((hf->oflags & O_ACCMODE) == O_RDONLY)
     {
       ret = -EACCES;
       goto errout_with_lock;

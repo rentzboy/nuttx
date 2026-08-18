@@ -468,10 +468,6 @@
 
 #define XMMAREA_REGS                (26)
 
-/* Aux register used by implementation */
-
-#define REG_AUX                     (27 + XMMAREA_REG_OFFSET)
-
 /* NOTE 2: This is not really state data.  Rather, this is just a convenient
  *   way to pass parameters from the interrupt handler to C code.
  */
@@ -490,10 +486,6 @@
 #define XCP_ALIGN_DOWN(a)           ((a) & ~XCP_ALIGN_MASK)
 #define XCP_ALIGN_UP(a)             (((a) + XCP_ALIGN_MASK) & ~XCP_ALIGN_MASK)
 
-/* Aux register flags */
-
-#define REG_AUX_FULLCONTEXT         (1 << 0) /* Force full context switch */
-
 /****************************************************************************
  * Public Types
  ****************************************************************************/
@@ -505,6 +497,7 @@ enum ioapic_trigger_mode
   TRIGGER_FALLING_EDGE      = (1 << 13),
   TRIGGER_LEVEL_ACTIVE_HIGH = (1 << 15),
   TRIGGER_LEVEL_ACTIVE_LOW  = (1 << 15) | (1 << 13),
+  TRIGGER_MODE_MASK         = (1 << 15) | (1 << 13),
 };
 
 /* This structure represents the return state from a system call */
@@ -520,6 +513,7 @@ struct xcpt_syscall_s
 
 struct xcptcontext
 {
+#ifdef CONFIG_ENABLE_ALL_SIGNALS
 #ifdef CONFIG_BUILD_KERNEL
   /* This is the saved address to use when returning from a user-space
    * signal handler.
@@ -535,6 +529,7 @@ struct xcptcontext
   uint64_t saved_rip;
   uint64_t saved_rflags;
   uint64_t saved_rsp;
+#endif /* CONFIG_ENABLE_ALL_SIGNALS */
 
 #ifdef CONFIG_ARCH_KERNEL_STACK
   /* For kernel stack enabled we can't use tcb->xcp.regs[REG_RSP] as it may
@@ -548,6 +543,18 @@ struct xcptcontext
   /* Register save area - allocated from stack in up_initial_state() */
 
   uint64_t *regs;
+
+#ifdef CONFIG_LIB_SYSCALL
+  /* The register context of the user code that is currently in a system
+   * call, as x86_64_syscall_entry() saved it on the kernel stack.  This is
+   * what the caller of a system call was doing, as opposed to xcp.regs,
+   * which during a system call describes the kernel side of it.
+   * x86_64_fork() needs it to build a child from the caller rather than
+   * from the stub.
+   */
+
+  uint64_t *sregs;
+#endif
 
 #ifdef CONFIG_ARCH_ADDRENV
 #  ifdef CONFIG_ARCH_KERNEL_STACK

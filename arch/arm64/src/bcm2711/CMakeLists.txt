@@ -21,7 +21,11 @@
 # BCM2711 specific C source files
 
 set(SRCS bcm2711_boot.c bcm2711_mailbox.c bcm2711_serial.c bcm2711_gpio.c
-         bcm2711_timer.c)
+         bcm2711_oneshot.c)
+
+if(CONFIG_SMP)
+  list(APPEND SRCS bcm2711_cpustart.c)
+endif()
 
 # Early boot logging
 
@@ -41,10 +45,20 @@ if(CONFIG_BCM2711_SPI)
   list(APPEND SRCS bcm2711_spi.c)
 endif()
 
+if(CONFIG_BCM2711_PWM)
+  list(APPEND SRCS bcm2711_pwm.c)
+endif()
+
 # EMMC interfaces
 
 if(CONFIG_BCM2711_EMMC)
   list(APPEND SRCS bcm2711_sdio.c)
+endif()
+
+# Graphics
+
+if(CONFIG_BCM2711_FRAMEBUFFER)
+  list(APPEND SRCS bcm2711_fb.c)
 endif()
 
 target_sources(arch PRIVATE ${SRCS})

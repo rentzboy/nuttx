@@ -32,7 +32,7 @@
 #include <unistd.h>
 #include <time.h>
 #include <string.h>
-#include <debug.h>
+#include <nuttx/debug.h>
 #include <errno.h>
 
 #include <nuttx/wdog.h>
@@ -273,11 +273,11 @@ static const struct flexcan_config_s s32k1xx_flexcan2_config =
   .tx_pin    = PIN_CAN2_TX,
   .rx_pin    = PIN_CAN2_RX,
 #ifdef PIN_CAN2_ENABLE
-  .enable_pin = PIN_CAN2_ENABLE,
-  .rx_pin     = CAN2_ENABLE_HIGH,
+  .enable_pin  = PIN_CAN2_ENABLE,
+  .rx_pin      = CAN2_ENABLE_OUT,
 #else
-  .enable_pin = 0,
-  .rx_pin     = 0,
+  .enable_pin  = 0,
+  .enable_high = 0,
 #endif
   .bus_irq   = S32K1XX_IRQ_CAN2_BUS,
   .error_irq = S32K1XX_IRQ_CAN2_ERROR,
@@ -685,6 +685,7 @@ static int s32k1xx_transmit(struct s32k1xx_driver_s *priv)
     (peak_tx_mailbox_index_ > mbi ? peak_tx_mailbox_index_ : mbi);
 
   union cs_e cs;
+  cs.cs = 0;
   cs.code = CAN_TXMB_DATAORREMOTE;
   struct mb_s *mb = &priv->tx[mbi];
   mb->cs.code = CAN_TXMB_INACTIVE;
@@ -729,6 +730,7 @@ static int s32k1xx_transmit(struct s32k1xx_driver_s *priv)
         }
 
       cs.rtr = frame->can_id & FLAGRTR ? 1 : 0;
+      cs.brs = frame->flags & CANFD_BRS ? 1 : 0;
 
       cs.dlc = g_len_to_can_dlc[frame->len];
 
@@ -1323,6 +1325,8 @@ static int s32k1xx_ifup(struct net_driver_s *dev)
 
   up_enable_irq(priv->config->mb_irq);
 
+  netdev_carrier_on(dev);
+
   return OK;
 }
 
@@ -1350,6 +1354,9 @@ static int s32k1xx_ifdown(struct net_driver_s *dev)
   s32k1xx_reset(priv);
 
   priv->bifup = false;
+
+  netdev_carrier_off(dev);
+
   return OK;
 }
 

@@ -32,6 +32,9 @@ endif
 ifeq ($(CONFIG_ARCH_ARM64),y)
 include $(TOPDIR)/libs/libc/machine/arm64/Make.defs
 endif
+ifeq ($(CONFIG_ARCH_MIPS),y)
+include $(TOPDIR)/libs/libc/machine/mips/Make.defs
+endif
 ifeq ($(CONFIG_ARCH_RISCV),y)
 include $(TOPDIR)/libs/libc/machine/risc-v/Make.defs
 endif
@@ -52,6 +55,9 @@ include $(TOPDIR)/libs/libc/machine/renesas/Make.defs
 endif
 ifeq ($(CONFIG_ARCH_SPARC),y)
 include $(TOPDIR)/libs/libc/machine/sparc/Make.defs
+endif
+ifeq ($(CONFIG_ARCH_TRICORE),y)
+include $(TOPDIR)/libs/libc/machine/tricore/Make.defs
 endif
 DEPPATH += --dep-path machine
 VPATH += :machine

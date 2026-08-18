@@ -24,7 +24,7 @@
 
 #include <nuttx/config.h>
 #include <assert.h>
-#include <debug.h>
+#include <nuttx/debug.h>
 #include <errno.h>
 
 #include <nuttx/arch.h>
@@ -204,6 +204,20 @@ int libelf_remove(FAR void *handle)
       berr("ERROR: Failed to verify module: %d\n", ret);
       goto errout_with_lock;
     }
+
+  /* Give back a reference.  The module goes only when the last one does,
+   * so an rmmod() cannot pull a module out from under a dlopen() that is
+   * still holding it.
+   */
+
+  if (modp->nopen > 1)
+    {
+      modp->nopen--;
+      libelf_registry_unlock();
+      return OK;
+    }
+
+  modp->nopen = 0;
 
   ret = libelf_uninit(modp);
   if (ret < 0)

@@ -32,7 +32,7 @@
 #include <poll.h>
 #include <assert.h>
 #include <errno.h>
-#include <debug.h>
+#include <nuttx/debug.h>
 
 #include <nuttx/arch.h>
 #include <nuttx/kmalloc.h>
@@ -1105,7 +1105,7 @@ cypress_mbr3108_register(FAR const char *devpath,
 
   nxmutex_init(&priv->devlock);
 
-  ret = register_driver(devpath, &g_mbr3108_fileops, 0666, priv);
+  ret = register_driver(devpath, &g_mbr3108_fileops, 0600, priv);
   if (ret < 0)
     {
       nxmutex_destroy(&priv->devlock);

@@ -26,10 +26,6 @@ ifeq ($(CONFIG_ARCH_LEDS),y)
 CSRCS += rpi4b_autoleds.c
 endif
 
-ifeq ($(CONFIG_BOARDCTL),y)
-CSRCS += rpi4b_appinit.c
-endif
-
 ifeq ($(CONFIG_DEV_GPIO),y)
 CSRCS += rpi4b_gpio.c
 endif
@@ -40,6 +36,10 @@ endif
 
 ifeq ($(CONFIG_BCM2711_I2C_DRIVER),y)
 CSRCS += bcm2711_i2cdev.c
+endif
+
+ifeq ($(CONFIG_BCM2711_PWM),y)
+CSRCS += rpi4b_pwm.c
 endif
 
 include $(TOPDIR)/boards/Board.mk

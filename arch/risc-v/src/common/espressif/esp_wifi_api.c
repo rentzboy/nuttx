@@ -26,7 +26,7 @@
 
 #include <inttypes.h>
 #include <assert.h>
-#include <debug.h>
+#include <nuttx/debug.h>
 #include <math.h>
 
 #include "esp_mac.h"
@@ -58,6 +58,18 @@
 /****************************************************************************
  * Private Types
  ****************************************************************************/
+
+/****************************************************************************
+ * Public Data
+ ****************************************************************************/
+
+#ifdef ESP_WLAN_HAS_STA
+
+/* Whether the station should reconnect after an unsolicited disconnection */
+
+volatile bool g_sta_reconnect;
+
+#endif /* ESP_WLAN_HAS_STA */
 
 /****************************************************************************
  * Public Functions
@@ -115,6 +127,7 @@ int esp_wifi_api_adapter_init(void)
   esp_wifi_lock(true);
 
   esp_evt_work_init();
+  esp_wifi_evt_work_init();
 
   wifi_cfg.nvs_enable = 0;
 
@@ -282,7 +295,16 @@ int esp_wifi_api_start(uint32_t start_mode)
       goto errout;
     }
 
-  wlinfo("Wi-Fi started with mode=%d\n", mode);
+  ret = esp_wifi_get_mode(&current_mode);
+  if (ret)
+    {
+      wlerr("Failed to get Wi-Fi mode ret=%d. Check if initialized\n",
+            ret);
+      ret = esp_wifi_to_errno(ret);
+      goto errout;
+    }
+
+  wlinfo("Wi-Fi started with mode=%d\n", current_mode);
 
 errout:
   esp_wifi_lock(false);
@@ -517,6 +539,8 @@ int esp_wifi_sta_connect(void)
 
   esp_wifi_lock(true);
 
+  g_sta_reconnect = true;
+
   ret = esp_wifi_connect();
   if (ret)
     {
@@ -553,6 +577,12 @@ int esp_wifi_sta_disconnect(bool allow_reconnect)
   wifi_config_t wifi_config;
 
   esp_wifi_lock(true);
+
+  /* WARNING: failure_retry_cnt has no documented effect unless scan_method
+   * is WIFI_ALL_CHANNEL_SCAN, which NuttX never selects.  Reconnection is
+   * gated by g_sta_reconnect.
+   */
+
   esp_wifi_get_config(WIFI_IF_STA, &wifi_config);
 
   if (allow_reconnect)
@@ -565,6 +595,8 @@ int esp_wifi_sta_disconnect(bool allow_reconnect)
     }
 
   esp_wifi_set_config(WIFI_IF_STA, &wifi_config);
+
+  g_sta_reconnect = allow_reconnect;
 
   ret = esp_wifi_disconnect();
   if (ret)

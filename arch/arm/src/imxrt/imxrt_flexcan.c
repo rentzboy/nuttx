@@ -32,7 +32,7 @@
 #include <unistd.h>
 #include <time.h>
 #include <string.h>
-#include <debug.h>
+#include <nuttx/debug.h>
 #include <errno.h>
 
 #include <nuttx/irq.h>
@@ -656,6 +656,7 @@ static int imxrt_transmit(struct imxrt_driver_s *priv)
     (peak_tx_mailbox_index_ > mbi ? peak_tx_mailbox_index_ : mbi);
 
   union cs_e cs;
+  cs.cs = 0;
   cs.code = CAN_TXMB_DATAORREMOTE;
   struct mb_s *mb = flexcan_get_mb(priv, mbi);
   mb->cs.code = CAN_TXMB_INACTIVE;
@@ -698,6 +699,7 @@ static int imxrt_transmit(struct imxrt_driver_s *priv)
         }
 
       cs.rtr = frame->can_id & FLAGRTR ? 1 : 0;
+      cs.brs = frame->flags & CANFD_BRS ? 1 : 0;
 
       cs.dlc = g_len_to_can_dlc[frame->len];
 
@@ -1371,6 +1373,8 @@ static int imxrt_ifup(struct net_driver_s *dev)
 
   up_enable_irq(priv->config->irq);
 
+  netdev_carrier_on(dev);
+
   return OK;
 }
 
@@ -1398,6 +1402,9 @@ static int imxrt_ifdown(struct net_driver_s *dev)
   imxrt_reset(priv);
 
   priv->bifup = false;
+
+  netdev_carrier_off(dev);
+
   return OK;
 }
 

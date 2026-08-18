@@ -468,10 +468,16 @@ void __gcov_execle(void)
 {
 }
 
+/* GCC redirects fork() in instrumented code to __gcov_fork(), so this is
+ * reachable only where unistd.h declares fork() at all.
+ */
+
+#ifdef CONFIG_ARCH_HAVE_FORK
 pid_t __gcov_fork(void)
 {
   return fork();
 }
+#endif
 
 void __gcov_dump(void)
 {
@@ -514,7 +520,7 @@ void __gcov_dump(void)
 
       _NX_CLOSE(fd);
     }
-  else if(S_ISDIR(state.st_mode))
+  else if (S_ISDIR(state.st_mode))
     {
       args.mkdir = gcov_mkdir;
       args.strip = atoi(getenv("GCOV_PREFIX_STRIP"));
